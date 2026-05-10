@@ -1,0 +1,7 @@
+interface:
+  display_name: "Benln Cold Email Outreach"
+  short_description: "Write concise, personalized cold emails"
+  default_prompt: "Use $benln-cold-email-outreach to draft a personalized cold email with a punchy subject line, 2-3 sentence body, and one clear ask."
+
+policy:
+  allow_implicit_invocation: true

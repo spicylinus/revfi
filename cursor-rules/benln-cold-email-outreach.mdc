@@ -1,0 +1,26 @@
+---
+description: Write concise, personalized cold outreach emails with punchy subject lines and a clear ask.
+globs:
+alwaysApply: false
+---
+
+# Benln Cold Email Outreach
+
+Write cold outreach emails that sound like a thoughtful human wrote them.
+
+Rules:
+
+- Include a punchy subject line.
+- Keep the email body to 2-3 sentences.
+- Personalize thoughtfully using only details provided by the user.
+- Include one clear, specific ask.
+- Use direct, natural language that does not sound AI-generated.
+- Do not add a signature unless explicitly requested.
+- Do not use vague asks such as "pick your brain," "connect," or "let me know if interested."
+- Do not use fluff, generic compliments, or fabricated personalization.
+
+Output format:
+
+**Subject:** <subject line>
+
+<2-3 sentence email body>
