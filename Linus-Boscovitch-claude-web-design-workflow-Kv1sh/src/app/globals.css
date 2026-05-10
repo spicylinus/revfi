@@ -1,0 +1,55 @@
+@import "tailwindcss";
+@import "../styles/design-styles.css";
+
+/* ===== DESIGN TOKENS (auto-populated from DESIGN.md) =====
+   To update: share your DESIGN.md with Claude Code and say
+   "update globals.css with these design tokens"
+*/
+
+@layer base {
+  :root {
+    /* Colors — Primary Palette */
+    --color-primary: #3b82f6;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #64748b;
+    --color-secondary-foreground: #ffffff;
+    --color-accent: #f59e0b;
+    --color-accent-foreground: #1c1917;
+
+    /* Surfaces */
+    --color-background: #ffffff;
+    --color-surface: #f8fafc;
+    --color-surface-muted: #f1f5f9;
+    --color-border: #e2e8f0;
+
+    /* Text */
+    --color-text: #0f172a;
+    --color-text-muted: #64748b;
+
+    /* Typography */
+    --font-sans: 'Inter';
+    --font-display: 'Cal Sans';
+    --font-mono: 'JetBrains Mono';
+
+    /* Radii */
+    --radius-sm: 0.25rem;
+    --radius: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+
+    /* Shadows */
+    --shadow-sm:   0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg:   0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  .dark {
+    --color-primary: #60a5fa;
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-surface-muted: #334155;
+    --color-border: #475569;
+    --color-text: #f8fafc;
+    --color-text-muted: #94a3b8;
+  }
+}

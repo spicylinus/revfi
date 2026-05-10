@@ -1,0 +1,237 @@
+/* =======================================================================
+   DESIGN STYLE PRESETS
+   Apply via data-style attribute on any element:
+     <html data-style="brutalism">      — site-wide
+     <section data-style="bento">      — per-section
+   Each block overrides the CSS custom properties from :root in globals.css.
+   Unset tokens fall back to :root defaults.
+   Keys: minimalism | brutalism | neobrutalism | constructivism | swiss |
+         editorial | hand-drawn | retro | flat | bento
+======================================================================= */
+
+@layer base {
+
+  /* ── 1. Minimalism ────────────────────────────────────────────────── */
+  [data-style="minimalism"] {
+    --color-primary:          #171717;
+    --color-secondary:        #737373;
+    --color-accent:           #171717;
+    --color-background:       #fafafa;
+    --color-surface:          #ffffff;
+    --color-surface-muted:    #f5f5f5;
+    --color-border:           #e5e5e5;
+    --color-text:             #171717;
+    --color-text-muted:       #737373;
+    --font-sans:              'Inter', system-ui, sans-serif;
+    --font-display:           'Inter', system-ui, sans-serif;
+    --radius-sm:              0.125rem;
+    --radius:                 0.375rem;
+    --radius-lg:              0.5rem;
+    --radius-xl:              0.75rem;
+    --shadow-sm:              0 1px 2px 0 rgb(0 0 0 / 0.04);
+    --shadow-base:            0 1px 3px 0 rgb(0 0 0 / 0.06);
+    --shadow-lg:              0 4px 12px -2px rgb(0 0 0 / 0.08);
+  }
+
+  /* ── 2. Brutalism ─────────────────────────────────────────────────── */
+  [data-style="brutalism"] {
+    --color-primary:          #000000;
+    --color-secondary:        #000000;
+    --color-accent:           #ff0000;
+    --color-background:       #ffffff;
+    --color-surface:          #f0f0f0;
+    --color-surface-muted:    #e0e0e0;
+    --color-border:           #000000;
+    --color-text:             #000000;
+    --color-text-muted:       #333333;
+    --font-sans:              'Arial Black', Arial, sans-serif;
+    --font-display:           Impact, 'Arial Black', sans-serif;
+    --font-mono:              'Courier New', Courier, monospace;
+    --radius-sm:              0;
+    --radius:                 0;
+    --radius-lg:              0;
+    --radius-xl:              0;
+    --shadow-sm:              2px 2px 0 0 #000000;
+    --shadow-base:            4px 4px 0 0 #000000;
+    --shadow-lg:              6px 6px 0 0 #000000;
+  }
+
+  /* ── 3. Neobrutalism ──────────────────────────────────────────────── */
+  [data-style="neobrutalism"] {
+    --color-primary:          #ff6b35;
+    --color-secondary:        #004e89;
+    --color-accent:           #ffd166;
+    --color-background:       #fffbf0;
+    --color-surface:          #ffffff;
+    --color-surface-muted:    #fff3cc;
+    --color-border:           #1a1a2e;
+    --color-text:             #1a1a2e;
+    --color-text-muted:       #4a4a6a;
+    --font-sans:              'Space Grotesk', Inter, sans-serif;
+    --font-display:           'Space Grotesk', Inter, sans-serif;
+    --radius-sm:              0;
+    --radius:                 0;
+    --radius-lg:              0;
+    --radius-xl:              0;
+    --shadow-sm:              3px 3px 0 0 #1a1a2e;
+    --shadow-base:            4px 4px 0 0 #1a1a2e;
+    --shadow-lg:              6px 6px 0 0 #1a1a2e;
+  }
+
+  /* ── 4. Constructivism ────────────────────────────────────────────── */
+  [data-style="constructivism"] {
+    --color-primary:          #cc0000;
+    --color-secondary:        #1a1a1a;
+    --color-accent:           #f5c518;
+    --color-background:       #f5f0e8;
+    --color-surface:          #ffffff;
+    --color-surface-muted:    #ede8dc;
+    --color-border:           #1a1a1a;
+    --color-text:             #1a1a1a;
+    --color-text-muted:       #4a4a4a;
+    --font-sans:              Oswald, 'Arial Narrow', sans-serif;
+    --font-display:           Oswald, Impact, sans-serif;
+    --font-mono:              'Courier New', Courier, monospace;
+    --radius-sm:              0;
+    --radius:                 0;
+    --radius-lg:              0;
+    --radius-xl:              0;
+    --shadow-sm:              1px 1px 0 0 #1a1a1a;
+    --shadow-base:            2px 2px 0 0 #1a1a1a;
+    --shadow-lg:              4px 4px 0 0 #cc0000;
+  }
+
+  /* ── 5. Swiss Style ───────────────────────────────────────────────── */
+  [data-style="swiss"] {
+    --color-primary:          #e60000;
+    --color-secondary:        #333333;
+    --color-accent:           #e60000;
+    --color-background:       #ffffff;
+    --color-surface:          #f9f9f9;
+    --color-surface-muted:    #f0f0f0;
+    --color-border:           #cccccc;
+    --color-text:             #000000;
+    --color-text-muted:       #666666;
+    --font-sans:              'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-display:           'Helvetica Neue', Helvetica, sans-serif;
+    --radius-sm:              0;
+    --radius:                 0;
+    --radius-lg:              0;
+    --radius-xl:              0;
+    --shadow-sm:              none;
+    --shadow-base:            none;
+    --shadow-lg:              0 1px 0 0 #cccccc;
+  }
+
+  /* ── 6. Editorial Style ───────────────────────────────────────────── */
+  [data-style="editorial"] {
+    --color-primary:          #0a0a0a;
+    --color-secondary:        #5c5c5c;
+    --color-accent:           #c8102e;
+    --color-background:       #fefefe;
+    --color-surface:          #f7f4ef;
+    --color-surface-muted:    #ede9e1;
+    --color-border:           #1a1a1a;
+    --color-text:             #0a0a0a;
+    --color-text-muted:       #5c5c5c;
+    --font-sans:              'Libre Franklin', 'Franklin Gothic Medium', sans-serif;
+    --font-display:           'Playfair Display', Georgia, serif;
+    --radius-sm:              0;
+    --radius:                 0;
+    --radius-lg:              0;
+    --radius-xl:              0;
+    --shadow-sm:              none;
+    --shadow-base:            none;
+    --shadow-lg:              none;
+  }
+
+  /* ── 7. Hand-Drawn Style ──────────────────────────────────────────── */
+  [data-style="hand-drawn"] {
+    --color-primary:          #2d4a3e;
+    --color-secondary:        #7c6f5b;
+    --color-accent:           #e8845a;
+    --color-background:       #fdf8f0;
+    --color-surface:          #f5ede0;
+    --color-surface-muted:    #ecddc8;
+    --color-border:           #b8a898;
+    --color-text:             #2d2416;
+    --color-text-muted:       #7c6f5b;
+    --font-sans:              Caveat, 'Comic Sans MS', cursive;
+    --font-display:           Caveat, cursive;
+    --radius-sm:              0.5rem;
+    --radius:                 1rem;
+    --radius-lg:              1.5rem;
+    --radius-xl:              2rem;
+    --shadow-sm:              1px 2px 0 0 #b8a898;
+    --shadow-base:            2px 4px 0 0 #b8a898;
+    --shadow-lg:              3px 6px 0 0 #b8a898;
+  }
+
+  /* ── 8. Retro ─────────────────────────────────────────────────────── */
+  [data-style="retro"] {
+    --color-primary:          #c0392b;
+    --color-secondary:        #8b7355;
+    --color-accent:           #f39c12;
+    --color-background:       #fdf6e3;
+    --color-surface:          #f5e6c8;
+    --color-surface-muted:    #e8d5a3;
+    --color-border:           #c9a87c;
+    --color-text:             #3d2b1a;
+    --color-text-muted:       #8b7355;
+    --font-sans:              Rockwell, 'Courier New', serif;
+    --font-display:           Rockwell, Georgia, serif;
+    --font-mono:              'Courier New', Courier, monospace;
+    --radius-sm:              0.25rem;
+    --radius:                 0.375rem;
+    --radius-lg:              0.5rem;
+    --radius-xl:              0.75rem;
+    --shadow-sm:              0 2px 0 0 #c9a87c;
+    --shadow-base:            0 3px 0 0 #c9a87c;
+    --shadow-lg:              0 5px 0 0 #8b7355;
+  }
+
+  /* ── 9. Flat Design ───────────────────────────────────────────────── */
+  [data-style="flat"] {
+    --color-primary:          #3498db;
+    --color-secondary:        #95a5a6;
+    --color-accent:           #e74c3c;
+    --color-background:       #ecf0f1;
+    --color-surface:          #ffffff;
+    --color-surface-muted:    #dfe6e9;
+    --color-border:           #b2bec3;
+    --color-text:             #2d3436;
+    --color-text-muted:       #636e72;
+    --font-sans:              Nunito, 'Segoe UI', sans-serif;
+    --font-display:           Nunito, 'Segoe UI', sans-serif;
+    --radius-sm:              0;
+    --radius:                 0;
+    --radius-lg:              0;
+    --radius-xl:              0;
+    --shadow-sm:              none;
+    --shadow-base:            none;
+    --shadow-lg:              none;
+  }
+
+  /* ── 10. Bento Style ──────────────────────────────────────────────── */
+  [data-style="bento"] {
+    --color-primary:          #6c63ff;
+    --color-secondary:        #48cae4;
+    --color-accent:           #f77f00;
+    --color-background:       #f0f0f0;
+    --color-surface:          #ffffff;
+    --color-surface-muted:    #e8e8ec;
+    --color-border:           #d4d4d8;
+    --color-text:             #18181b;
+    --color-text-muted:       #71717a;
+    --font-sans:              'DM Sans', Inter, sans-serif;
+    --font-display:           'DM Sans', Inter, sans-serif;
+    --radius-sm:              0.75rem;
+    --radius:                 1rem;
+    --radius-lg:              1.5rem;
+    --radius-xl:              2rem;
+    --shadow-sm:              0 2px 8px 0 rgb(0 0 0 / 0.06);
+    --shadow-base:            0 4px 16px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:              0 8px 32px -4px rgb(0 0 0 / 0.14);
+  }
+
+}
