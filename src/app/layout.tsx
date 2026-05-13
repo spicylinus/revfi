@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Linus-Boscovitch',
-  description: 'Built with Google Stitch + Claude Code + v0.dev + UI/UX Pro Max',
+  title: 'RevFi Auditor',
+  description: 'RevFi website auditor for local businesses. Analyze SEO, lead capture, mobile performance, and revenue leaks.',
 }
 
 export default function RootLayout({
