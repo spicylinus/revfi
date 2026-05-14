@@ -1,0 +1,58 @@
+'use client';
+
+import React from 'react';
+import { Sparkles, ArrowRight, Flame, ShieldCheck } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+
+const GrandSlamCallout = () => {
+  const router = useRouter();
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="mt-12 bg-gradient-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 md:p-12 text-white shadow-2xl border border-slate-700 relative overflow-hidden group"
+    >
+      {/* Animated Glow */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-all duration-700" />
+      
+      <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+        <div className="flex-1 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 rounded-full text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6">
+            <Flame size={12} />
+            Exclusive Bundle
+          </div>
+          <h3 className="text-3xl md:text-5xl font-black mb-4 tracking-tighter uppercase italic">
+            The <span className="text-emerald-400">Grand Slam</span> Package
+          </h3>
+          <p className="text-slate-400 text-lg mb-8 font-medium max-w-xl">
+            Stop losing leads today. We'll rebuild your site, dominate local SEO, and set up your automated growth engine for <span className="text-white font-bold">$0 upfront</span> via Stripe Financing.
+          </p>
+          <div className="flex flex-wrap justify-center md:justify-start gap-4">
+            <div className="flex items-center gap-2 text-sm font-bold text-slate-300">
+               <ShieldCheck className="text-emerald-500" size={18} />
+               $5,000 Revenue Guarantee + Competitor Audit
+            </div>
+            <div className="flex items-center gap-2 text-sm font-bold text-slate-300">
+               <Sparkles className="text-emerald-500" size={18} />
+               Stripe Payment Processing
+            </div>
+          </div>
+        </div>
+        
+        <div className="w-full md:w-auto">
+          <button 
+            onClick={() => router.push('/upsell/grand-slam-bundle')}
+            className="w-full md:w-auto px-10 py-6 bg-white text-slate-900 rounded-2xl text-xl font-black hover:bg-emerald-50 transition-all shadow-xl flex items-center justify-center gap-3 group/btn"
+          >
+            GET STARTED
+            <ArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default GrandSlamCallout;
