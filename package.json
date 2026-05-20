@@ -1,5 +1,7 @@
 {
-  "dependencies": {
-    "@opennextjs/cloudflare": "^1.19.11"
+  "name": "revfi-root",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd src && npm run build"
   }
 }
