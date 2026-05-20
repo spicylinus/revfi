@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd src && npm run build && cp -r .next ../.next"
+    "build": "cd src && npm run build && ln -sfn src/.next ../.next"
   }
 }
