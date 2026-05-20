@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd src && PATH=$PWD/node_modules/.bin:$PATH npm run build"
+    "build": "cd src && ./node_modules/.bin/next build"
   }
 }
