@@ -1,35 +1,8 @@
 {
-  "name": "linus-boscovitch",
-  "version": "0.1.0",
+  "name": "revfi",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "v0": "npx v0 add",
-    "setup": "bash scripts/setup.sh",
-    "sync-design": "bash scripts/sync-design.sh"
-  },
-  "dependencies": {
-    "@opennextjs/cloudflare": "^1.19.11",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.454.0",
-    "next": "^16.2.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwind-merge": "^2.5.2"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "^16.2.4",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "build": "cd src && PATH=$PWD/node_modules/.bin:$PATH npm run build"
   }
 }
