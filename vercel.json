@@ -1,5 +1,3 @@
 {
-  "buildCommand": "cd src && npm run build",
-  "outputDirectory": "src/.next",
-  "installCommand": "cd src && npm install"
+  "outputDirectory": "src/.next"
 }
