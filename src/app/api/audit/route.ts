@@ -1,23 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runAudit } from '@/lib/audit-engine';
-import fs from 'fs';
 
-const RATE_LIMIT_FILE = '/tmp/audit_rate_limits.json';
-
-function getRateLimits() {
-  try {
-    if (fs.existsSync(RATE_LIMIT_FILE)) {
-      return JSON.parse(fs.readFileSync(RATE_LIMIT_FILE, 'utf-8'));
-    }
-  } catch (e) {}
-  return {};
-}
-
-function saveRateLimits(limits: any) {
-  try {
-    fs.writeFileSync(RATE_LIMIT_FILE, JSON.stringify(limits, null, 2));
-  } catch (e) {}
-}
+// In-memory rate limiting store (best-effort for serverless environments)
+const rateLimits = new Map<string, number>();
 
 export async function POST(req: NextRequest) {
   try {
@@ -50,8 +35,7 @@ export async function POST(req: NextRequest) {
     const domain = urlObj.hostname;
 
     // Rate Limiting (1 per hour per domain)
-    const limits = getRateLimits();
-    const lastAudit = limits[domain];
+    const lastAudit = rateLimits.get(domain);
     const oneHourAgo = Date.now() - 3600000;
 
     if (lastAudit && lastAudit > oneHourAgo) {
@@ -65,12 +49,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(`Starting bulletproof audit for ${formattedUrl}...`);
+    console.log(`Starting fetch-based audit for ${formattedUrl}...`);
     const result = await runAudit(formattedUrl);
     
     // Update rate limit only on success
-    limits[domain] = Date.now();
-    saveRateLimits(limits);
+    rateLimits.set(domain, Date.now());
 
     return NextResponse.json({
       success: true,
@@ -80,9 +63,9 @@ export async function POST(req: NextRequest) {
     console.error('Audit failed:', error);
     
     let userMessage = 'We encountered an error while analyzing your site. Please try again.';
-    if (error.message?.includes('timeout')) {
+    if (error.message?.includes('timeout') || error.name === 'AbortError') {
       userMessage = "We couldn't reach your website. It might be taking too long to respond.";
-    } else if (error.message?.includes('ENOTFOUND') || error.message?.includes('EAI_AGAIN')) {
+    } else if (error.message?.includes('ENOTFOUND') || error.message?.includes('EAI_AGAIN') || error.message?.includes('fetch failed')) {
       userMessage = "We couldn't find your website. Please check the URL and try again.";
     }
 
