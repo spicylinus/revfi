@@ -1,21 +1,32 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: 'RevFi Auditor',
-  description: 'RevFi website auditor for local businesses. Analyze SEO, lead capture, mobile performance, and revenue leaks.',
-}
+  title: "RevFi — Website Auditor for Local Business",
+  description: "Audit your website for revenue leaks and get a clear action plan to grow your local business.",
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="bg-[var(--color-background)] text-[var(--color-text)] antialiased">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
+      <body className="bg-background text-text-primary min-h-screen">
         {children}
       </body>
     </html>
-  )
+  );
 }

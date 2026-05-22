@@ -85,9 +85,9 @@ export default function Home() {
             <h1 className="text-2xl font-bold text-primary">RevFi</h1>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-text-secondary uppercase tracking-widest">
-            <Link href="/projects" className="hover:text-primary transition-colors text-accent">Portfolio</Link>
-            <Link href="/delivery" className="hover:text-primary transition-colors">Client Portal</Link>
-            <a href="#" className="px-4 py-2 bg-slate-100 text-primary rounded-lg hover:bg-slate-200 transition-all">Support</a>
+            <Link href="/projects/" className="hover:text-primary transition-colors text-accent">Portfolio</Link>
+            <Link href="/delivery/" className="hover:text-primary transition-colors">Client Portal</Link>
+            <a href="mailto:support@sociallinus.com" className="px-4 py-2 bg-slate-100 text-primary rounded-lg hover:bg-slate-200 transition-all">Support</a>
           </div>
         </div>
       </header>
@@ -131,6 +131,176 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* Audit Results */}
+      <AnimatePresence>
+        {auditData && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="max-w-7xl mx-auto px-6 mt-12"
+          >
+            {/* Warnings Section */}
+            {auditData.warnings && auditData.warnings.length > 0 && (
+              <div className="mb-8 p-4 bg-warning/10 border border-warning/20 rounded-xl">
+                <div className="flex items-center gap-2 text-warning mb-2">
+                  <AlertCircle size={18} />
+                  <h4 className="font-bold uppercase tracking-wider text-xs">Audit Warnings</h4>
+                </div>
+                <ul className="list-disc list-inside text-sm text-text-secondary">
+                  {auditData.warnings.map((warning, i) => (
+                    <li key={i}>{warning}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Grade Hero */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+              <div className="lg:col-span-1 bg-surface p-10 rounded-3xl border border-slate-100 shadow-sm flex items-center justify-center">
+                <GradeGauge score={auditData.overallScore} grade={auditData.overallGrade} />
+              </div>
+              
+              <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <MetricCard icon={Search} label="SEO Score" score={auditData.subScores.seo} />
+                <MetricCard icon={Zap} label="Lead Capture" score={auditData.subScores.leadCapture} />
+                <MetricCard icon={MapPin} label="Local SEO" score={auditData.subScores.localSeo} />
+                <MetricCard icon={Smartphone} label="Mobile Score" score={auditData.subScores.mobile} />
+              </div>
+            </div>
+
+            {/* Revenue Goal Input */}
+            <div className="bg-primary/5 border border-primary/10 rounded-2xl p-8 mb-12">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Target className="text-secondary" />
+                    <h3 className="text-xl font-bold text-primary">What's your revenue goal?</h3>
+                  </div>
+                  <p className="text-text-secondary">Tell us what you want to make this year, and we'll show you how to get there.</p>
+                </div>
+                <div className="w-full md:w-72 relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold text-lg">$</span>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. 250,000"
+                    value={revenueGoal}
+                    onChange={(e) => setRevenueGoal(e.target.value)}
+                    className="w-full pl-8 pr-4 py-4 bg-surface border-2 border-slate-200 rounded-xl font-bold text-lg outline-none focus:border-secondary"
+                  />
+                </div>
+                <button 
+                  onClick={() => setShowGapAnalysis(true)}
+                  className="px-8 py-4 bg-primary text-white font-bold rounded-xl whitespace-nowrap hover:bg-primary/90 transition-all active:scale-95"
+                >
+                  Analyze Gap
+                </button>
+              </div>
+
+              {showGapAnalysis && auditData && (
+                <div className="space-y-8">
+                  <GapAnalysis
+                    goal={parseInt(revenueGoal.replace(/,/g, '')) || 0}
+                    totalLeaked={auditData.revenueLeaks.reduce((sum, leak) => sum + leak.estimatedImpact, 0)}
+                  />
+                  <GrandSlamCallout />
+                </div>
+              )}
+            </div>
+
+            {/* Two Column Layout for Leaks and Checklist */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 mb-16">
+              {/* Revenue Leaks */}
+              <section>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold text-text-primary flex items-center gap-2">
+                    <TrendingUp className="text-danger" />
+                    Revenue Leaks Identified
+                  </h3>
+                  <span className="px-3 py-1 bg-danger/10 text-danger text-xs font-bold rounded-full uppercase">Action Required</span>
+                </div>
+                <div className="space-y-4">
+                  {auditData.revenueLeaks.map(leak => (
+                    <RevenueLeakItem key={leak.id} leak={leak} />
+                  ))}
+                </div>
+              </section>
+
+              {/* Prioritized Checklist */}
+              <section>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold text-text-primary flex items-center gap-2">
+                    <ShieldCheck className="text-accent" />
+                    Prioritized Checklist
+                  </h3>
+                  <span className="text-sm font-bold text-text-secondary">
+                    {Object.values(checkedItems).filter(Boolean).length} of {auditData.checklist.length} completed
+                  </span>
+                </div>
+                <div className="bg-surface border border-slate-100 rounded-2xl p-6 space-y-4">
+                  {auditData.checklist.map((item, index) => (
+                    <ChecklistItem 
+                      key={item.id} 
+                      item={item} 
+                      isChecked={!!checkedItems[item.id]} 
+                      onToggle={toggleChecklistItem} 
+                      isTopPriority={index === 0}
+                    />
+                  ))}
+                </div>
+              </section>
+            </div>
+
+            {/* Action Plan Timeline */}
+            <section className="mb-24">
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-text-primary mb-2">Your 30-Day Growth Plan</h3>
+                <p className="text-text-secondary">We've broken down the fixes into manageable steps. Stick to this to plug the leaks.</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <ActionCard timeframe="Today" tasks={auditData.actionPlan.daily} />
+                <ActionCard timeframe="This Week" tasks={auditData.actionPlan.weekly} />
+                <ActionCard timeframe="This Month" tasks={auditData.actionPlan.monthly} />
+              </div>
+            </section>
+
+            {/* Upsell Section */}
+            <section id="upsell-section" className="bg-slate-900 rounded-[40px] p-12 md:p-20 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-1/3 h-full bg-secondary/10 blur-[120px] rounded-full" />
+              <div className="absolute bottom-0 left-0 w-1/4 h-full bg-accent/5 blur-[100px] rounded-full" />
+              
+              <div className="relative z-10 text-center mb-16">
+                <h3 className="text-white text-3xl md:text-5xl font-bold mb-6 tracking-tight">Want us to handle this for you?</h3>
+                <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">Focus on running your business. We'll deploy our experts to fix your website, SEO, and lead generation.</p>
+              </div>
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <ServiceCard 
+                  icon={Layout} 
+                  title="Grand Slam Bundle" 
+                  description="Website Redesign + 90-Day Lead Gen Launch. The ultimate growth machine with a $5,000 revenue guarantee." 
+                  impact="2x - 5x Leads" isPopular={true} href="/upsell/grand-slam-bundle/"
+                  priceRange="$6,000 (BNPL Available)"
+                />
+                <ServiceCard 
+                  icon={BarChart3} 
+                  title="SEO Dominance" 
+                  description="Rank #1 on Google for your local keywords and dominate the search map." 
+                  impact="+300% Traffic"
+                  priceRange="$1,500/mo"
+                />
+                <ServiceCard 
+                  icon={Mail} 
+                  title="Lead Gen Engine" 
+                  description="We set up automated lead capture and follow-up systems that work 24/7." 
+                  impact="Predictable ROI"
+                  priceRange="$1,900/mo"
+                />
+              </div>
+            </section>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {!auditData && !isLoading && (
         <section className="max-w-5xl mx-auto px-6 py-12">
@@ -182,150 +352,14 @@ export default function Home() {
         </div>
       )}
 
-      {auditData && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="max-w-7xl mx-auto px-6 mt-12 pb-12"
-        >
-          {auditData.warnings && auditData.warnings.length > 0 && (
-            <div className="mb-8 p-4 bg-warning/10 border border-warning/20 rounded-xl">
-              <div className="flex items-center gap-2 text-warning mb-2">
-                <AlertCircle size={18} />
-                <h4 className="font-bold uppercase tracking-wider text-xs">Audit Warnings</h4>
-              </div>
-              <ul className="list-disc list-inside text-sm text-text-secondary">
-                {auditData.warnings.map((warning, i) => (
-                  <li key={i}>{warning}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-            <div className="lg:col-span-1 bg-surface p-10 rounded-3xl border border-slate-100 shadow-sm flex items-center justify-center">
-              <GradeGauge score={auditData.overallScore} grade={auditData.overallGrade} />
-            </div>
-            
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <MetricCard icon={Search} label="SEO Score" score={auditData.subScores.seo} />
-              <MetricCard icon={Zap} label="Lead Capture" score={auditData.subScores.leadCapture} />
-              <MetricCard icon={MapPin} label="Local SEO" score={auditData.subScores.localSeo} />
-              <MetricCard icon={Smartphone} label="Mobile Score" score={auditData.subScores.mobile} />
-            </div>
-          </div>
-
-          <div className="bg-primary/5 border border-primary/10 rounded-2xl p-8 mb-12">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <Target className="text-secondary" />
-                  <h3 className="text-xl font-bold text-primary">What's your revenue goal?</h3>
-                </div>
-                <p className="text-text-secondary">Tell us what you want to make this year.</p>
-              </div>
-              <div className="w-full md:w-72 relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold text-lg">$</span>
-                <input 
-                  type="text" 
-                  placeholder="e.g. 250,000"
-                  value={revenueGoal}
-                  onChange={(e) => setRevenueGoal(e.target.value)}
-                  className="w-full pl-8 pr-4 py-4 bg-surface border-2 border-slate-200 rounded-xl font-bold text-lg outline-none focus:border-secondary"
-                />
-              </div>
-              <button 
-                onClick={() => setShowGapAnalysis(true)}
-                className="px-8 py-4 bg-primary text-white font-bold rounded-xl whitespace-nowrap hover:bg-primary/90 transition-all"
-              >
-                Analyze Gap
-              </button>
-            </div>
-
-            {showGapAnalysis && (
-              <div className="space-y-8 mt-8">
-                <GapAnalysis
-                  goal={parseInt(revenueGoal.replace(/,/g, '')) || 0}
-                  totalLeaked={auditData.revenueLeaks.reduce((sum, leak) => sum + leak.estimatedImpact, 0)}
-                />
-              </div>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 mb-16">
-            <section>
-              <h3 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
-                <TrendingUp className="text-danger" />
-                Revenue Leaks
-              </h3>
-              <div className="space-y-4">
-                {auditData.revenueLeaks.map(leak => (
-                  <RevenueLeakItem key={leak.id} leak={leak} />
-                ))}
-              </div>
-            </section>
-
-            <section>
-              <h3 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
-                <ShieldCheck className="text-accent" />
-                Checklist
-              </h3>
-              <div className="bg-surface border border-slate-100 rounded-2xl p-6 space-y-4">
-                {auditData.checklist.map((item, index) => (
-                  <ChecklistItem 
-                    key={item.id} 
-                    item={item} 
-                    isChecked={!!checkedItems[item.id]} 
-                    onToggle={toggleChecklistItem} 
-                    isTopPriority={index === 0}
-                  />
-                ))}
-              </div>
-            </section>
-          </div>
-
-          <section className="mb-24">
-            <h3 className="text-2xl font-bold text-text-primary mb-2">Your 30-Day Growth Plan</h3>
-            <p className="text-text-secondary mb-8">Actionable steps to fix your revenue leaks.</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <ActionCard timeframe="Today" tasks={auditData.actionPlan.daily} />
-              <ActionCard timeframe="This Week" tasks={auditData.actionPlan.weekly} />
-              <ActionCard timeframe="This Month" tasks={auditData.actionPlan.monthly} />
-            </div>
-          </section>
-
-          <section className="bg-slate-900 rounded-[40px] p-12 md:p-20 relative overflow-hidden">
-            <div className="relative z-10 text-center mb-16">
-              <h3 className="text-white text-3xl md:text-5xl font-bold mb-6">Want us to handle this?</h3>
-              <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">We'll fix your website and lead generation for you.</p>
-            </div>
-
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <ServiceCard 
-                icon={Layout} 
-                title="Grand Slam Bundle" 
-                description="Website Redesign + Lead Gen. $5,000 guarantee." 
-                impact="2x - 5x Leads" isPopular={true}
-                priceRange="$6,000 (BNPL)"
-              />
-              <ServiceCard 
-                icon={BarChart3} 
-                title="SEO Dominance" 
-                description="Rank #1 on Google for local keywords." 
-                impact="+300% Traffic"
-                priceRange="$1,500/mo"
-              />
-              <ServiceCard 
-                icon={Mail} 
-                title="Lead Gen Engine" 
-                description="Automated lead capture and follow-up 24/7." 
-                impact="Predictable ROI"
-                priceRange="$1,900/mo"
-              />
-            </div>
-          </section>
-        </motion.div>
-      )}
+      {/* Footer Disclaimer */}
+      <footer className="py-12 border-t border-slate-100 mt-12 bg-surface/50">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-slate-400 text-sm font-medium">
+            RevFi is owned by Social Linus Web Services, LLC.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

@@ -1,7 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, AlertCircle } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 interface InputFieldProps {
   onAudit: (url: string) => void;
@@ -10,53 +16,59 @@ interface InputFieldProps {
 
 export default function InputField({ onAudit, isLoading }: InputFieldProps) {
   const [url, setUrl] = useState('');
-  const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-
-    if (!url.trim()) {
-      setError('Please enter a website URL');
-      return;
+    if (url.trim()) {
+      onAudit(url.trim());
     }
-
-    onAudit(url);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
-      <div className="flex gap-3">
-        <div className="flex-1 relative">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-            <Search size={20} />
+    <div className="w-full max-w-2xl mx-auto">
+      <form onSubmit={handleSubmit} className="relative group">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1 group">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-secondary transition-colors">
+              <Search size={20} />
+            </div>
+            <input
+              type="text"
+              placeholder="Enter your website URL (e.g., example.com)"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              disabled={isLoading}
+              className={cn(
+                "w-full pl-12 pr-4 py-4 bg-surface border-2 border-slate-200 rounded-xl text-lg outline-none transition-all",
+                "focus:border-secondary focus:ring-4 focus:ring-secondary/10",
+                "disabled:bg-slate-50 disabled:cursor-not-allowed",
+                isLoading ? "opacity-75" : "opacity-100"
+              )}
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Enter your website URL (e.g., example.com)"
-            value={url}
-            onChange={(e) => {
-              setUrl(e.target.value);
-              setError('');
-            }}
-            disabled={isLoading}
-            className="w-full pl-12 pr-4 py-4 bg-surface border-2 border-slate-200 rounded-xl font-medium text-lg outline-none focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
-          />
+          <button
+            type="submit"
+            disabled={isLoading || !url.trim()}
+            className={cn(
+              "px-8 py-4 bg-secondary text-white font-bold rounded-xl transition-all shadow-lg",
+              "hover:bg-secondary/90 active:scale-95 disabled:bg-slate-300 disabled:scale-100 disabled:cursor-not-allowed",
+              "flex items-center justify-center gap-2 sm:min-w-[200px]"
+            )}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                <span>Auditing...</span>
+              </>
+            ) : (
+              "Calculate My Score"
+            )}
+          </button>
         </div>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="px-8 py-4 bg-primary text-white font-bold rounded-xl whitespace-nowrap hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isLoading ? 'Analyzing...' : 'Audit Now'}
-        </button>
-      </div>
-      {error && (
-        <div className="mt-3 p-3 bg-danger/10 border border-danger/20 rounded-lg flex items-center gap-2 text-danger text-sm">
-          <AlertCircle size={16} />
-          <span>{error}</span>
-        </div>
-      )}
-    </form>
+      </form>
+      <p className="mt-3 text-center text-sm text-text-secondary">
+        Takes about 30 seconds. No credit card required.
+      </p>
+    </div>
   );
 }

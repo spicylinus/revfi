@@ -45,6 +45,7 @@ export interface AuditData {
   revenueLeaks: RevenueLeak[];
   checklist: ChecklistItem[];
   actionPlan: ActionPlan;
+  images?: string[];
   warnings?: string[];
 }
 

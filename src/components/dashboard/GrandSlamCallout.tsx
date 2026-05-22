@@ -43,7 +43,7 @@ const GrandSlamCallout = () => {
         
         <div className="w-full md:w-auto">
           <button 
-            onClick={() => router.push('/upsell/grand-slam-bundle')}
+            onClick={() => router.push('/upsell/grand-slam-bundle/')}
             className="w-full md:w-auto px-10 py-6 bg-white text-slate-900 rounded-2xl text-xl font-black hover:bg-emerald-50 transition-all shadow-xl flex items-center justify-center gap-3 group/btn"
           >
             GET STARTED
