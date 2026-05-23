@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2026-04-22.dahlia',
-});
+function getStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error('STRIPE_SECRET_KEY is not configured');
+  return new Stripe(key, { apiVersion: '2026-04-22.dahlia' as any });
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripe();
     const { customerId, paymentMethodId } = await req.json();
 
     if (!customerId || !paymentMethodId) {

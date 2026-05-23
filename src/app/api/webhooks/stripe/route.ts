@@ -3,13 +3,14 @@ import Stripe from 'stripe';
 import fs from 'fs';
 import path from 'path';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2026-04-22.dahlia',
-});
+function getStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error('STRIPE_SECRET_KEY is not configured');
+  return new Stripe(key, { apiVersion: '2026-04-22.dahlia' as any });
+}
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-const PIPELINE_STATS_FILE = '/home/team/shared/sales/pipeline-stats.json';
-const PIPELINE_MD_FILE = '/home/team/shared/sales/pipeline.md';
+const PIPELINE_STATS_FILE = path.join(process.cwd(), '../../../../sales/pipeline-stats.json');
+const PIPELINE_MD_FILE = path.join(process.cwd(), '../../../../sales/pipeline.md');
 
 interface PipelineStats {
   totalRevenue: number;
@@ -48,6 +49,9 @@ function appendToPipelineMd(message: string) {
 export async function POST(req: NextRequest) {
   const payload = await req.text();
   const sig = req.headers.get('stripe-signature')!;
+
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const stripe = getStripe();
 
   let event: Stripe.Event;
 
