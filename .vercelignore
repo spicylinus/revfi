@@ -1,0 +1,12 @@
+# Cloudflare Workers files - not needed on Vercel
+.wrangler/
+wrangler.jsonc
+.dev.vars
+.dev.vars.example
+
+# Cloudflare build artifacts
+.open-next/
+open-next.config.ts
+
+# Keep the source code
+!src/
