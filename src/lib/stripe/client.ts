@@ -1,14 +1,14 @@
 import Stripe from 'stripe';
 
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || '';
 const HOST = process.env.NEXT_PUBLIC_HOST || 'http://localhost:3000';
 
 function getStripe(): Stripe {
-  if (!STRIPE_SECRET_KEY) throw new Error('STRIPE_SECRET_KEY is not configured');
-  return new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2026-04-22.dahlia' as any });
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error('STRIPE_SECRET_KEY is not configured');
+  return new Stripe(key, { apiVersion: '2026-04-22.dahlia' as any });
 }
 
-export const stripe = getStripe();
+export { getStripe };
 
 export class StripeService {
   async createCustomer(email: string, name?: string) {
@@ -54,5 +54,3 @@ export class StripeService {
     });
   }
 }
-
-export const stripeService = new StripeService();
