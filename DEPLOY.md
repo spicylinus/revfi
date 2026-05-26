@@ -1,32 +1,33 @@
-# Deployment Guide for RevFi on Cloudflare Pages
+# Deployment Guide for RevFi on Vercel
 
-This project uses Next.js 16 with the `@opennextjs/cloudflare` adapter to run on Cloudflare Pages.
+This project is now configured to run on Vercel using the standard Next.js build pipeline.
 
-## local Build and Deploy
-If you are deploying from your local machine (or CI):
+## Standard Vercel Deployment
 
-1. **Build the project:**
-   ```bash
-   npm run build
-   ```
-   This runs `opennextjs-cloudflare build`, which generates the worker and assets in the `.open-next` directory.
+1. **GitHub Integration**: Connect your Vercel project to the `spicylinus/revfi` repository.
+2. **Framework Preset**: Select `Next.js`.
+3. **Build Command**: `next build` (standard).
+4. **Output Directory**: `.next` (standard).
 
-2. **Deploy to Cloudflare Pages:**
-   ```bash
-   npx wrangler pages deploy .open-next/assets
-   ```
-   *Note: OpenNext handles the worker binding automatically if configured correctly in `wrangler.jsonc`.*
+## Local Development
 
-## GitHub Integration (Automatic Deploy)
-If you are using the Cloudflare Pages GitHub integration:
+Run the development server:
+```bash
+npm run dev
+```
 
-1. **Framework Preset:** Choose `None` or `Next.js` (but you'll override the settings).
-2. **Build Command:** `npm run build`
-3. **Build Output Directory:** `.open-next/assets`
-4. **Environment Variables:**
-   - `NODE_VERSION`: `20` (or higher)
-   - `NEXT_TELEMETRY_DISABLED`: `1`
+## Build Verification
+
+To verify the build locally:
+```bash
+npm run build
+```
+
+## Configuration Files
+
+- `next.config.ts`: Standard Next.js configuration.
+- `.vercelignore`: Excludes legacy Cloudflare and OpenNext files from the Vercel build context.
 
 ## Troubleshooting
-- **Error: `cd src && npm install`**: This was caused by an incorrect `vercel.json` file in the repository root. It has been removed.
-- **API Routes not working**: Ensure `wrangler.jsonc` is present and correctly configured with `nodejs_compat` compatibility flag.
+
+If you encounter issues with Stripe initialization during build, ensure that Stripe is instantiated lazily or only when the environment variables are present. The current codebase uses a lazy initialization pattern to avoid build-time errors.
