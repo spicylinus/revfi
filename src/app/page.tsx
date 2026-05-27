@@ -100,7 +100,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl font-bold text-text-primary mb-6 tracking-tight"
           >
-            Stop leaving <span className="text-accent underline decoration-accent/30 underline-offset-8">revenue</span> on the table.
+            Most small business websites are <span className="text-accent underline decoration-accent/30 underline-offset-8">losing leads</span>. Find out if yours is.
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
