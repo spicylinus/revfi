@@ -87,10 +87,10 @@ const GapAnalysis: React.FC<GapAnalysisProps> = ({ goal, totalLeaked }) => {
 
       <div className="mt-8 flex justify-center">
         <button
-          onClick={() => router.push('/upsell/grand-slam-bundle/')}
+          onClick={() => router.push('/upsell/dominance-stack/')}
           className="flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all group"
         >
-          Get the Grand Slam Revenue Machine 
+          Get the Dominance Stack Revenue Machine 
           <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
         </button>
       </div>

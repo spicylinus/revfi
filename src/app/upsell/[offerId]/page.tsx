@@ -202,7 +202,7 @@ export default function UpsellPage() {
                   <span className="font-medium">{detail}</span>
                 </li>
               ))}
-              {offer.id === 'grand-slam-bundle' && (
+              {offer.id === 'dominance-stack' && (
                 <li className="flex gap-3 text-emerald-400">
                   <CheckCircle2 className="text-emerald-400 shrink-0" size={20} />
                   <span className="font-black uppercase tracking-tight">Free Competitor Visibility Audit</span>
