@@ -27,16 +27,16 @@ const GrandSlamCallout = () => {
             The <span className="text-emerald-400">Grand Slam</span> Package
           </h3>
           <p className="text-slate-400 text-lg mb-8 font-medium max-w-xl">
-            Stop losing leads today. We'll rebuild your site, dominate local SEO, and set up your automated growth engine for <span className="text-white font-bold">$0 upfront</span> via Stripe Financing.
+            Stop losing leads today. We'll rebuild your site, dominate local SEO, and launch your growth engine — <span className="text-white font-bold">$3,000 to start, $3,000 when it goes live.</span> Site goes live only after your final payment clears.
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
             <div className="flex items-center gap-2 text-sm font-bold text-slate-300">
                <ShieldCheck className="text-emerald-500" size={18} />
-               $5,000 Revenue Guarantee + Competitor Audit
+               $4,500 in Bonuses — Pay in Full & Save $1,500
             </div>
             <div className="flex items-center gap-2 text-sm font-bold text-slate-300">
                <Sparkles className="text-emerald-500" size={18} />
-               Stripe Payment Processing
+               90 Days Priority Support Included
             </div>
           </div>
         </div>
