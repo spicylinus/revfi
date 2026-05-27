@@ -9,8 +9,9 @@ const LEGACY_ID_ALIASES: Record<string, string[]> = {
 
 export async function GET(req: NextRequest) {
   try {
-    const absolutePath = '/home/team/shared/sales/offers/grand-slam.json';
-    const offerData = await fs.readFile(absolutePath, 'utf-8');
+    // Use relative path for Vercel compatibility
+    const offerPath = path.join(process.cwd(), 'src/data/grand-slam.json');
+    const offerData = await fs.readFile(offerPath, 'utf-8');
     const offer = JSON.parse(offerData);
 
     // Add legacy aliases so old URLs (/upsell/grand-slam-bundle/) still resolve
