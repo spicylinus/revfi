@@ -5,7 +5,7 @@ import { Sparkles, ArrowRight, Flame, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
-const GrandSlamCallout = () => {
+const DominanceStackCallout = () => {
   const router = useRouter();
 
   return (
@@ -21,13 +21,13 @@ const GrandSlamCallout = () => {
         <div className="flex-1 text-center md:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 rounded-full text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6">
             <Flame size={12} />
-            Exclusive Bundle
+            Most Popular
           </div>
           <h3 className="text-3xl md:text-5xl font-black mb-4 tracking-tighter uppercase italic">
-            The <span className="text-emerald-400">Grand Slam</span> Package
+            The <span className="text-emerald-400">Dominance</span> Stack
           </h3>
           <p className="text-slate-400 text-lg mb-8 font-medium max-w-xl">
-            Stop losing leads today. We'll rebuild your site, dominate local SEO, and launch your growth engine — <span className="text-white font-bold">$3,000 to start, $3,000 when it goes live.</span> Site goes live only after your final payment clears.
+            Your website is losing leads every day it stays broken. The Dominance Stack fixes it — <span className="text-white font-bold">$3,000 to start, $3,000 when it goes live.</span> Site goes live only after your final payment clears.
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
             <div className="flex items-center gap-2 text-sm font-bold text-slate-300">
@@ -43,7 +43,7 @@ const GrandSlamCallout = () => {
         
         <div className="w-full md:w-auto">
           <button 
-            onClick={() => router.push('/upsell/grand-slam-bundle/')}
+            onClick={() => router.push('/upsell/dominance-stack/')}
             className="w-full md:w-auto px-10 py-6 bg-white text-slate-900 rounded-2xl text-xl font-black hover:bg-emerald-50 transition-all shadow-xl flex items-center justify-center gap-3 group/btn"
           >
             GET STARTED
@@ -55,4 +55,4 @@ const GrandSlamCallout = () => {
   );
 };
 
-export default GrandSlamCallout;
+export default DominanceStackCallout;

@@ -26,7 +26,7 @@ import ChecklistItem from '@/components/dashboard/ChecklistItem';
 import ActionCard from '@/components/dashboard/ActionCard';
 import ServiceCard from '@/components/dashboard/ServiceCard';
 import GapAnalysis from '@/components/dashboard/GapAnalysis';
-import GrandSlamCallout from '@/components/dashboard/GrandSlamCallout';
+import DominanceStackCallout from '@/components/dashboard/DominanceStackCallout';
 import { AuditData, AuditResponse } from '@/types/audit';
 
 export default function Home() {
@@ -203,7 +203,7 @@ export default function Home() {
                     goal={parseInt(revenueGoal.replace(/,/g, '')) || 0}
                     totalLeaked={auditData.revenueLeaks.reduce((sum, leak) => sum + leak.estimatedImpact, 0)}
                   />
-                  <GrandSlamCallout />
+                  <DominanceStackCallout />
                 </div>
               )}
             </div>
