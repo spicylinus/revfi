@@ -35,7 +35,9 @@ export default function UpsellPage() {
       try {
         const res = await fetch('/api/offers');
         const data = await res.json();
-        const found = data.offers.find((o: any) => o.id === offerId);
+        const found = data.offers.find((o: any) =>
+          o.id === offerId || (o.legacyIds && o.legacyIds.includes(offerId))
+        );
         setOffer(found);
       } catch (err) {
         console.error('Failed to fetch offer');
@@ -200,7 +202,7 @@ export default function UpsellPage() {
                   <span className="font-medium">{detail}</span>
                 </li>
               ))}
-              {offer.id === 'grand-slam-bundle' && (
+              {offer.id === 'dominance-stack' && (
                 <li className="flex gap-3 text-emerald-400">
                   <CheckCircle2 className="text-emerald-400 shrink-0" size={20} />
                   <span className="font-black uppercase tracking-tight">Free Competitor Visibility Audit</span>
@@ -250,7 +252,7 @@ export default function UpsellPage() {
               )}
               {!offer.subscription_guarantee && !offer.flat_fee_guarantee && (
                 <p className="text-emerald-50/90 text-lg leading-relaxed italic font-serif">
-                  "{offer.guarantee || "If we don't increase your monthly revenue by at least $5,000 in 90 days, you pay nothing. Plus, we'll audit your top competitor for free — so you know exactly how to beat them."}"
+                  "{offer.guarantee || "Project delivered to agreed scope or we keep working until it is — revisions included. Site goes live only after your final payment clears."}"
                 </p>
               )}
             </div>
@@ -340,7 +342,7 @@ export default function UpsellPage() {
               )}
             </button>
             <p className="mt-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-              No long-term contracts. Cancel anytime. BNPL eligibility subject to approval.
+              No long-term contracts. Cancel anytime after 30 days.
             </p>
           </div>
 

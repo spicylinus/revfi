@@ -26,7 +26,7 @@ import ChecklistItem from '@/components/dashboard/ChecklistItem';
 import ActionCard from '@/components/dashboard/ActionCard';
 import ServiceCard from '@/components/dashboard/ServiceCard';
 import GapAnalysis from '@/components/dashboard/GapAnalysis';
-import GrandSlamCallout from '@/components/dashboard/GrandSlamCallout';
+import DominanceStackCallout from '@/components/dashboard/DominanceStackCallout';
 import { AuditData, AuditResponse } from '@/types/audit';
 
 export default function Home() {
@@ -100,7 +100,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl font-bold text-text-primary mb-6 tracking-tight"
           >
-            Most small business websites are <span className="text-accent underline decoration-accent/30 underline-offset-8">losing leads</span>. Find out if yours is.
+            Most small business websites are <span className="text-accent underline decoration-accent/30 underline-offset-8">losing leads.</span> Find out if yours is.
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -108,7 +108,7 @@ export default function Home() {
             transition={{ delay: 0.1 }}
             className="text-xl text-text-secondary mb-10 max-w-2xl mx-auto"
           >
-            Audit your local business website in seconds. Get a grade, identify revenue leaks, and follow a clear action plan to grow.
+            Type any business URL. Get a real-time grade, see exactly what's costing you leads, and follow a prioritized action plan — in 60 seconds. Free.
           </motion.p>
           
           <motion.div
@@ -203,7 +203,7 @@ export default function Home() {
                     goal={parseInt(revenueGoal.replace(/,/g, '')) || 0}
                     totalLeaked={auditData.revenueLeaks.reduce((sum, leak) => sum + leak.estimatedImpact, 0)}
                   />
-                  <GrandSlamCallout />
+                  <DominanceStackCallout />
                 </div>
               )}
             </div>
@@ -270,17 +270,17 @@ export default function Home() {
               <div className="absolute bottom-0 left-0 w-1/4 h-full bg-accent/5 blur-[100px] rounded-full" />
               
               <div className="relative z-10 text-center mb-16">
-                <h3 className="text-white text-3xl md:text-5xl font-bold mb-6 tracking-tight">Want us to handle this for you?</h3>
-                <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">Focus on running your business. We'll deploy our experts to fix your website, SEO, and lead generation.</p>
+                <h3 className="text-white text-3xl md:text-5xl font-bold mb-6 tracking-tight">Your website can dominate your market.</h3>
+                <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">We built the system to make it happen. Redesign, SEO, and lead gen — working together from day one.</p>
               </div>
 
               <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <ServiceCard 
                   icon={Layout} 
-                  title="Grand Slam Bundle" 
-                  description="Website Redesign + 90-Day Lead Gen Launch. The ultimate growth machine with a $5,000 revenue guarantee." 
-                  impact="2x - 5x Leads" isPopular={true} href="/upsell/grand-slam-bundle/"
-                  priceRange="$6,000 (BNPL Available)"
+                  title="The Dominance Stack" 
+                  description="The complete growth engine: 5-page redesign, local SEO, automated lead capture, and a 90-day launch sprint. Everything your business needs to dominate local search."
+                  impact="2x - 5x Leads" isPopular={true} href="/upsell/dominance-stack/"
+                  priceRange="$3,000 to start, $3,000 at launch"
                 />
                 <ServiceCard 
                   icon={BarChart3} 

@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
     if (offerId === 'website-redesign-bnpl') {
       amount = options?.payInFull ? 4500 : 5000;
       description = `Website Redesign - ${options?.payInFull ? 'Full Payment' : 'Split Payment'}`;
-    } else if (offerId === 'grand-slam-bundle') {
-      amount = 6000;
-      description = 'Grand Slam Bundle Acceptance';
+    } else if (offerId === 'dominance-stack' || offerId === 'grand-slam-bundle' || offerId === 'grand-slam') {
+      amount = options?.payInFull ? 4500 : 3000;
+      description = `Dominance Stack - ${options?.payInFull ? 'Full Payment' : 'Initial Payment'}`;
     }
 
     const paymentLink = await stripeService.createPaymentLink(amount, description, finalCustomerId);
