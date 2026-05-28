@@ -76,8 +76,8 @@ export default function UpsellPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           customerId,
-          amount: offer.upfront_bnpl || offer.deposit || offer.total_price,
-          description: `Grand Slam Acceptance: ${offer.name}`,
+          amount: offer.split?.deposit || offer.total_price,
+          description: `${offer.name} - Initial Payment`,
           bnplEnabled: !!offer.upfront_bnpl
         })
       });
@@ -171,7 +171,7 @@ export default function UpsellPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl font-black mb-6 leading-tight uppercase italic tracking-tighter"
           >
-            The <span className="text-emerald-400 underline decoration-emerald-400/30">Grand Slam</span> Revenue Machine
+            The <span className="text-emerald-400 underline decoration-emerald-400/30">Dominance Stack</span> Revenue Machine
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -283,7 +283,7 @@ export default function UpsellPage() {
           <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Finalize Investment</h2>
           <div className="flex items-center justify-center gap-4 mb-12">
             <span className="text-5xl md:text-8xl font-black tracking-tighter">
-              ${offer.upfront_bnpl ? offer.upfront_bnpl.toLocaleString() : offer.total_price.toLocaleString()}
+              ${(offer.split?.deposit || offer.total_price).toLocaleString()}
             </span>
             <div className="text-left">
                <span className="block text-xl font-bold line-through text-slate-300">${(offer.total_value || offer.total_price * 1.5).toLocaleString()}</span>
