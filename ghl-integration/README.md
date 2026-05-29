@@ -27,3 +27,5 @@ The following custom fields must be created in GHL for the mapping to work:
 - `audit_grade` (Text)
 - `revenue_leak_estimate` (Number)
 - `business_niche` (Text)
+- `lead_source` (Text)
+- `estimated_deal_value` (Numeric)

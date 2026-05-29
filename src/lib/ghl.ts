@@ -12,6 +12,7 @@ export interface GHLLeadData {
   revenue_leak_estimate: number;
   business_niche: string;
   source?: string;
+  value?: number;
 }
 
 export class GHLClient {
@@ -63,12 +64,16 @@ export class GHLClient {
     const gradeFieldId = findFieldId('audit_grade');
     const leakFieldId = findFieldId('revenue_leak_estimate');
     const nicheFieldId = findFieldId('business_niche');
+    const sourceFieldId = findFieldId('contact.lead_source') || findFieldId('Lead Source');
+    const valueFieldId = findFieldId('contact.estimated_deal_value') || findFieldId('Estimated Deal Value');
 
     const customFields = [];
     if (urlFieldId) customFields.push({ id: urlFieldId, value: data.url_audited });
     if (gradeFieldId) customFields.push({ id: gradeFieldId, value: data.audit_grade });
     if (leakFieldId) customFields.push({ id: leakFieldId, value: data.revenue_leak_estimate });
     if (nicheFieldId) customFields.push({ id: nicheFieldId, value: data.business_niche });
+    if (sourceFieldId && data.source) customFields.push({ id: sourceFieldId, value: data.source });
+    if (valueFieldId && data.value) customFields.push({ id: valueFieldId, value: data.value });
 
     // 2. Search for existing contact by email
     const searchResult = await this.request(`/contacts/?locationId=${this.locationId}&query=${encodeURIComponent(data.email)}`);
@@ -103,7 +108,7 @@ export class GHLClient {
     return contactId;
   }
 
-  async createOpportunity(contactId: string, pipelineId: string, stageId: string, title: string) {
+  async createOpportunity(contactId: string, pipelineId: string, stageId: string, title: string, monetaryValue?: number) {
     return this.request(`/opportunities/`, {
       method: 'POST',
       body: JSON.stringify({
@@ -112,7 +117,8 @@ export class GHLClient {
         contactId,
         name: title,
         status: 'open',
-        pipelineStageId: stageId
+        pipelineStageId: stageId,
+        monetaryValue
       })
     });
   }
@@ -162,6 +168,6 @@ export class GHLClient {
     const contactId = await this.createOrUpdateContact(data);
 
     // 4. Create Opportunity
-    return await this.createOpportunity(contactId, pipelineId, stageId, `${data.business_niche || 'Business'} Audit - ${data.url_audited}`);
+    return await this.createOpportunity(contactId, pipelineId, stageId, `${data.business_niche || 'Business'} Audit - ${data.url_audited}`, data.value);
   }
 }

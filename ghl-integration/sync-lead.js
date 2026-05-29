@@ -41,6 +41,8 @@ async function syncLead(leadData) {
   const gradeFieldId = findFieldId('audit_grade');
   const leakFieldId = findFieldId('revenue_leak_estimate');
   const nicheFieldId = findFieldId('business_niche');
+  const sourceFieldId = findFieldId('contact.lead_source') || findFieldId('Lead Source');
+  const valueFieldId = findFieldId('contact.estimated_deal_value') || findFieldId('Estimated Deal Value');
 
   // 2. Create/Update Contact
   console.log('Creating/Updating contact...');
@@ -49,6 +51,8 @@ async function syncLead(leadData) {
   if (gradeFieldId) customFields.push({ id: gradeFieldId, value: leadData.grade });
   if (leakFieldId) customFields.push({ id: leakFieldId, value: leadData.leakEstimate });
   if (nicheFieldId) customFields.push({ id: nicheFieldId, value: leadData.niche });
+  if (sourceFieldId && leadData.source) customFields.push({ id: sourceFieldId, value: leadData.source });
+  if (valueFieldId && leadData.value) customFields.push({ id: valueFieldId, value: leadData.value });
 
   const contactPayload = {
     locationId: LOCATION_ID,
@@ -56,6 +60,7 @@ async function syncLead(leadData) {
     firstName: leadData.name?.split(' ')[0] || 'Auditor',
     lastName: leadData.name?.split(' ').slice(1).join(' ') || 'Lead',
     phone: leadData.phone,
+    source: leadData.source || 'Website Auditor',
     customFields
   };
 
@@ -88,7 +93,8 @@ async function syncLead(leadData) {
       contactId: contactId,
       name: `${leadData.niche || 'Business'} Audit - ${leadData.url}`,
       status: 'open',
-      pipelineStageId: STAGE_ID
+      pipelineStageId: STAGE_ID,
+      monetaryValue: leadData.value
     })
   });
 

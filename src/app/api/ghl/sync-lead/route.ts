@@ -4,16 +4,16 @@ import { GHLClient } from '@/lib/ghl';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email, url, grade, leakEstimate, niche, name, phone } = body;
+    const { email, url, grade, leakEstimate, niche, name, phone, source, value } = body;
 
     if (!email || !url) {
       return NextResponse.json({ error: 'Email and URL are required' }, { status: 400 });
     }
 
     // In a real scenario, these would come from environment variables
-    // The values below were provided by the lead
-    const apiKey = process.env.GHL_API_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlB2eXZTQWJKNWJKV2U3TGFkWVg0IiwidmVyc2lvbiI6MSwiaWF0IjoxNzc3NDA5MzMwODMyLCJzdWIiOiJEdlpaVDFudWE2UFlHMGtmbG1HdCJ9.VRSspNlvwVrxoiniwzdu1aTCHCU53omX0kK4-LffpHQ';
-    const locationId = process.env.GHL_LOCATION_ID || 'PVyvSAbJ5bJWe7LadYX4';
+    // The values below were updated to use the PIT token
+    const apiKey = process.env.GHL_API_KEY || 'pit-60eefe1e-4c23-4c63-a3a8-82d77dac050c';
+    const locationId = process.env.GHL_LOCATION_ID || 'PvyvSAbJ5bJWe7LadYX4';
 
     const client = new GHLClient(apiKey, locationId);
 
@@ -25,7 +25,8 @@ export async function POST(req: NextRequest) {
       business_niche: niche,
       name,
       phone,
-      source: 'Auditor Form'
+      source: source || 'Auditor Form',
+      value: value
     });
 
     return NextResponse.json({ success: true, opportunityId: result.opportunity.id });
