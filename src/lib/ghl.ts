@@ -30,6 +30,7 @@ export class GHLClient {
     const headers = {
       'Authorization': `Bearer ${this.apiKey}`,
       'Version': this.version,
+      'Location-Id': this.locationId,
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       ...options.headers,
@@ -70,7 +71,7 @@ export class GHLClient {
     if (nicheFieldId) customFields.push({ id: nicheFieldId, value: data.business_niche });
 
     // 2. Search for existing contact by email
-    const searchResult = await this.request(`/contacts/search?locationId=${this.locationId}&query=${encodeURIComponent(data.email)}`);
+    const searchResult = await this.request(`/contacts/?locationId=${this.locationId}&query=${encodeURIComponent(data.email)}`);
     
     let contactId: string;
     const existingContact = searchResult.contacts?.[0];
@@ -117,24 +118,50 @@ export class GHLClient {
   }
 
   async syncLeadToPipeline(data: GHLLeadData, pipelineName = 'Sales Pipeline', stageName = 'New Leads') {
-    // 1. Get Pipelines to find the ID
-    const pipelinesData = await this.getPipelines();
-    const pipeline = pipelinesData.pipelines.find((p: any) => p.name === pipelineName);
-    
-    if (!pipeline) {
-      throw new Error(`Pipeline not found: ${pipelineName}`);
-    }
+    // Hardcoded IDs for the current Social Linus GHL setup
+    const PIPELINE_IDS: Record<string, string> = {
+      'Sales Pipeline': 'tpFymaPJZlMgt5d8RrAd'
+    };
 
-    // 2. Find the stage ID
-    const stage = pipeline.stages.find((s: any) => s.name === stageName);
-    if (!stage) {
-      throw new Error(`Stage not found: ${stageName} in pipeline ${pipelineName}`);
+    const STAGE_IDS: Record<string, string> = {
+      'New Leads': '8bdb09ad-86d4-4bd1-829e-52daa933d294',
+      'Hot Leads': '4ce1679b-e6eb-4925-9748-5e1d79be0cb4',
+      'Appointment Booked': '65641408-4a19-4aaf-ae7d-5caa4c350cae',
+      'No Show': 'c748bf6f-a793-4ff1-b676-ed784efb8e02',
+      'Follow Up to Close': '41d38f44-bd09-4ed2-b6b4-e00885512603',
+      'Won': 'f70949eb-2dda-44eb-9f61-d191b0154efc',
+      'Pending Service Completion': '92ee3ec4-1f60-4247-9678-36b50798226b',
+      'Service Completed': '1ab67d0f-3510-4e34-b7d0-993207fbe675',
+      'Lost/Abandoned': '558c00a3-b9b0-47e5-933f-d8fc4ef8b08a'
+    };
+
+    let pipelineId = PIPELINE_IDS[pipelineName];
+    let stageId = STAGE_IDS[stageName];
+
+    // Fallback to dynamic lookup if hardcoded IDs don't match or names differ
+    if (!pipelineId || !stageId) {
+      console.log(`Hardcoded IDs not found for ${pipelineName}/${stageName}. Falling back to dynamic lookup...`);
+      // 1. Get Pipelines to find the ID
+      const pipelinesData = await this.getPipelines();
+      const pipeline = pipelinesData.pipelines.find((p: any) => p.name === pipelineName);
+      
+      if (!pipeline) {
+        throw new Error(`Pipeline not found: ${pipelineName}`);
+      }
+      pipelineId = pipeline.id;
+
+      // 2. Find the stage ID
+      const stage = pipeline.stages.find((s: any) => s.name === stageName);
+      if (!stage) {
+        throw new Error(`Stage not found: ${stageName} in pipeline ${pipelineName}`);
+      }
+      stageId = stage.id;
     }
 
     // 3. Create/Update Contact
     const contactId = await this.createOrUpdateContact(data);
 
     // 4. Create Opportunity
-    return await this.createOpportunity(contactId, pipeline.id, stage.id, `${data.business_niche || 'Business'} Audit - ${data.url_audited}`);
+    return await this.createOpportunity(contactId, pipelineId, stageId, `${data.business_niche || 'Business'} Audit - ${data.url_audited}`);
   }
 }

@@ -2,14 +2,15 @@ const GHL_API_BASE = 'https://services.leadconnectorhq.com';
 const GHL_API_VERSION = '2021-07-28';
 
 // Configuration
-const API_KEY = process.env.GHL_API_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlB2eXZTQWJKNWJKV2U3TGFkWVg0IiwidmVyc2lvbiI6MSwiaWF0IjoxNzc3NDA5MzMwODMyLCJzdWIiOiJEdlpaVDFudWE2UFlHMGtmbG1HdCJ9.VRSspNlvwVrxoiniwzdu1aTCHCU53omX0kK4-LffpHQ';
-const LOCATION_ID = process.env.GHL_LOCATION_ID || 'PVyvSAbJ5bJWe7LadYX4';
+const API_KEY = process.env.GHL_API_KEY || 'pit-60eefe1e-4c23-4c63-a3a8-82d77dac050c';
+const LOCATION_ID = process.env.GHL_LOCATION_ID || 'PvyvSAbJ5bJWe7LadYX4';
 
 async function ghlRequest(endpoint, options = {}) {
   const url = `${GHL_API_BASE}${endpoint}`;
   const headers = {
     'Authorization': `Bearer ${API_KEY}`,
     'Version': GHL_API_VERSION,
+    'Location-Id': LOCATION_ID,
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     ...options.headers,
@@ -27,15 +28,11 @@ async function ghlRequest(endpoint, options = {}) {
 async function syncLead(leadData) {
   console.log(`Syncing lead: ${leadData.email}...`);
 
-  // 1. Fetch Pipelines to find "Sales Pipeline"
-  const pipelinesData = await ghlRequest(`/opportunities/pipelines?locationId=${LOCATION_ID}`);
-  const pipeline = pipelinesData.pipelines.find(p => p.name === 'Sales Pipeline');
-  if (!pipeline) throw new Error('Sales Pipeline not found');
+  // Hardcoded IDs for the current Social Linus GHL setup
+  const PIPELINE_ID = 'tpFymaPJZlMgt5d8RrAd';
+  const STAGE_ID = '8bdb09ad-86d4-4bd1-829e-52daa933d294'; // "New Leads" stage
 
-  const stage = pipeline.stages.find(s => s.name === 'New Leads');
-  if (!stage) throw new Error('New Leads stage not found');
-
-  // 2. Fetch Custom Fields to get IDs
+  // 1. Fetch Custom Fields to get IDs
   console.log('Fetching custom fields...');
   const customFieldsData = await ghlRequest(`/locations/${LOCATION_ID}/customFields`);
   const findFieldId = (key) => customFieldsData.customFields.find(f => f.fieldKey === key || f.name === key)?.id;
@@ -45,7 +42,7 @@ async function syncLead(leadData) {
   const leakFieldId = findFieldId('revenue_leak_estimate');
   const nicheFieldId = findFieldId('business_niche');
 
-  // 3. Create/Update Contact
+  // 2. Create/Update Contact
   console.log('Creating/Updating contact...');
   const customFields = [];
   if (urlFieldId) customFields.push({ id: urlFieldId, value: leadData.url });
@@ -63,7 +60,7 @@ async function syncLead(leadData) {
   };
 
   // Check if contact exists
-  const searchResult = await ghlRequest(`/contacts/search?locationId=${LOCATION_ID}&query=${encodeURIComponent(leadData.email)}`);
+  const searchResult = await ghlRequest(`/contacts/?locationId=${LOCATION_ID}&query=${encodeURIComponent(leadData.email)}`);
   let contactId;
   if (searchResult.contacts?.length > 0) {
     contactId = searchResult.contacts[0].id;
@@ -86,12 +83,12 @@ async function syncLead(leadData) {
   const opp = await ghlRequest(`/opportunities/`, {
     method: 'POST',
     body: JSON.stringify({
-      pipelineId: pipeline.id,
+      pipelineId: PIPELINE_ID,
       locationId: LOCATION_ID,
       contactId: contactId,
       name: `${leadData.niche || 'Business'} Audit - ${leadData.url}`,
       status: 'open',
-      pipelineStageId: stage.id
+      pipelineStageId: STAGE_ID
     })
   });
 
