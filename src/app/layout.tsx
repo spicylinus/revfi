@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RevFi — Website Auditor for Local Business",
+  title: "Social Linus — Website Auditor for Local Business",
   description: "Audit your website for revenue leaks and get a clear action plan to grow your local business.",
 };
 

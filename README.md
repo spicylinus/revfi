@@ -1,6 +1,6 @@
-# RevFi — Local Business Website Auditor
+# Social Linus — Local Business Website Auditor
 
-RevFi is a no-nonsense website auditor built for small business owners to identify "revenue leaks" and provide an actionable growth plan.
+Social Linus is a no-nonsense website auditor built for small business owners to identify "revenue leaks" and provide an actionable growth plan.
 
 ## Features
 

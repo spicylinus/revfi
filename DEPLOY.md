@@ -1,4 +1,4 @@
-# Deployment Guide for RevFi on Vercel
+# Deployment Guide for Social Linus on Vercel
 
 This project is now configured to run on Vercel using the standard Next.js build pipeline.
 
