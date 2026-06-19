@@ -356,7 +356,7 @@ export default function Home() {
       <footer className="py-12 border-t border-slate-100 mt-12 bg-surface/50">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-slate-400 text-sm font-medium">
-            Social Linus (formerly Social Linus) is owned by Social Linus Web Services, LLC.
+            Social Linus (formerly RevFi) is owned by Social Linus Web Services, LLC.
           </p>
         </div>
       </footer>
