@@ -27,6 +27,7 @@ import ActionCard from '@/components/dashboard/ActionCard';
 import ServiceCard from '@/components/dashboard/ServiceCard';
 import GapAnalysis from '@/components/dashboard/GapAnalysis';
 import DominanceStackCallout from '@/components/dashboard/DominanceStackCallout';
+import LeadCaptureForm from '@/components/dashboard/LeadCaptureForm';
 import { AuditData, AuditResponse } from '@/types/audit';
 
 export default function Home() {
@@ -263,6 +264,14 @@ export default function Home() {
                 <ActionCard timeframe="This Month" tasks={auditData.actionPlan.monthly} />
               </div>
             </section>
+
+            {/* Lead Capture Form */}
+            <LeadCaptureForm 
+              businessName={auditData.businessName || auditData.url.replace('https://', '').replace('www.', '').split('.')[0]} 
+              auditUrl={auditData.url} 
+              auditGrade={auditData.overallGrade}
+              leakEstimate={auditData.revenueLeaks.reduce((sum, leak) => sum + leak.estimatedImpact, 0)}
+            />
 
             {/* Upsell Section */}
             <section id="upsell-section" className="bg-slate-900 rounded-[40px] p-12 md:p-20 relative overflow-hidden">

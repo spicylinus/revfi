@@ -63,6 +63,15 @@ export async function runAudit(url: string): Promise<AuditResult> {
 
     const $homepage = cheerio.load(homepageData.html || '');
     
+    // Extract Business Name
+    let businessName = $homepage('title').text().split('|')[0].split('-')[0].trim();
+    if (!businessName || businessName.length < 2) {
+      businessName = $homepage('h1').first().text().trim();
+    }
+    if (!businessName || businessName.length < 2) {
+      businessName = url.replace('https://', '').replace('www.', '').split('.')[0];
+    }
+    
     // 2. Find Contact Page
     let contactUrl = findContactPageUrl($homepage, url);
     let contactPageData: any = { html: "", warning: "" };
@@ -96,6 +105,7 @@ export async function runAudit(url: string): Promise<AuditResult> {
     
     return {
       url,
+      businessName,
       overallGrade,
       overallScore,
       subScores: {

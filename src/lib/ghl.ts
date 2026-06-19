@@ -10,7 +10,7 @@ export interface GHLLeadData {
   url_audited: string;
   audit_grade: string;
   revenue_leak_estimate: number;
-  business_niche: string;
+  business_niche?: string;
   source?: string;
   value?: number;
 }

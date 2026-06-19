@@ -39,6 +39,7 @@ export interface ActionPlan {
 
 export interface AuditData {
   url: string;
+  businessName?: string;
   overallGrade: string;
   overallScore: number;
   subScores: SubScores;
