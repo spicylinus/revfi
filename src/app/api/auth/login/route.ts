@@ -18,6 +18,7 @@ export async function POST(request: Request) {
       const sessionToken = btoa(JSON.stringify({ 
         email, 
         role: isAdmin ? 'admin' : 'client',
+        clientId: isAdmin ? null : 'sd-plumbing',
         expires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
       }));
 
@@ -33,7 +34,11 @@ export async function POST(request: Request) {
 
       return NextResponse.json({ 
         success: true, 
-        user: { email, role: isAdmin ? 'admin' : 'client' } 
+        user: { 
+          email, 
+          role: isAdmin ? 'admin' : 'client',
+          clientId: isAdmin ? null : 'sd-plumbing'
+        } 
       });
     }
 

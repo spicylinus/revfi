@@ -1,11 +1,53 @@
 'use client';
 
-import React from 'react';
-import { Users, ChevronRight, Globe, ArrowLeft } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Users, ChevronRight, Globe, ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { CLIENT_DELIVERIES } from '@/lib/mock-deliveries';
 
 export default function ClientSelectorPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // In a real app, this would be a call to getSession() or similar
+    const getAuth = () => {
+      try {
+        const cookies = document.cookie.split(';');
+        const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
+        if (authCookie) {
+          const token = authCookie.split('=')[1];
+          const session = JSON.parse(atob(decodeURIComponent(token)));
+          setUser(session);
+          
+          // If client, redirect to their specific page
+          if (session.role === 'client' && session.clientId) {
+            router.replace(`/delivery/${session.clientId}/`);
+          }
+        }
+      } catch (e) {
+        console.error('Error parsing session', e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getAuth();
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="animate-spin text-primary" size={48} />
+      </div>
+    );
+  }
+
+  // If client was redirected, this won't show
+  // If no user or admin, show the list (admins see all, non-logged in (though gated) see all)
+  
   return (
     <main className="min-h-screen bg-slate-50 py-20 px-6">
       <div className="max-w-4xl mx-auto">

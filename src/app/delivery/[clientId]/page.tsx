@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BarChart3, 
   CheckCircle2, 
@@ -13,10 +13,12 @@ import {
   Zap,
   LayoutDashboard,
   Receipt,
-  Search
+  Search,
+  Lock,
+  Loader2
 } from 'lucide-react';
 import Link from 'next/link';
-import { useParams, notFound } from 'next/navigation';
+import { useParams, notFound, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 import DeliveryMetricCard from '@/components/delivery/DeliveryMetricCard';
@@ -28,9 +30,65 @@ import { CLIENT_DELIVERIES } from '@/lib/mock-deliveries';
 
 export default function ClientDeliveryDashboard() {
   const params = useParams();
+  const router = useRouter();
   const clientId = params.clientId as string;
   const data = CLIENT_DELIVERIES[clientId];
   const [activeTab, setActiveTab] = useState<'overview' | 'billing' | 'competitor'>('overview');
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      try {
+        const cookies = document.cookie.split(';');
+        const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
+        if (authCookie) {
+          const token = authCookie.split('=')[1];
+          const session = JSON.parse(atob(decodeURIComponent(token)));
+          
+          if (session.role === 'admin') {
+            setIsAuthorized(true);
+          } else if (session.role === 'client' && session.clientId === clientId) {
+            setIsAuthorized(true);
+          } else {
+            setIsAuthorized(false);
+          }
+        } else {
+          setIsAuthorized(false);
+          router.push(`/login?callbackUrl=/delivery/${clientId}`);
+        }
+      } catch (e) {
+        setIsAuthorized(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [clientId, router]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="animate-spin text-primary" size={48} />
+      </div>
+    );
+  }
+
+  if (isAuthorized === false) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6 text-center">
+        <div className="w-20 h-20 bg-danger/10 text-danger rounded-full flex items-center justify-center mb-6">
+          <Lock size={40} />
+        </div>
+        <h1 className="text-3xl font-bold text-slate-900 mb-4">Access Denied</h1>
+        <p className="text-slate-500 max-w-md mb-8">You do not have permission to view this client's dashboard. If you believe this is an error, please contact support.</p>
+        <Link href="/delivery" className="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all">
+          Back to Portal
+        </Link>
+      </div>
+    );
+  }
 
   if (!data) {
     return notFound();
