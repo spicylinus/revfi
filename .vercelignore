@@ -7,6 +7,3 @@ wrangler.jsonc
 # Cloudflare build artifacts
 .open-next/
 open-next.config.ts
-
-# Keep the source code
-!src/
