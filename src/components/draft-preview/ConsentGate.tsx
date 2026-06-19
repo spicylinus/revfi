@@ -101,7 +101,7 @@ export default function ConsentGate({ isOpen, onClose, clientId, businessName }:
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                        Phone Number <span className="text-red-500">*</span>
+                        Phone or Email <span className="text-slate-400 font-normal">(whichever you prefer)</span>
                       </label>
                       <div className="relative">
                         <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -113,19 +113,13 @@ export default function ConsentGate({ isOpen, onClose, clientId, businessName }:
                           className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
                         />
                       </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                        or Email <span className="text-slate-400">(optional)</span>
-                      </label>
-                      <div className="relative">
+                      <div className="relative mt-3">
                         <MessageSquare size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                         <input
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          placeholder="you@yourbusiness.com"
+                          placeholder="or your@email.com"
                           className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
                         />
                       </div>
@@ -180,11 +174,11 @@ export default function ConsentGate({ isOpen, onClose, clientId, businessName }:
                 <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle2 className="text-emerald-600" size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">You're all set!</h3>
-                <p className="text-slate-600 text-sm mb-5">
-                  We sent a secure login link to {phone || email}. 
-                  Use it to view your draft redesign.
+                <h3 className="text-xl font-bold text-slate-800 mb-2">Link sent!</h3>
+                <p className="text-slate-600 text-sm mb-1">
+                  {phone && email ? `Sent to ${phone} (SMS) and ${email} (email).` : phone ? `Sent to ${phone} via SMS.` : `Sent to ${email} via email.`}
                 </p>
+                <p className="text-slate-500 text-xs mb-5">Check your inbox or messages — the link expires in 24 hours.</p>
                 <div className="bg-slate-50 rounded-xl p-4 mb-5 text-left">
                   <div className="text-xs text-slate-400 uppercase tracking-wide mb-1">Your secure access link</div>
                   <div className="text-sm font-mono text-slate-700 break-all">
