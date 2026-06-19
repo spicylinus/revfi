@@ -11,11 +11,14 @@ import {
   Flame,
   ArrowLeft,
   Mail,
-  User
+  User,
+  Eye,
+  MessageSquare
 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import ConsentGate from '@/components/draft-preview/ConsentGate';
 
 export default function UpsellPage() {
   const params = useParams();
@@ -29,6 +32,7 @@ export default function UpsellPage() {
   const [name, setName] = useState('');
   const [competitorUrl, setCompetitorUrl] = useState('');
   const [success, setSuccess] = useState(false);
+  const [showDraftConsent, setShowDraftConsent] = useState(false);
 
   useEffect(() => {
     async function fetchOffer() {
@@ -353,8 +357,37 @@ export default function UpsellPage() {
                </div>
              ))}
           </div>
+
+          {/* Draft Preview Consent Gate */}
+          <div className="mt-10 pt-8 border-t border-slate-200">
+            <div className="bg-slate-50 rounded-2xl p-6 text-left">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-[#1E3A5F]/10 rounded-xl flex items-center justify-center shrink-0">
+                  <Eye className="text-[#1E3A5F]" size={22} />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-slate-800 mb-1">Want to see what we're building for you?</h4>
+                  <p className="text-slate-500 text-sm mb-4">Enter your number to get a secure preview link via SMS — no commitment required.</p>
+                  <button
+                    onClick={() => setShowDraftConsent(true)}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1E3A5F] text-white text-sm font-bold rounded-xl hover:bg-[#2a4f7a] transition-all"
+                  >
+                    <MessageSquare size={16} />
+                    Get My Preview Link
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
+
+      <ConsentGate
+        isOpen={showDraftConsent}
+        onClose={() => setShowDraftConsent(false)}
+        clientId={offerId}
+        businessName={offer?.name || offerId}
+      />
     </main>
   );
 }
