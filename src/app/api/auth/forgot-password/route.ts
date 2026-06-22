@@ -4,12 +4,19 @@ import { generateResetToken } from '@/lib/auth-store';
 
 async function sendResetEmail(toEmail: string, resetUrl: string): Promise<void> {
   const region = process.env.AWS_SES_REGION || 'us-east-1';
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+  const fromEmail = process.env.SES_FROM_EMAIL || 'hey@sociallinus.com';
+
+  console.log('[SES] region:', region, 'from:', fromEmail, 'keyId:', accessKeyId ? accessKeyId.slice(0, 4) + '...' : 'MISSING');
+
+  if (!accessKeyId || !secretAccessKey) {
+    throw new Error('AWS SES credentials not configured. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in Vercel env vars.');
+  }
+
   const client = new SESClient({
     region,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
-    },
+    credentials: { accessKeyId, secretAccessKey },
   });
 
   const htmlBody = `
@@ -51,7 +58,7 @@ async function sendResetEmail(toEmail: string, resetUrl: string): Promise<void> 
 </html>`;
 
   const command = new SendEmailCommand({
-    Source: process.env.SES_FROM_EMAIL || 'support@sociallinus.com',
+    Source: process.env.SES_FROM_EMAIL || 'hey@sociallinus.com',
     Destination: { ToAddresses: [toEmail] },
     Message: {
       Subject: { Data: '🔑 Reset Your Social Linus Password', Charset: 'UTF-8' },
@@ -85,8 +92,13 @@ export async function POST(request: Request) {
     await sendResetEmail(email, resetUrl);
 
     return NextResponse.json({ success: true, message: 'If that email exists, a reset link has been sent.' });
-  } catch (error) {
-    console.error('Forgot password error:', error);
-    return NextResponse.json({ message: 'Failed to send reset email. Please try again.' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Forgot password error:', error?.message || error?.Code || error);
+    const errorCode = error?.Code || error?.code || 'UnknownError';
+    const errorMessage = error?.Message || error?.message || String(error);
+    return NextResponse.json(
+      { message: `Email failed: ${errorCode} — ${errorMessage}` },
+      { status: 500 }
+    );
   }
 }
