@@ -91,7 +91,7 @@ export default function ForgotPasswordPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-4 bg-background border-2 border-slate-100 rounded-xl outline-none focus:border-primary transition-all"
-              placeholder="support@sociallinus.com"
+              placeholder="Enter email address"
             />
           </div>
 
