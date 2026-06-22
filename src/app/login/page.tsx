@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { Shield, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
 
 function LoginForm() {
@@ -80,6 +81,12 @@ function LoginForm() {
               className="w-full px-4 py-4 bg-background border-2 border-slate-100 rounded-xl outline-none focus:border-primary transition-all"
               placeholder="••••••••"
             />
+          </div>
+
+          <div className="text-right">
+            <Link href="/forgot-password" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+              Forgot password?
+            </Link>
           </div>
 
           {error && (
