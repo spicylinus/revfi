@@ -110,7 +110,7 @@ export default function ConsentGate({ isOpen, onClose, clientId, businessName }:
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="+1 (512) 555-1234"
-                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
+                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
                         />
                       </div>
                       <div className="relative mt-3">
@@ -120,7 +120,7 @@ export default function ConsentGate({ isOpen, onClose, clientId, businessName }:
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="or your@email.com"
-                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
+                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
                         />
                       </div>
                     </div>
