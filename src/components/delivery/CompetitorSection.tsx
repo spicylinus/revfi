@@ -56,7 +56,7 @@ export default function CompetitorSection({ audits }: CompetitorSectionProps) {
                 <span className="text-sm font-bold text-slate-700">{new Date(audit.auditedAt).toLocaleDateString()}</span>
               </div>
               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black ${
-                audit.result.overallScore >= 80 ? 'bg-emerald-100 text-emerald-600' : 
+                audit.result.overallScore >= 80 ? 'bg-emerald-100 text-accent' : 
                 audit.result.overallScore >= 60 ? 'bg-amber-100 text-amber-600' : 'bg-rose-100 text-rose-600'
               }`}>
                 {audit.result.overallGrade}
@@ -78,7 +78,7 @@ export default function CompetitorSection({ audits }: CompetitorSectionProps) {
                     <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
                       <div 
                         className={`h-full rounded-full ${
-                          value >= 80 ? 'bg-emerald-500' : 
+                          value >= 80 ? 'bg-accent/100' : 
                           value >= 60 ? 'bg-amber-500' : 'bg-rose-500'
                         }`}
                         style={{ width: `${value}%` }}
@@ -100,7 +100,7 @@ export default function CompetitorSection({ audits }: CompetitorSectionProps) {
                     <div key={leak.id} className="p-6 bg-white border border-slate-200 rounded-3xl hover:border-primary/20 transition-all flex gap-4">
                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
                         leak.severity === 'critical' ? 'bg-rose-100 text-rose-600' : 
-                        leak.severity === 'high' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'
+                        leak.severity === 'high' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-secondary'
                       }`}>
                         <ShieldAlert size={24} />
                       </div>
@@ -116,7 +116,7 @@ export default function CompetitorSection({ audits }: CompetitorSectionProps) {
                         <p className="text-sm text-slate-500 mb-3 leading-relaxed">
                           Your competitor is failing here. By fixing this on your site, you gain a massive advantage.
                         </p>
-                        <div className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-black text-accent bg-accent/10 px-3 py-1.5 rounded-full">
                           <AlertTriangle size={12} />
                           Exploit Advantage: ${leak.estimatedImpact.toLocaleString()} Value
                         </div>

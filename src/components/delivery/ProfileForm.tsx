@@ -185,7 +185,7 @@ export default function ProfileForm({ clientId, initialProfile }: ProfileFormPro
       <div className="flex items-center justify-between">
         <div>
           {saveStatus === 'success' && (
-            <div className="flex items-center gap-2 text-emerald-600 font-bold animate-in fade-in slide-in-from-left-2">
+            <div className="flex items-center gap-2 text-accent font-bold animate-in fade-in slide-in-from-left-2">
               <CheckCircle2 size={20} />
               <span>Profile updated!</span>
             </div>

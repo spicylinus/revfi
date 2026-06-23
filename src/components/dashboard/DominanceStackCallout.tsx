@@ -15,11 +15,11 @@ const DominanceStackCallout = () => {
       className="mt-12 bg-gradient-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 md:p-12 text-white shadow-2xl border border-slate-700 relative overflow-hidden group"
     >
       {/* Animated Glow */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-all duration-700" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-accent/100/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/100/20 transition-all duration-700" />
       
       <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
         <div className="flex-1 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 rounded-full text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/100/20 rounded-full text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6">
             <Flame size={12} />
             Most Popular
           </div>
@@ -44,7 +44,7 @@ const DominanceStackCallout = () => {
         <div className="w-full md:w-auto">
           <button 
             onClick={() => router.push('/upsell/dominance-stack/')}
-            className="w-full md:w-auto px-10 py-6 bg-white text-slate-900 rounded-2xl text-xl font-black hover:bg-emerald-50 transition-all shadow-xl flex items-center justify-center gap-3 group/btn"
+            className="w-full md:w-auto px-10 py-6 bg-white text-slate-900 rounded-2xl text-xl font-black hover:bg-accent/10 transition-all shadow-xl flex items-center justify-center gap-3 group/btn"
           >
             GET STARTED
             <ArrowRight className="group-hover/btn:translate-x-1 transition-transform" />

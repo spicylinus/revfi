@@ -222,17 +222,17 @@ export default function ClientDeliveryDashboard() {
                   </div>
                 </section>
                 
-                <section className="bg-emerald-50 border border-emerald-100 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8">
-                  <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600">
+                <section className="bg-primary/5 border border-primary/10 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8">
+                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
                     <Zap size={32} />
                   </div>
                   <div className="flex-1 text-center md:text-left">
-                    <h4 className="text-xl font-bold text-emerald-900 mb-2">Growth Engine is Active</h4>
-                    <p className="text-emerald-700/80">We are currently executing the {data.tier} workstream. Check the sidebar for active focus areas.</p>
+                    <h4 className="text-xl font-bold text-primary mb-2">Growth Engine is Active</h4>
+                    <p className="text-primary/70">We are currently executing the {data.tier} workstream. Check the sidebar for active focus areas.</p>
                   </div>
                   <button 
                     onClick={() => setShowStrategyPlan(true)}
-                    className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl whitespace-nowrap hover:bg-emerald-700 transition-all"
+                    className="px-6 py-3 bg-primary text-white font-bold rounded-xl whitespace-nowrap hover:bg-primary/90 transition-all"
                   >
                     View Strategy Plan
                   </button>
@@ -254,7 +254,7 @@ export default function ClientDeliveryDashboard() {
                   <div className="space-y-4">
                     {data.activeWorkstreams.map((stream, i) => (
                       <div key={i} className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                        <div className="w-2 h-2 rounded-full bg-accent/100" />
                         <span className="text-sm font-medium text-slate-600">{stream}</span>
                       </div>
                     ))}
@@ -270,15 +270,15 @@ export default function ClientDeliveryDashboard() {
                   </div>
                 </section>
 
-                <section className="bg-blue-600 rounded-3xl p-8 text-white">
+                <section className="bg-primary rounded-3xl p-8 text-white">
                   <Mail className="mb-4 opacity-50" size={32} />
                   <h4 className="text-xl font-bold mb-2">Need to discuss?</h4>
-                  <p className="text-blue-100 text-sm mb-6">Your dedicated account manager is available for a strategy sync at any time.</p>
+                  <p className="text-white/80 text-sm mb-6">Your dedicated account manager is available for a strategy sync at any time.</p>
                   <a
                     href={data.calendlyUrl || 'https://calendly.com/social-linus/siteauditor-follow-up-meeting'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-white text-primary font-bold rounded-xl hover:bg-white/90 transition-all flex items-center justify-center gap-2"
                   >
                     <span>Book Strategy Call</span>
                     <ChevronRight size={18} />

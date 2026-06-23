@@ -36,7 +36,7 @@ export default function RevenueLeakItem({ leak }: RevenueLeakItemProps) {
         </div>
         
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold border border-emerald-100">
+          <div className="hidden sm:flex items-center gap-1 px-3 py-1 bg-accent/10 text-emerald-700 rounded-full text-xs font-bold border border-emerald-100">
             <DollarSign size={14} />
             <span>${leak.estimatedImpact.toLocaleString()}/yr</span>
           </div>
@@ -59,7 +59,7 @@ export default function RevenueLeakItem({ leak }: RevenueLeakItemProps) {
                   <h5 className="text-xs font-bold text-primary uppercase tracking-wider mb-2">How to fix this:</h5>
                   <p className="text-sm text-text-primary">{leak.fix}</p>
                 </div>
-                <div className="mt-4 sm:hidden flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold border border-emerald-100 w-fit">
+                <div className="mt-4 sm:hidden flex items-center gap-1 px-3 py-1 bg-accent/10 text-emerald-700 rounded-full text-xs font-bold border border-emerald-100 w-fit">
                   <DollarSign size={14} />
                   <span>Est. Impact: ${leak.estimatedImpact.toLocaleString()}/yr</span>
                 </div>

@@ -14,7 +14,7 @@ interface BillingSectionProps {
 const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillingDate, invoices, stripeCustomerPortalUrl }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'paid': return 'text-emerald-600 bg-emerald-50 border-emerald-100';
+      case 'paid': return 'text-accent bg-accent/10 border-emerald-100';
       case 'overdue': return 'text-rose-600 bg-rose-50 border-rose-100';
       case 'pending': return 'text-amber-600 bg-amber-50 border-amber-100';
       default: return 'text-slate-600 bg-slate-50 border-slate-100';
@@ -42,7 +42,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+            <div className="p-2 bg-secondary/10 text-secondary rounded-lg">
               <CreditCard size={20} />
             </div>
             <h3 className="text-lg font-bold text-slate-900">Subscription Overview</h3>
@@ -78,7 +78,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
               href="https://stripe.com/payments"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-900 font-bold rounded-xl hover:bg-emerald-50 transition-all text-sm"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-900 font-bold rounded-xl hover:bg-accent/10 transition-all text-sm"
             >
               Learn More
               <ExternalLink size={14} />
@@ -125,7 +125,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
                     {invoice.status === 'paid' ? (
                       <button
                         onClick={() => handleDownloadInvoice(invoice)}
-                        className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                        className="p-2 text-slate-400 hover:text-primary transition-colors"
                         title="Download Invoice"
                       >
                         <Download size={18} />
@@ -135,7 +135,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
                         href={invoice.stripeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-bold text-blue-600 hover:underline flex items-center justify-end gap-1"
+                        className="text-sm font-bold text-secondary hover:underline flex items-center justify-end gap-1"
                       >
                         Pay Now
                         <ExternalLink size={14} />

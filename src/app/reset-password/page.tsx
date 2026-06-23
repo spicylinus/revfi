@@ -64,7 +64,7 @@ function ResetPasswordForm() {
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md bg-surface p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
           <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 size={32} className="text-emerald-600" />
+            <CheckCircle2 size={32} className="text-accent" />
           </div>
           <h1 className="text-2xl font-bold text-primary mb-3">Password Updated</h1>
           <p className="text-text-secondary mb-6">

@@ -77,11 +77,11 @@ export default function PlaygroundPage() {
               <h3 className="text-xl font-bold mb-4">1. Generate</h3>
               <p className="text-slate-400 text-sm">Use AI tools to generate the raw React component based on client requirements.</p>
             </div>
-            <div className="p-8 bg-blue-600 rounded-3xl text-white">
+            <div className="p-8 bg-primary rounded-3xl text-white">
               <h3 className="text-xl font-bold mb-4">2. Tokenize</h3>
               <p className="text-blue-100 text-sm">Replace hardcoded hex codes with our standard CSS variable system.</p>
             </div>
-            <div className="p-8 bg-emerald-600 rounded-3xl text-white">
+            <div className="p-8 bg-accent rounded-3xl text-white">
               <h3 className="text-xl font-bold mb-4">3. Deploy</h3>
               <p className="text-emerald-100 text-sm">The component now automatically adapts to whichever style preset the client chooses.</p>
             </div>

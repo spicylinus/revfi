@@ -48,7 +48,7 @@ export default function ChecklistItem({ item, isChecked, onToggle, isTopPriority
         </p>
         
         <div className="flex items-center gap-4 text-xs font-semibold">
-          <div className="flex items-center gap-1 text-emerald-600">
+          <div className="flex items-center gap-1 text-accent">
             <DollarSign size={14} />
             <span>+${item.estimatedValue.toLocaleString()}/yr</span>
           </div>

@@ -122,7 +122,7 @@ export default function UpsellPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full bg-white text-slate-900 rounded-[40px] p-12 text-center shadow-2xl"
         >
-          <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8">
+          <div className="w-20 h-20 bg-emerald-100 text-accent rounded-full flex items-center justify-center mx-auto mb-8">
             <CheckCircle2 size={40} />
           </div>
           <h2 className="text-3xl font-black mb-4 uppercase italic">You're In!</h2>
@@ -133,7 +133,7 @@ export default function UpsellPage() {
           </p>
           <button 
             onClick={() => router.push('/delivery/')}
-            className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all"
+            className="w-full py-4 bg-primary text-white rounded-2xl font-bold hover:bg-primary/90 transition-all"
           >
             Go to Client Dashboard
           </button>
@@ -143,11 +143,11 @@ export default function UpsellPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-900 text-white selection:bg-emerald-500 selection:text-white">
+    <main className="min-h-screen bg-slate-900 text-white selection:bg-accent/100 selection:text-white">
       {/* Background Glow */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/20 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-12 md:py-24">
@@ -161,7 +161,7 @@ export default function UpsellPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 font-bold text-xs uppercase tracking-widest mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent/100/10 border border-emerald-500/20 rounded-full text-emerald-400 font-bold text-xs uppercase tracking-widest mb-6"
           >
             <Flame size={14} />
             Limited Time Offer
@@ -191,7 +191,7 @@ export default function UpsellPage() {
             transition={{ delay: 0.2 }}
             className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 p-8 rounded-3xl"
           >
-            <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 mb-6">
+            <div className="w-12 h-12 bg-secondary/100/10 rounded-2xl flex items-center justify-center text-blue-400 mb-6">
               <Zap size={24} />
             </div>
             <h3 className="text-2xl font-bold mb-6 uppercase tracking-tight">The Deliverables</h3>
@@ -227,9 +227,9 @@ export default function UpsellPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-emerald-500/5 backdrop-blur-sm border border-emerald-500/20 p-8 rounded-3xl"
+            className="bg-accent/100/5 backdrop-blur-sm border border-emerald-500/20 p-8 rounded-3xl"
           >
-            <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 mb-6">
+            <div className="w-12 h-12 bg-accent/100/10 rounded-2xl flex items-center justify-center text-emerald-400 mb-6">
               <ShieldCheck size={24} />
             </div>
             <h3 className="text-2xl font-bold mb-6 uppercase tracking-tight">The Ironclad Guarantee</h3>
@@ -256,7 +256,7 @@ export default function UpsellPage() {
                 </p>
               )}
             </div>
-            <div className="p-4 mt-8 bg-emerald-500/10 rounded-2xl flex items-center gap-4 border border-emerald-500/20">
+            <div className="p-4 mt-8 bg-accent/100/10 rounded-2xl flex items-center gap-4 border border-emerald-500/20">
               <Gift className="text-emerald-400" size={32} />
               <div className="text-sm">
                 <span className="block font-black text-emerald-400 uppercase tracking-widest">Bonus Gift</span>
@@ -287,7 +287,7 @@ export default function UpsellPage() {
             </span>
             <div className="text-left">
                <span className="block text-xl font-bold line-through text-slate-300">${(offer.total_value || offer.total_price * 1.5).toLocaleString()}</span>
-               <span className="block text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded tracking-tighter">SAVE 30%+ TODAY</span>
+               <span className="block text-xs font-black text-accent bg-accent/10 px-2 py-0.5 rounded tracking-tighter">SAVE 30%+ TODAY</span>
             </div>
           </div>
 
@@ -332,7 +332,7 @@ export default function UpsellPage() {
             <button 
               onClick={handleAccept}
               disabled={processing}
-              className="w-full py-6 bg-slate-900 text-white rounded-2xl text-xl font-black hover:bg-slate-800 transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50"
+              className="w-full py-6 bg-primary text-white rounded-2xl text-xl font-black hover:bg-primary/90 transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50"
             >
               {processing ? 'CREATING SECURE PORTAL...' : (
                 <>

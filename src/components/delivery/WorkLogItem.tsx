@@ -16,9 +16,9 @@ const CATEGORY_ICONS = {
 };
 
 const CATEGORY_COLORS = {
-  content: 'text-blue-600 bg-blue-50',
+  content: 'text-secondary bg-secondary/10',
   technical: 'text-slate-600 bg-slate-50',
-  local: 'text-emerald-600 bg-emerald-50',
+  local: 'text-accent bg-accent/10',
   aeo: 'text-purple-600 bg-purple-50',
 };
 

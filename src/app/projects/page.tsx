@@ -44,7 +44,7 @@ export default function ProjectsIndex() {
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
                   <Globe size={24} />
                 </div>
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-100">
+                <span className="px-3 py-1 bg-accent/10 text-accent text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-100">
                   {project.status}
                 </span>
               </div>
@@ -68,7 +68,7 @@ export default function ProjectsIndex() {
           ))}
         </div>
 
-        <div className="mt-12 p-8 bg-blue-600 rounded-[32px] text-white flex flex-col md:flex-row items-center gap-8 shadow-xl">
+        <div className="mt-12 p-8 bg-primary rounded-[32px] text-white flex flex-col md:flex-row items-center gap-8 shadow-xl">
            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
              <Smartphone size={32} />
            </div>

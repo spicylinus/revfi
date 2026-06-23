@@ -315,14 +315,14 @@ export default function Home() {
         <section className="max-w-5xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Search size={32} />
               </div>
               <h4 className="font-bold text-xl mb-3">Deep Analysis</h4>
               <p className="text-text-secondary">We crawl your site like Google does to find technical and conversion issues.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <TrendingUp size={32} />
               </div>
               <h4 className="font-bold text-xl mb-3">Revenue Gaps</h4>

@@ -18,7 +18,7 @@ export default function DeliveryMetricCard({ metric }: DeliveryMetricCardProps) 
       <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">{metric.label}</span>
       <div className="flex items-end justify-between">
         <span className="text-3xl font-bold text-slate-900">{metric.value}</span>
-        <div className={`flex items-center gap-1 text-sm font-bold ${metric.isPositive ? 'text-emerald-600' : 'text-danger'}`}>
+        <div className={`flex items-center gap-1 text-sm font-bold ${metric.isPositive ? 'text-accent' : 'text-danger'}`}>
           {metric.isPositive ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
           <span>{Math.abs(metric.change)}%</span>
         </div>
