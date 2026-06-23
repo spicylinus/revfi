@@ -10,16 +10,16 @@ const ACTIVE_PROJECTS = [
     name: 'Spruce Salon',
     url: '/projects/spruce-salon/',
     style: 'Editorial',
-    status: 'Live',
-    tier: 'Lead Gen ($1,900/mo)'
+    status: 'Prototype',
+    service: 'Local Salon'
   },
   {
     id: 'sd-plumbing',
     name: 'S & D Plumbing',
     url: '/projects/sd-plumbing/',
     style: 'Swiss',
-    status: 'Live',
-    tier: 'SEO ($1,500/mo)'
+    status: 'Prototype',
+    service: 'Local Service Business'
   }
 ];
 
@@ -29,8 +29,8 @@ export default function ProjectsIndex() {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-12">
           <div>
-            <h1 className="text-4xl font-bold text-slate-900 mb-2 tracking-tight">Active Client Sites</h1>
-            <p className="text-slate-500 font-medium text-lg text-slate-600">Production builds for our premium partners.</p>
+            <h1 className="text-4xl font-bold text-slate-900 mb-2 tracking-tight">Client Portfolios</h1>
+            <p className="text-slate-500 font-medium text-lg text-slate-600">Proof of concept designs built to close deals fast.</p>
           </div>
           <Link href="/" className="px-6 py-3 bg-white border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
             Back to Audit
@@ -44,7 +44,7 @@ export default function ProjectsIndex() {
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
                   <Globe size={24} />
                 </div>
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-100">
+                <span className="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-full border border-slate-200">
                   {project.status}
                 </span>
               </div>
@@ -55,13 +55,13 @@ export default function ProjectsIndex() {
                   {project.style} Style
                 </span>
                 <span>•</span>
-                <span className="text-secondary font-bold">{project.tier}</span>
+                <span className="text-secondary font-bold">{project.service}</span>
               </div>
               <Link 
                 href={project.url}
                 className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-all shadow-lg"
               >
-                View Live Site
+                View Prototype
                 <ExternalLink size={16} />
               </Link>
             </div>
@@ -73,8 +73,8 @@ export default function ProjectsIndex() {
              <Smartphone size={32} />
            </div>
            <div className="flex-1 text-center md:text-left">
-             <h4 className="text-xl font-bold mb-2 uppercase italic tracking-tight">Growth Engine Ready</h4>
-             <p className="text-blue-100 text-sm opacity-80">All production sites are mobile-optimized and integrated with our revenue tracking system.</p>
+             <h4 className="text-xl font-bold mb-2 uppercase italic tracking-tight">Mobile-Optimized</h4>
+             <p className="text-blue-100 text-sm opacity-80">Every prototype is built mobile-first and ready to hand off to your development team.</p>
            </div>
         </div>
       </div>
