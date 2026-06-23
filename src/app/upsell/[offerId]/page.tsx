@@ -137,7 +137,7 @@ export default function UpsellPage() {
           </p>
           <button 
             onClick={() => router.push('/delivery/')}
-            className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all"
+            className="w-full py-4 bg-primary text-white rounded-2xl font-bold hover:bg-primary/90 transition-all"
           >
             Go to Client Dashboard
           </button>
@@ -336,7 +336,7 @@ export default function UpsellPage() {
             <button 
               onClick={handleAccept}
               disabled={processing}
-              className="w-full py-6 bg-slate-900 text-white rounded-2xl text-xl font-black hover:bg-slate-800 transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50"
+              className="w-full py-6 bg-primary text-white rounded-2xl text-xl font-black hover:bg-primary/90 transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50"
             >
               {processing ? 'CREATING SECURE PORTAL...' : (
                 <>

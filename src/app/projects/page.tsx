@@ -68,7 +68,7 @@ export default function ProjectsIndex() {
           ))}
         </div>
 
-        <div className="mt-12 p-8 bg-blue-600 rounded-[32px] text-white flex flex-col md:flex-row items-center gap-8 shadow-xl">
+        <div className="mt-12 p-8 bg-primary rounded-[32px] text-white flex flex-col md:flex-row items-center gap-8 shadow-xl">
            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
              <Smartphone size={32} />
            </div>

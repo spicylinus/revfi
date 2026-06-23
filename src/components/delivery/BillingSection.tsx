@@ -125,7 +125,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
                     {invoice.status === 'paid' ? (
                       <button
                         onClick={() => handleDownloadInvoice(invoice)}
-                        className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                        className="p-2 text-slate-400 hover:text-primary transition-colors"
                         title="Download Invoice"
                       >
                         <Download size={18} />
