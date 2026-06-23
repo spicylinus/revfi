@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BarChart3, 
   CheckCircle2, 
@@ -38,7 +38,6 @@ export default function ClientDeliveryDashboard() {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const debugRef = useRef('');
 
   // Ensure we only render client-dependent content after mount to avoid hydration mismatch
   useEffect(() => { setMounted(true); }, []);
@@ -52,33 +51,24 @@ export default function ClientDeliveryDashboard() {
     const checkAuth = () => {
       try {
         const cookies = document.cookie.split(';');
-        debugRef.current += '\ncookies: ' + document.cookie;
         const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
-        debugRef.current += '\nauthCookie found: ' + (!!authCookie);
         if (authCookie) {
           const token = authCookie.split('=')[1];
-          debugRef.current += '\ntoken: ' + token.slice(0, 30) + '...';
           const parsed = JSON.parse(atob(decodeURIComponent(token)));
           const session = parsed.data ? JSON.parse(parsed.data) : parsed;
-          debugRef.current += '\nparsed session: ' + JSON.stringify(session);
 
           if (session.role === 'admin') {
-            debugRef.current += '\nresult: authorized (admin)';
             setIsAuthorized(true);
           } else if (session.role === 'client' && session.clientId === clientId) {
-            debugRef.current += '\nresult: authorized (client)';
             setIsAuthorized(true);
           } else {
-            debugRef.current += '\nresult: denied (role=' + session.role + ', clientId=' + session.clientId + ')';
             setIsAuthorized(false);
           }
         } else {
-          debugRef.current += '\nresult: denied (no cookie — redirecting to login)';
           setIsAuthorized(false);
           router.push(`/login?callbackUrl=/delivery/${clientId}`);
         }
-      } catch (e: any) {
-        debugRef.current += '\nresult: denied (error: ' + (e?.message || e) + ')';
+      } catch (e) {
         setIsAuthorized(false);
       } finally {
         setIsLoading(false);
@@ -105,7 +95,6 @@ export default function ClientDeliveryDashboard() {
         </div>
         <h1 className="text-3xl font-bold text-slate-900 mb-4">Access Denied</h1>
         <p className="text-slate-500 max-w-md mb-8">You do not have permission to view this client dashboard.</p>
-        <pre className="text-left text-xs bg-slate-900 text-green-400 p-4 rounded-xl max-w-xl w-full overflow-x-auto mb-8 font-mono">{debugRef.current || 'no debug output'}</pre>
         <Link href="/delivery" className="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all">
           Back to Portal
         </Link>
