@@ -118,9 +118,12 @@ export default function ClientDeliveryDashboard() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Next Report</span>
               <span className="text-sm font-bold text-slate-700">{data.nextReportDate}</span>
             </div>
-            <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600">
+            <Link 
+              href={`/delivery/${clientId}/profile`}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600"
+            >
               <Settings size={20} />
-            </button>
+            </Link>
           </div>
         </div>
       </header>
