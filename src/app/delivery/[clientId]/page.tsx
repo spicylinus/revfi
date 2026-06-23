@@ -15,7 +15,8 @@ import {
   Receipt,
   Search,
   Lock,
-  Loader2
+  Loader2,
+  LogOut
 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, notFound, useRouter } from 'next/navigation';
@@ -36,6 +37,11 @@ export default function ClientDeliveryDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'billing' | 'competitor'>('overview');
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/login');
+  };
 
   useEffect(() => {
     const checkAuth = () => {
@@ -118,8 +124,8 @@ export default function ClientDeliveryDashboard() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Next Report</span>
               <span className="text-sm font-bold text-slate-700">{data.nextReportDate}</span>
             </div>
-            <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600">
-              <Settings size={20} />
+            <button onClick={handleLogout} className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600" title="Logout">
+              <LogOut size={20} />
             </button>
           </div>
         </div>
