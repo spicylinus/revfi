@@ -315,7 +315,7 @@ export default function Home() {
         <section className="max-w-5xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Search size={32} />
               </div>
               <h4 className="font-bold text-xl mb-3">Deep Analysis</h4>
@@ -329,7 +329,7 @@ export default function Home() {
               <p className="text-text-secondary">We calculate exactly how much money you're losing from missed opportunities.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <ChevronRight size={32} />
               </div>
               <h4 className="font-bold text-xl mb-3">Action Plan</h4>

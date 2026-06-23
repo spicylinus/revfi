@@ -74,7 +74,7 @@ export default function ProjectsIndex() {
            </div>
            <div className="flex-1 text-center md:text-left">
              <h4 className="text-xl font-bold mb-2 uppercase italic tracking-tight">Mobile-Optimized</h4>
-             <p className="text-blue-100 text-sm opacity-80">Every prototype is built mobile-first and ready to hand off to your development team.</p>
+             <p className="text-white/80 text-sm opacity-80">Every prototype is built mobile-first and ready to hand off to your development team.</p>
            </div>
         </div>
       </div>
