@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       });
       const cookieStore = await cookies();
       cookieStore.set('auth-session', sessionToken, {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: 60 * 60 * 24,
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       });
       const cookieStore = await cookies();
       cookieStore.set('auth-session', sessionToken, {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: 60 * 60 * 24,
