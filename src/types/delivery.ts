@@ -40,6 +40,18 @@ export interface StrategyPlan {
   nextReviewDate: string;
 }
 
+export interface ClientProfile {
+  businessName: string;
+  ownerName: string;
+  email: string;
+  phone: string;
+  websiteUrl: string;
+  industry: 'Home Services' | 'Health & Wellness' | 'Food & Beverage' | 'Retail' | 'Professional Services' | 'Other';
+  address: string;
+  bio: string;
+  logoUrl?: string;
+}
+
 export interface DeliveryData {
   clientName: string;
   websiteUrl: string;
@@ -49,6 +61,7 @@ export interface DeliveryData {
   activeWorkstreams: string[];
   metrics: MetricTrend[];
   recentWork: WorkLogEntry[];
+  profile?: ClientProfile;
   competitorAudits?: any[];
   billing?: {
     monthlyRate: number;

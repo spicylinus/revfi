@@ -133,6 +133,13 @@ export default function ClientDeliveryDashboard() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Next Report</span>
               <span className="text-sm font-bold text-slate-700">{data.nextReportDate}</span>
             </div>
+            <Link
+              href={`/delivery/${clientId}/profile`}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600"
+              title="Settings"
+            >
+              <Settings size={20} />
+            </Link>
             <button onClick={handleLogout} className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600" title="Logout">
               <LogOut size={20} />
             </button>

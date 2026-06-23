@@ -115,7 +115,17 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
         description: 'Reduced LCP from 2.4s to 1.1s via image compression and script deferral.',
         category: 'technical'
       }
-    ]
+    ],
+    profile: {
+      businessName: 'S & D Plumbing',
+      ownerName: 'Sam Draper',
+      email: 'sam@sdplumbing.com',
+      phone: '512-555-0123',
+      websiteUrl: 'https://sdplumbing.com',
+      industry: 'Home Services',
+      address: '123 Pipe Lane, Austin, TX 78701',
+      bio: 'Family owned and operated plumbing experts serving the Austin area for over 20 years.'
+    }
   },
   'spruce-salon': {
     clientName: 'Spruce Salon',
@@ -186,6 +196,16 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
         description: 'Fixed core layout shifts and image sizing issues to reach 90+ lighthouse score.',
         category: 'technical'
       }
-    ]
+    ],
+    profile: {
+      businessName: 'Spruce Salon',
+      ownerName: 'Elena Spruce',
+      email: 'elena@sprucesalon.com',
+      phone: '512-555-0987',
+      websiteUrl: 'https://www.sprucesalonaustin.com/',
+      industry: 'Health & Wellness',
+      address: '456 Style Blvd, Austin, TX 78704',
+      bio: 'Eco-friendly boutique salon specializing in modern cuts and organic coloring.'
+    }
   }
 };
