@@ -24,9 +24,11 @@ export default function ClientSelectorPage() {
         const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
         if (authCookie) {
           const token = authCookie.split('=')[1];
-          const session = JSON.parse(atob(decodeURIComponent(token)));
+          const parsed = JSON.parse(atob(decodeURIComponent(token)));
+          // Token format: { data: "stringified_inner_json", sig: "..." }
+          const session = parsed.data ? JSON.parse(parsed.data) : parsed;
           setUser(session);
-          
+
           // If client, redirect to their specific page
           if (session.role === 'client' && session.clientId) {
             router.replace(`/delivery/${session.clientId}/`);

@@ -50,8 +50,10 @@ export default function ClientDeliveryDashboard() {
         const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
         if (authCookie) {
           const token = authCookie.split('=')[1];
-          const session = JSON.parse(atob(decodeURIComponent(token)));
-          
+          const parsed = JSON.parse(atob(decodeURIComponent(token)));
+          // Token format: { data: "stringified_inner_json", sig: "..." }
+          const session = parsed.data ? JSON.parse(parsed.data) : parsed;
+
           if (session.role === 'admin') {
             setIsAuthorized(true);
           } else if (session.role === 'client' && session.clientId === clientId) {
