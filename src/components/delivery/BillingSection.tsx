@@ -8,9 +8,10 @@ interface BillingSectionProps {
   monthlyRate: number;
   nextBillingDate: string;
   invoices: Invoice[];
+  stripeCustomerPortalUrl?: string;
 }
 
-const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillingDate, invoices }) => {
+const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillingDate, invoices, stripeCustomerPortalUrl }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'paid': return 'text-emerald-600 bg-emerald-50 border-emerald-100';
@@ -26,6 +27,12 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
       case 'overdue': return <AlertCircle size={14} />;
       case 'pending': return <Clock size={14} />;
       default: return null;
+    }
+  };
+
+  const handleDownloadInvoice = (invoice: Invoice) => {
+    if (invoice.stripeUrl) {
+      window.open(invoice.stripeUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -50,9 +57,14 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
               <span className="text-slate-900 font-bold">{nextBillingDate}</span>
             </div>
           </div>
-          <button className="w-full mt-8 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all text-sm">
+          <a
+            href={stripeCustomerPortalUrl || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full mt-8 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all text-sm text-center"
+          >
             Manage Payment Method
-          </button>
+          </a>
         </div>
 
         <div className="bg-emerald-900 rounded-3xl p-8 text-white shadow-lg relative overflow-hidden">
@@ -62,10 +74,15 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
             <p className="text-emerald-100/80 text-sm mb-6 max-w-[200px]">
               Use Stripe to split your website investment into smaller, manageable payments.
             </p>
-            <button className="px-6 py-3 bg-white text-emerald-900 font-bold rounded-xl hover:bg-emerald-50 transition-all text-sm flex items-center gap-2">
+            <a
+              href="https://stripe.com/payments"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-900 font-bold rounded-xl hover:bg-emerald-50 transition-all text-sm"
+            >
               Learn More
               <ExternalLink size={14} />
-            </button>
+            </a>
           </div>
           <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-white/10 rounded-full blur-3xl" />
         </div>
@@ -106,7 +123,11 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
                   </td>
                   <td className="px-8 py-5 text-right">
                     {invoice.status === 'paid' ? (
-                      <button className="p-2 text-slate-400 hover:text-blue-600 transition-colors">
+                      <button
+                        onClick={() => handleDownloadInvoice(invoice)}
+                        className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                        title="Download Invoice"
+                      >
                         <Download size={18} />
                       </button>
                     ) : (
@@ -116,7 +137,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ monthlyRate, nextBillin
                         rel="noopener noreferrer"
                         className="text-sm font-bold text-blue-600 hover:underline flex items-center justify-end gap-1"
                       >
-
+                        Pay Now
                         <ExternalLink size={14} />
                       </a>
                     )}
