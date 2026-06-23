@@ -37,7 +37,11 @@ export default function ClientDeliveryDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'billing' | 'competitor'>('overview');
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const debugRef = useRef('');
+
+  // Ensure we only render client-dependent content after mount to avoid hydration mismatch
+  useEffect(() => { setMounted(true); }, []);
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -84,7 +88,8 @@ export default function ClientDeliveryDashboard() {
     checkAuth();
   }, [clientId, router]);
 
-  if (isLoading) {
+  // Always render loading during SSR and first render to avoid hydration mismatch
+  if (!mounted || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <Loader2 className="animate-spin text-primary" size={48} />
