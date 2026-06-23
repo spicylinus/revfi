@@ -6,9 +6,9 @@ import { existsSync } from 'fs';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { clientId: string } }
+  { params }: { params: Promise<{ clientId: string }> }
 ) {
-  const clientId = params.clientId;
+  const { clientId } = await params;
 
   if (!CLIENT_DELIVERIES[clientId]) {
     return NextResponse.json({ error: 'Client not found' }, { status: 404 });

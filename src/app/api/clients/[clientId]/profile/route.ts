@@ -3,9 +3,9 @@ import { CLIENT_DELIVERIES } from '@/lib/mock-deliveries';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { clientId: string } }
+  { params }: { params: Promise<{ clientId: string }> }
 ) {
-  const clientId = params.clientId;
+  const { clientId } = await params;
   const data = await req.json();
 
   if (!CLIENT_DELIVERIES[clientId]) {
