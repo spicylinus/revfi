@@ -16,7 +16,8 @@ import {
   Search,
   Lock,
   Loader2,
-  LogOut
+  LogOut,
+  ExternalLink
 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, notFound, useRouter } from 'next/navigation';
@@ -27,6 +28,7 @@ import WorkLogItem from '@/components/delivery/WorkLogItem';
 import ReportPreview from '@/components/delivery/ReportPreview';
 import BillingSection from '@/components/delivery/BillingSection';
 import CompetitorSection from '@/components/delivery/CompetitorSection';
+import StrategyPlanModal from '@/components/delivery/StrategyPlanModal';
 import { CLIENT_DELIVERIES } from '@/lib/mock-deliveries';
 
 export default function ClientDeliveryDashboard() {
@@ -38,6 +40,7 @@ export default function ClientDeliveryDashboard() {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [showStrategyPlan, setShowStrategyPlan] = useState(false);
 
   // Ensure we only render client-dependent content after mount to avoid hydration mismatch
   useEffect(() => { setMounted(true); }, []);
@@ -220,7 +223,10 @@ export default function ClientDeliveryDashboard() {
                     <h4 className="text-xl font-bold text-emerald-900 mb-2">Growth Engine is Active</h4>
                     <p className="text-emerald-700/80">We are currently executing the {data.tier} workstream. Check the sidebar for active focus areas.</p>
                   </div>
-                  <button className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl whitespace-nowrap hover:bg-emerald-700 transition-all">
+                  <button 
+                    onClick={() => setShowStrategyPlan(true)}
+                    className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl whitespace-nowrap hover:bg-emerald-700 transition-all"
+                  >
                     View Strategy Plan
                   </button>
                 </section>
@@ -261,10 +267,15 @@ export default function ClientDeliveryDashboard() {
                   <Mail className="mb-4 opacity-50" size={32} />
                   <h4 className="text-xl font-bold mb-2">Need to discuss?</h4>
                   <p className="text-blue-100 text-sm mb-6">Your dedicated account manager is available for a strategy sync at any time.</p>
-                  <button className="w-full py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all flex items-center justify-center gap-2">
+                  <a
+                    href={data.calendlyUrl || 'https://calendly.com/social-linus/siteauditor-follow-up-meeting'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all flex items-center justify-center gap-2"
+                  >
                     <span>Book Strategy Call</span>
                     <ChevronRight size={18} />
-                  </button>
+                  </a>
                 </section>
               </div>
             </div>
@@ -282,6 +293,7 @@ export default function ClientDeliveryDashboard() {
                 monthlyRate={data.billing.monthlyRate}
                 nextBillingDate={data.billing.nextBillingDate}
                 invoices={data.billing.invoices}
+                stripeCustomerPortalUrl={data.billing.stripeCustomerPortalUrl}
               />
             ) : (
               <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center shadow-sm">
@@ -303,6 +315,15 @@ export default function ClientDeliveryDashboard() {
           </motion.div>
         )}
       </div>
+
+      {/* Strategy Plan Modal */}
+      {showStrategyPlan && data.strategyPlan && (
+        <StrategyPlanModal
+          plan={data.strategyPlan}
+          clientName={data.clientName}
+          onClose={() => setShowStrategyPlan(false)}
+        />
+      )}
     </main>
   );
 }
