@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   BarChart3, 
   CheckCircle2, 
@@ -37,7 +37,7 @@ export default function ClientDeliveryDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'billing' | 'competitor'>('overview');
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [debug, setDebug] = useState<string>('');
+  const debugRef = useRef('');
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -48,33 +48,33 @@ export default function ClientDeliveryDashboard() {
     const checkAuth = () => {
       try {
         const cookies = document.cookie.split(';');
-        setDebug(d => d + '\ncookies: ' + document.cookie);
+        debugRef.current += '\ncookies: ' + document.cookie;
         const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
-        setDebug(d => d + '\nauthCookie found: ' + (!!authCookie));
+        debugRef.current += '\nauthCookie found: ' + (!!authCookie);
         if (authCookie) {
           const token = authCookie.split('=')[1];
-          setDebug(d => d + '\ntoken: ' + token.slice(0, 20) + '...');
+          debugRef.current += '\ntoken: ' + token.slice(0, 30) + '...';
           const parsed = JSON.parse(atob(decodeURIComponent(token)));
           const session = parsed.data ? JSON.parse(parsed.data) : parsed;
-          setDebug(d => d + '\nparsed session: ' + JSON.stringify(session));
+          debugRef.current += '\nparsed session: ' + JSON.stringify(session);
 
           if (session.role === 'admin') {
-            setDebug(d => d + '\nresult: authorized (admin)');
+            debugRef.current += '\nresult: authorized (admin)';
             setIsAuthorized(true);
           } else if (session.role === 'client' && session.clientId === clientId) {
-            setDebug(d => d + '\nresult: authorized (client)');
+            debugRef.current += '\nresult: authorized (client)';
             setIsAuthorized(true);
           } else {
-            setDebug(d => d + '\nresult: denied (role mismatch)');
+            debugRef.current += '\nresult: denied (role=' + session.role + ', clientId=' + session.clientId + ')';
             setIsAuthorized(false);
           }
         } else {
-          setDebug(d => d + '\nresult: denied (no cookie)');
+          debugRef.current += '\nresult: denied (no cookie — redirecting to login)';
           setIsAuthorized(false);
           router.push(`/login?callbackUrl=/delivery/${clientId}`);
         }
       } catch (e: any) {
-        setDebug(d => d + '\nresult: denied (error: ' + e?.message + ')');
+        debugRef.current += '\nresult: denied (error: ' + (e?.message || e) + ')';
         setIsAuthorized(false);
       } finally {
         setIsLoading(false);
@@ -100,7 +100,7 @@ export default function ClientDeliveryDashboard() {
         </div>
         <h1 className="text-3xl font-bold text-slate-900 mb-4">Access Denied</h1>
         <p className="text-slate-500 max-w-md mb-8">You do not have permission to view this client dashboard.</p>
-        <pre className="text-left text-xs bg-slate-900 text-green-400 p-4 rounded-xl max-w-xl w-full overflow-x-auto mb-8 font-mono">{debug || 'loading...'}</pre>
+        <pre className="text-left text-xs bg-slate-900 text-green-400 p-4 rounded-xl max-w-xl w-full overflow-x-auto mb-8 font-mono">{debugRef.current || 'no debug output'}</pre>
         <Link href="/delivery" className="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all">
           Back to Portal
         </Link>
