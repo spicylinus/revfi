@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Users, ChevronRight, Globe, ArrowLeft, Loader2 } from 'lucide-react';
+import { Users, ChevronRight, Globe, ArrowLeft, Loader2, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CLIENT_DELIVERIES } from '@/lib/mock-deliveries';
@@ -11,6 +11,11 @@ export default function ClientSelectorPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
 
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/login');
+  };
+
   useEffect(() => {
     // In a real app, this would be a call to getSession() or similar
     const getAuth = () => {
@@ -19,9 +24,11 @@ export default function ClientSelectorPage() {
         const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
         if (authCookie) {
           const token = authCookie.split('=')[1];
-          const session = JSON.parse(atob(decodeURIComponent(token)));
+          const parsed = JSON.parse(atob(decodeURIComponent(token)));
+          // Token format: { data: "stringified_inner_json", sig: "..." }
+          const session = parsed.data ? JSON.parse(parsed.data) : parsed;
           setUser(session);
-          
+
           // If client, redirect to their specific page
           if (session.role === 'client' && session.clientId) {
             router.replace(`/delivery/${session.clientId}/`);
@@ -89,11 +96,15 @@ export default function ClientSelectorPage() {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-12 text-center flex items-center justify-center gap-8">
            <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-primary font-bold text-sm transition-colors">
              <ArrowLeft size={16} />
              <span>Back to Auditor</span>
            </Link>
+           <button onClick={handleLogout} className="inline-flex items-center gap-2 text-slate-400 hover:text-danger font-bold text-sm transition-colors">
+             <LogOut size={16} />
+             <span>Logout</span>
+           </button>
         </div>
       </div>
     </main>

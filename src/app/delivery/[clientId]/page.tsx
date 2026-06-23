@@ -15,7 +15,9 @@ import {
   Receipt,
   Search,
   Lock,
-  Loader2
+  Loader2,
+  LogOut,
+  ExternalLink
 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, notFound, useRouter } from 'next/navigation';
@@ -26,6 +28,7 @@ import WorkLogItem from '@/components/delivery/WorkLogItem';
 import ReportPreview from '@/components/delivery/ReportPreview';
 import BillingSection from '@/components/delivery/BillingSection';
 import CompetitorSection from '@/components/delivery/CompetitorSection';
+import StrategyPlanModal from '@/components/delivery/StrategyPlanModal';
 import { CLIENT_DELIVERIES } from '@/lib/mock-deliveries';
 
 export default function ClientDeliveryDashboard() {
@@ -36,6 +39,16 @@ export default function ClientDeliveryDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'billing' | 'competitor'>('overview');
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [showStrategyPlan, setShowStrategyPlan] = useState(false);
+
+  // Ensure we only render client-dependent content after mount to avoid hydration mismatch
+  useEffect(() => { setMounted(true); }, []);
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/login');
+  };
 
   useEffect(() => {
     const checkAuth = () => {
@@ -44,8 +57,9 @@ export default function ClientDeliveryDashboard() {
         const authCookie = cookies.find(c => c.trim().startsWith('auth-session='));
         if (authCookie) {
           const token = authCookie.split('=')[1];
-          const session = JSON.parse(atob(decodeURIComponent(token)));
-          
+          const parsed = JSON.parse(atob(decodeURIComponent(token)));
+          const session = parsed.data ? JSON.parse(parsed.data) : parsed;
+
           if (session.role === 'admin') {
             setIsAuthorized(true);
           } else if (session.role === 'client' && session.clientId === clientId) {
@@ -67,7 +81,8 @@ export default function ClientDeliveryDashboard() {
     checkAuth();
   }, [clientId, router]);
 
-  if (isLoading) {
+  // Always render loading during SSR and first render to avoid hydration mismatch
+  if (!mounted || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <Loader2 className="animate-spin text-primary" size={48} />
@@ -82,7 +97,7 @@ export default function ClientDeliveryDashboard() {
           <Lock size={40} />
         </div>
         <h1 className="text-3xl font-bold text-slate-900 mb-4">Access Denied</h1>
-        <p className="text-slate-500 max-w-md mb-8">You do not have permission to view this client's dashboard. If you believe this is an error, please contact support.</p>
+        <p className="text-slate-500 max-w-md mb-8">You do not have permission to view this client dashboard.</p>
         <Link href="/delivery" className="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all">
           Back to Portal
         </Link>
@@ -118,12 +133,16 @@ export default function ClientDeliveryDashboard() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Next Report</span>
               <span className="text-sm font-bold text-slate-700">{data.nextReportDate}</span>
             </div>
-            <Link 
+            <Link
               href={`/delivery/${clientId}/profile`}
               className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600"
+              title="Settings"
             >
               <Settings size={20} />
             </Link>
+            <button onClick={handleLogout} className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600" title="Logout">
+              <LogOut size={20} />
+            </button>
           </div>
         </div>
       </header>
@@ -211,7 +230,10 @@ export default function ClientDeliveryDashboard() {
                     <h4 className="text-xl font-bold text-emerald-900 mb-2">Growth Engine is Active</h4>
                     <p className="text-emerald-700/80">We are currently executing the {data.tier} workstream. Check the sidebar for active focus areas.</p>
                   </div>
-                  <button className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl whitespace-nowrap hover:bg-emerald-700 transition-all">
+                  <button 
+                    onClick={() => setShowStrategyPlan(true)}
+                    className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl whitespace-nowrap hover:bg-emerald-700 transition-all"
+                  >
                     View Strategy Plan
                   </button>
                 </section>
@@ -252,10 +274,15 @@ export default function ClientDeliveryDashboard() {
                   <Mail className="mb-4 opacity-50" size={32} />
                   <h4 className="text-xl font-bold mb-2">Need to discuss?</h4>
                   <p className="text-blue-100 text-sm mb-6">Your dedicated account manager is available for a strategy sync at any time.</p>
-                  <button className="w-full py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all flex items-center justify-center gap-2">
+                  <a
+                    href={data.calendlyUrl || 'https://calendly.com/social-linus/siteauditor-follow-up-meeting'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all flex items-center justify-center gap-2"
+                  >
                     <span>Book Strategy Call</span>
                     <ChevronRight size={18} />
-                  </button>
+                  </a>
                 </section>
               </div>
             </div>
@@ -273,6 +300,7 @@ export default function ClientDeliveryDashboard() {
                 monthlyRate={data.billing.monthlyRate}
                 nextBillingDate={data.billing.nextBillingDate}
                 invoices={data.billing.invoices}
+                stripeCustomerPortalUrl={data.billing.stripeCustomerPortalUrl}
               />
             ) : (
               <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center shadow-sm">
@@ -294,6 +322,15 @@ export default function ClientDeliveryDashboard() {
           </motion.div>
         )}
       </div>
+
+      {/* Strategy Plan Modal */}
+      {showStrategyPlan && data.strategyPlan && (
+        <StrategyPlanModal
+          plan={data.strategyPlan}
+          clientName={data.clientName}
+          onClose={() => setShowStrategyPlan(false)}
+        />
+      )}
     </main>
   );
 }

@@ -7,6 +7,7 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
     tier: 'SEO',
     startDate: 'May 1, 2026',
     nextReportDate: 'June 1, 2026',
+    calendlyUrl: 'https://calendly.com/social-linus/siteauditor-follow-up-meeting',
     activeWorkstreams: [
       'Technical SEO Implementation',
       'Google Business Profile Posting',
@@ -23,6 +24,7 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
     billing: {
       monthlyRate: 1500,
       nextBillingDate: 'June 1, 2026',
+      stripeCustomerPortalUrl: 'https://billing.stripe.com/p/login/test_123',
       invoices: [
         {
           id: 'INV-001',
@@ -41,6 +43,17 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
           stripeUrl: 'https://stripe.com/i/inv-002'
         }
       ]
+    },
+    strategyPlan: {
+      goal: 'Rank #1 on Google for "Austin emergency plumber" and "Austin drain cleaning" within 90 days.',
+      primaryKeywords: ['Austin emergency plumber', 'Austin drain cleaning', 'Austin plumber near me', '24 hour plumber Austin'],
+      milestones: [
+        { week: 'Weeks 1-2', title: 'Technical SEO Foundation', description: 'Fix crawl errors, optimize site speed, submit XML sitemap.', status: 'completed' },
+        { week: 'Weeks 3-4', title: 'Local SEO Push', description: 'GBP optimization, local citation building, review acquisition strategy.', status: 'in-progress' },
+        { week: 'Weeks 5-8', title: 'Content Engine', description: 'Publish 8 service area pages, 2 blog posts targeting emergency plumbing keywords.', status: 'upcoming' },
+        { week: 'Weeks 9-12', title: 'Authority Building', description: 'Backlink outreach to local Austin directories, home services publications, and partnerships.', status: 'upcoming' },
+      ],
+      nextReviewDate: 'June 1, 2026'
     },
     competitorAudits: [
       {
@@ -120,6 +133,7 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
     tier: 'LeadGen',
     startDate: 'May 10, 2026',
     nextReportDate: 'June 10, 2026',
+    calendlyUrl: 'https://calendly.com/social-linus/siteauditor-follow-up-meeting',
     activeWorkstreams: [
       'Ski Slope Content Strategy',
       'Visual Brand Integration',
@@ -136,6 +150,7 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
     billing: {
       monthlyRate: 1900,
       nextBillingDate: 'June 10, 2026',
+      stripeCustomerPortalUrl: 'https://billing.stripe.com/p/login/test_456',
       invoices: [
         {
           id: 'INV-003',
@@ -154,6 +169,17 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
           stripeUrl: 'https://stripe.com/i/inv-004'
         }
       ]
+    },
+    strategyPlan: {
+      goal: 'Increase qualified leads by 200% in 90 days through local SEO dominance and conversion-optimized service pages.',
+      primaryKeywords: ['Austin hair salon', 'balayage Austin', 'best salon South Congress Austin', 'Austin salon near me'],
+      milestones: [
+        { week: 'Weeks 1-2', title: 'Site Speed & Mobile Audit', description: 'Fix all Core Web Vitals issues, ensure 90+ mobile score across all pages.', status: 'completed' },
+        { week: 'Weeks 3-4', title: 'Service Page Overhaul', description: 'Rewrite all service pages with keyword-rich copy, booking CTAs, and gallery integration.', status: 'in-progress' },
+        { week: 'Weeks 5-8', title: 'Content Flywheel', description: 'Launch Ski Slope content strategy: publish 4 blog posts targeting high-intent beauty keywords.', status: 'upcoming' },
+        { week: 'Weeks 9-12', title: 'Local Map Dominance', description: 'GBP optimization, local guide features, and partnership outreach to wedding and event venues.', status: 'upcoming' },
+      ],
+      nextReviewDate: 'June 10, 2026'
     },
     recentWork: [
       {
