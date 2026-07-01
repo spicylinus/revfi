@@ -113,7 +113,7 @@ export default function ClaireReport({ data }: ClaireReportProps) {
                   title="Book a discovery call"
                   className="w-full border-0"
                   style={{ height: '100%' }}
-                  scrolling="no"
+                  scrolling="yes"
                   allow="payment"
                 />
               </div>
