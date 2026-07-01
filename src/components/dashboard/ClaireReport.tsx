@@ -1,13 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AuditData } from '@/types/audit';
-import { motion } from 'framer-motion';
-import { AlertCircle, MessageSquare, CheckCircle2, User } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, X, Calendar } from 'lucide-react';
 
 interface ClaireReportProps {
   data: AuditData;
 }
 
-const ClaireReport: React.FC<ClaireReportProps> = ({ data }) => {
+const CALENDLY_URL = 'https://calendly.com/social-linus/siteaudit-15-minute-discovery-call';
+
+export default function ClaireReport({ data }: ClaireReportProps) {
+  const [showCalendar, setShowCalendar] = useState(false);
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  // Load Calendly widget script when calendar is shown
+  useEffect(() => {
+    if (!showCalendar) return;
+
+    const initWidget = () => {
+      if (typeof window !== 'undefined' && (window as any).Calendly && calendarRef.current) {
+        (window as any).Calendly.initInlineWidget({
+          url: CALENDLY_URL,
+          parentElement: calendarRef.current,
+          prefill: {},
+          utm: {},
+        });
+      }
+    };
+
+    const scriptId = 'calendly-script';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.onload = initWidget;
+      document.head.appendChild(script);
+    } else {
+      initWidget();
+    }
+  }, [showCalendar]);
+
   return (
     <div className="bg-surface rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm max-w-4xl mx-auto my-12">
       {/* Branding */}
@@ -27,7 +60,7 @@ const ClaireReport: React.FC<ClaireReportProps> = ({ data }) => {
       </div>
 
       {/* One-line summary */}
-      <motion.h2 
+      <motion.h2
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl md:text-4xl font-bold text-text-primary mb-8 leading-tight"
@@ -79,14 +112,41 @@ const ClaireReport: React.FC<ClaireReportProps> = ({ data }) => {
       {/* Soft CTA */}
       <div className="text-center">
         <button
-          onClick={() => window.open('https://calendly.com/social-linus/siteaudit-15-minute-discovery-call', '_blank')}
-          className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-95 text-lg shadow-xl shadow-primary/20"
+          onClick={() => setShowCalendar(!showCalendar)}
+          className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-95 text-lg shadow-xl shadow-primary/20 flex items-center justify-center gap-3 mx-auto"
         >
+          <Calendar size={20} />
           {data.softCTA || "Want me to walk you through this?"}
         </button>
+
+        {/* Inline Calendly widget */}
+        <AnimatePresence>
+          {showCalendar && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-6 overflow-hidden"
+            >
+              <div className="relative">
+                <button
+                  onClick={() => setShowCalendar(false)}
+                  className="absolute top-3 right-3 z-10 p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-text-secondary transition-colors"
+                  aria-label="Close calendar"
+                >
+                  <X size={16} />
+                </button>
+                <div
+                  ref={calendarRef}
+                  className="w-full min-h-[700px] rounded-2xl overflow-hidden"
+                  style={{ background: '#FFFFFF' }}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
-};
-
-export default ClaireReport;
+}
