@@ -78,7 +78,10 @@ const ClaireReport: React.FC<ClaireReportProps> = ({ data }) => {
 
       {/* Soft CTA */}
       <div className="text-center">
-        <button className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-95 text-lg shadow-xl shadow-primary/20">
+        <button
+          onClick={() => window.open('https://calendly.com/sociallinus/strategy', '_blank')}
+          className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-95 text-lg shadow-xl shadow-primary/20"
+        >
           {data.softCTA || "Want me to walk you through this?"}
         </button>
       </div>
