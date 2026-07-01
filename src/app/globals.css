@@ -1,27 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 @import "tailwindcss";
-@import "../styles/design-styles.css";
 
+/* ── SOCIAL LINUS BRAND TOKENS ── */
 @theme {
-  --color-primary: #1E3A5F;
-  --color-secondary: #3B82F6;
-  --color-accent: #10B981;
-  --color-warning: #F59E0B;
-  --color-danger: #EF4444;
-  --color-background: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-text-primary: #1E293B;
-  --color-text-secondary: #64748B;
+  /* Brand palette */
+  --color-void:     #0D0F12;
+  --color-cobalt:   #1547E8;
+  --color-ember:    #FF4D1C;
+  --color-white:    #FFFFFF;
+  --color-frost:    #EBF2FF;
+  --color-slate:    #4A5568;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Semantic tokens — map to brand palette */
+  --color-primary:   var(--color-cobalt);   /* bright blue */
+  --color-secondary: var(--color-void);      /* near-black */
+  --color-accent:    var(--color-ember);    /* orange-red for highlights */
+  --color-warning:   var(--color-ember);
+  --color-danger:    #E05252;
+
+  /* Surfaces */
+  --color-background: var(--color-white);
+  --color-surface:     var(--color-white);
+  --color-surface-muted: var(--color-frost);
+
+  /* Text */
+  --color-text-primary:   var(--color-void);
+  --color-text-secondary: var(--color-slate);
+
+  /* Fonts — must also be in @theme for Tailwind to generate font-* utilities */
+  --font-sans:    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    var(--font-space-mono), ui-monospace, monospace;
+
+  /* Border radius */
+  --radius-sm:   4px;
+  --radius:      8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  24px;
+  --radius-3xl:  40px;
+
+  /* Shadows */
+  --shadow-sm:   0 1px 3px rgba(13,15,18,0.08);
+  --shadow-base: 0 4px 16px rgba(13,15,18,0.10);
+  --shadow-lg:   0 16px 48px rgba(13,15,18,0.14);
 }
 
 :root {
-  --background: #F8FAFC;
-  --foreground: #1E293B;
+  --background: var(--color-white);
+  --foreground: var(--color-void);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use Space Grotesk */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Mono uses Space Mono */
+code, pre, kbd, samp {
+  font-family: 'Space Mono', ui-monospace, monospace;
 }

@@ -76,11 +76,11 @@ export default function LeadCaptureForm({
             <Mail size={24} className="text-white" />
           </div>
           <h3 className="text-2xl md:text-3xl font-bold mb-4">Get the full report</h3>
-          <p className="text-primary-foreground/80 text-lg mb-0 leading-relaxed">
+          <p className="text-white/80 text-lg mb-0 leading-relaxed">
             I've identified a <span className="text-white font-bold">{displayLeak}</span> for <span className="text-white font-bold">{businessName}</span>.
           </p>
-          <p className="text-primary-foreground/80 text-lg mt-2">
-            Estimated impact: <span className="text-accent font-bold">{displayImpact}</span>
+          <p className="text-white/80 text-lg mt-2">
+            Estimated impact: <span className="text-ember font-bold">{displayImpact}</span>
           </p>
           <div className="mt-8 space-y-4">
             <div className="flex items-center gap-3">
