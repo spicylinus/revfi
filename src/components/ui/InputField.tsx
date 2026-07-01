@@ -61,7 +61,7 @@ export default function InputField({ onAudit, isLoading }: InputFieldProps) {
                 <span>Auditing...</span>
               </>
             ) : (
-              "Calculate My Score"
+              "Scan my site"
             )}
           </button>
         </div>
