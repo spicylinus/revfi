@@ -100,7 +100,7 @@ export default function ClaireReport({ data }: ClaireReportProps) {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
               className="mt-6 overflow-hidden rounded-2xl"
             >
-              <div className="relative bg-white rounded-2xl overflow-hidden" style={{ height: 730 }}>
+              <div className="relative bg-white rounded-2xl overflow-y-auto" style={{ height: 730 }}>
                 <button
                   onClick={() => setShowCalendar(false)}
                   className="absolute top-3 right-3 z-10 p-2 bg-white hover:bg-slate-100 rounded-full text-void shadow-md transition-colors"
