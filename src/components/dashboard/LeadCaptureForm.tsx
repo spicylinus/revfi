@@ -7,13 +7,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface LeadCaptureFormProps {
   businessName: string;
   auditUrl: string;
-  auditGrade: string;
-  leakEstimate: number;
+  primaryLeak?: string;
+  primaryLeakTitle?: string;
+  leadImpact?: string;
+  onSuccess?: () => void;
+  // Deprecated props kept for compatibility during transition
+  auditGrade?: string;
+  leakEstimate?: number;
 }
 
 export default function LeadCaptureForm({ 
   businessName, 
   auditUrl, 
+  primaryLeak,
+  primaryLeakTitle,
+  leadImpact,
+  onSuccess,
   auditGrade,
   leakEstimate 
 }: LeadCaptureFormProps) {
@@ -37,13 +46,14 @@ export default function LeadCaptureForm({
           phone, 
           businessName, 
           url: auditUrl, 
-          grade: auditGrade,
-          leakEstimate
+          primaryLeak: primaryLeak || auditGrade || 'Audit',
+          leadImpact: leadImpact || (leakEstimate ? `$${leakEstimate.toLocaleString()}/mo` : 'Significant leakage')
         }),
       });
 
       if (response.ok) {
         setIsSubmitted(true);
+        if (onSuccess) onSuccess();
       } else {
         const data = await response.json();
         setError(data.error || 'Failed to submit. Please try again.');
@@ -55,6 +65,9 @@ export default function LeadCaptureForm({
     }
   };
 
+  const displayLeak = primaryLeakTitle || primaryLeak || "major revenue leak";
+  const displayImpact = leadImpact || (leakEstimate ? `$${leakEstimate.toLocaleString()}/mo` : "lost customers");
+
   return (
     <section className="my-16 bg-white rounded-3xl border-2 border-primary/10 shadow-xl overflow-hidden">
       <div className="grid grid-cols-1 md:grid-cols-2">
@@ -62,22 +75,25 @@ export default function LeadCaptureForm({
           <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-6">
             <Mail size={24} className="text-white" />
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">Get your full Revenue Leak Report</h3>
-          <p className="text-primary-foreground/80 text-lg mb-0">
-            We've identified <span className="text-white font-bold">${leakEstimate.toLocaleString()}/mo</span> in potential revenue leaks for <span className="text-white font-bold">{businessName}</span>.
+          <h3 className="text-2xl md:text-3xl font-bold mb-4">Get the full report</h3>
+          <p className="text-primary-foreground/80 text-lg mb-0 leading-relaxed">
+            I've identified a <span className="text-white font-bold">{displayLeak}</span> for <span className="text-white font-bold">{businessName}</span>.
+          </p>
+          <p className="text-primary-foreground/80 text-lg mt-2">
+            Estimated impact: <span className="text-accent font-bold">{displayImpact}</span>
           </p>
           <div className="mt-8 space-y-4">
             <div className="flex items-center gap-3">
               <CheckCircle2 size={18} className="text-accent" />
-              <span className="text-sm font-medium">Detailed breakdown of all {auditGrade} grade factors</span>
+              <span className="text-sm font-medium">Complete breakdown of all technical findings</span>
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle2 size={18} className="text-accent" />
-              <span className="text-sm font-medium">Custom 90-day execution roadmap</span>
+              <span className="text-sm font-medium">Step-by-step fix guide for your team</span>
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle2 size={18} className="text-accent" />
-              <span className="text-sm font-medium">Competitor benchmark analysis</span>
+              <span className="text-sm font-medium">Direct line to Claire for questions</span>
             </div>
           </div>
         </div>
@@ -91,7 +107,7 @@ export default function LeadCaptureForm({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
               >
-                <h4 className="text-xl font-bold text-text-primary mb-6">Where should we send the report?</h4>
+                <h4 className="text-xl font-bold text-text-primary mb-6">Where should I send your diagnosis?</h4>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Email Address</label>
@@ -131,22 +147,22 @@ export default function LeadCaptureForm({
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 bg-secondary text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-secondary/90 transition-all active:scale-95 disabled:opacity-50"
+                    className="w-full py-4 bg-primary text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 shadow-lg shadow-primary/20"
                   >
                     {isSubmitting ? (
                       <>
                         <Loader2 size={20} className="animate-spin" />
-                        Generating Report...
+                        Preparing Report...
                       </>
                     ) : (
                       <>
-                        Send My Full Report
+                        Send My Full Diagnosis
                         <ArrowRight size={20} />
                       </>
                     )}
                   </button>
                   <p className="text-center text-[10px] text-slate-400 font-medium">
-                    By submitting, you agree to our Terms of Service and Privacy Policy. No spam, ever.
+                    I'll send your report immediately. No spam, just the facts.
                   </p>
                 </form>
               </motion.div>
@@ -161,9 +177,9 @@ export default function LeadCaptureForm({
                   <CheckCircle2 size={40} />
                 </div>
                 <h4 className="text-2xl font-bold text-text-primary mb-2">Report Sent!</h4>
-                <p className="text-text-secondary mb-8">We've sent the full audit breakdown to <span className="font-bold text-primary">{email}</span>. One of our strategists will reach out shortly to discuss your custom action plan.</p>
+                <p className="text-text-secondary mb-8">I've sent the full audit breakdown to <span className="font-bold text-primary">{email}</span>. Check your inbox in the next minute.</p>
                 <div className="p-4 bg-accent/5 border border-accent/10 rounded-xl text-accent-foreground text-sm font-medium">
-                  🚀 Your website dominance starts today.
+                  🚀 Let's plug those leaks.
                 </div>
               </motion.div>
             )}

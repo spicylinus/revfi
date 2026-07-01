@@ -1,60 +1,19 @@
 import * as cheerio from 'cheerio';
-
-export interface SubScores {
-  seo: number;
-  leadCapture: number;
-  localSeo: number;
-  mobile: number;
-}
-
-export interface RevenueLeak {
-  id: string;
-  severity: 'critical' | 'high' | 'medium' | 'low';
-  category: keyof SubScores;
-  title: string;
-  description: string;
-  estimatedImpact: number;
-  fix: string;
-}
-
-export interface ChecklistItem {
-  id: string;
-  title: string;
-  category: keyof SubScores;
-  priority: number;
-  estimatedValue: number;
-  action: string;
-  timeEstimate: string;
-}
-
-export interface ActionTask {
-  task: string;
-  time: string;
-  difficulty: number;
-}
-
-export interface ActionPlan {
-  daily: ActionTask[];
-  weekly: ActionTask[];
-  monthly: ActionTask[];
-}
-
-export interface AuditResult {
-  url: string;
-  businessName?: string;
-  overallGrade: string;
-  overallScore: number;
-  subScores: SubScores;
-  revenueLeaks: RevenueLeak[];
-  checklist: ChecklistItem[];
-  actionPlan: ActionPlan;
-  images?: string[];
-  warnings?: string[];
-}
+import { AuditData } from '@/types/audit';
 
 const MAX_PAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
-export async function runAudit(url: string): Promise<AuditResult> {
+interface Finding {
+  id: string;
+  type: 'lead_capture' | 'seo' | 'wrong_searchers' | 'outdated' | 'slow_mobile';
+  severity: number; // 1-10
+  title: string;
+  description: string;
+  impactTranslation: string;
+  whatThisMeans: string;
+}
+
+export async function runAudit(url: string): Promise<AuditData> {
   const warnings: string[] = [];
   
   try {
@@ -83,44 +42,16 @@ export async function runAudit(url: string): Promise<AuditResult> {
 
     const $contact = contactPageData.html ? cheerio.load(contactPageData.html) : $homepage;
 
-    // Analysis
-    const seoScore = calculateSeoScore($homepage);
-    const leadCaptureScore = calculateLeadCaptureScore($homepage, $contact);
-    const localSeoScore = calculateLocalSeoScore($homepage, $contact);
-    const mobileScore = calculateMobileScore($homepage, homepageData.loadTime || 0);
+    // 3. Analysis (Internal findings)
+    const findings = performAnalysis($homepage, $contact, homepageData.loadTime);
+
+    // 4. Select Primary Leak (Ranking logic)
+    const primaryFinding = selectPrimaryFinding(findings);
+
+    // 5. Translation Logic
+    const result = translateToAuditResult(url, businessName, primaryFinding, findings);
     
-    const overallScore = Math.round(
-      (seoScore * 0.3) +
-      (leadCaptureScore * 0.3) +
-      (localSeoScore * 0.25) +
-      (mobileScore * 0.15)
-    );
-    
-    const overallGrade = calculateGrade(overallScore);
-    const revenueLeaks = identifyRevenueLeaks($homepage, $contact, { seoScore, leadCaptureScore, localSeoScore, mobileScore });
-    const checklist = generateChecklist(revenueLeaks);
-    const actionPlan = generateActionPlan(checklist);
-    
-    // No longer saving to filesystem, just returning the collected images
-    const images = [...new Set([...homepageData.images, ...(contactPageData.images || [])])];
-    
-    return {
-      url,
-      businessName,
-      overallGrade,
-      overallScore,
-      subScores: {
-        seo: seoScore,
-        leadCapture: leadCaptureScore,
-        localSeo: localSeoScore,
-        mobile: mobileScore,
-      },
-      revenueLeaks,
-      checklist,
-      actionPlan,
-      images: images.slice(0, 10), // Limit to top 10 images
-      warnings: warnings.length > 0 ? warnings : undefined,
-    };
+    return result;
   } catch (error: any) {
     console.error('Audit engine error:', error);
     throw error;
@@ -200,187 +131,176 @@ function findContactPageUrl($: cheerio.CheerioAPI, baseUrl: string): string | nu
   }
 }
 
-function calculateSeoScore($: cheerio.CheerioAPI): number {
-  let score = 0;
-  const title = $('title').text();
-  if (title && title.length > 10) score += 20;
+function performAnalysis($homepage: cheerio.CheerioAPI, $contact: cheerio.CheerioAPI, loadTime: number): Finding[] {
+  const findings: Finding[] = [];
+  const bodyHtml = ($homepage('body').html() || '') + ($contact('body').html() || '');
   
-  const description = $('meta[name="description"]').attr('content');
-  if (description && description.length > 50) score += 20;
-  
-  const h1 = $('h1');
-  if (h1.length === 1) score += 20;
-  
-  const images = $('img');
-  const imagesWithAlt = $('img[alt]');
-  if (images.length > 0 && imagesWithAlt.length / images.length > 0.5) score += 20;
-  
-  const bodyText = $('body').text();
-  if (bodyText.length > 1000) score += 20;
-  
-  return score;
-}
-
-function calculateLeadCaptureScore($homepage: cheerio.CheerioAPI, $contact: cheerio.CheerioAPI): number {
-  let score = 0;
-  
+  // 1. Lead Capture (Priority 1)
   const hasForm = $homepage('form').length > 0 || $contact('form').length > 0;
-  if (hasForm) score += 40;
-  
-  const bodyHtml = ($homepage('body').html() || '') + ($contact('body').html() || '');
-  const bodyTextLower = bodyHtml.toLowerCase();
-  
-  if (bodyTextLower.includes('contact') || bodyTextLower.includes('call') || bodyTextLower.includes('book')) score += 20;
-  
   const phoneRegex = /(\+?\d{1,4}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/;
-  if (phoneRegex.test(bodyHtml)) score += 20;
+  const hasPhone = phoneRegex.test(bodyHtml);
   
-  const ctas = $homepage('a, button').filter((i, el) => {
-    const text = $homepage(el).text().toLowerCase();
-    return text.includes('get started') || text.includes('quote') || text.includes('contact') || text.includes('sign up') || text.includes('book');
-  });
-  if (ctas.length > 0) score += 20;
-  
-  return score;
-}
-
-function calculateLocalSeoScore($homepage: cheerio.CheerioAPI, $contact: cheerio.CheerioAPI): number {
-  let score = 0;
-  const bodyHtml = ($homepage('body').html() || '') + ($contact('body').html() || '');
-  const lowerHtml = bodyHtml.toLowerCase();
-  
-  if (lowerHtml.includes('st.') || lowerHtml.includes('street') || lowerHtml.includes('ave') || lowerHtml.includes('road')) score += 25;
-  
-  const scripts = $homepage('script[type="application/ld+json"]').add($contact('script[type="application/ld+json"]'));
-  let hasLocalBusinessSchema = false;
-  scripts.each((i, el) => {
-    try {
-      const json = JSON.parse($homepage(el).html() || '{}');
-      if (json['@type'] === 'LocalBusiness' || (Array.isArray(json['@type']) && json['@type'].includes('LocalBusiness'))) {
-        hasLocalBusinessSchema = true;
-      }
-    } catch (e) {}
-  });
-  if (hasLocalBusinessSchema) score += 40;
-  
-  if (lowerHtml.includes('google.com/maps') || lowerHtml.includes('maps.google.com')) score += 25;
-  if (lowerHtml.includes('review') || lowerHtml.includes('testimonial')) score += 10;
-  
-  return score;
-}
-
-function calculateMobileScore($: cheerio.CheerioAPI, loadTime: number): number {
-  let score = 0;
-  const viewport = $('meta[name="viewport"]');
-  if (viewport.length > 0) score += 50;
-  const loadTimeScore = Math.max(0, Math.min(50, 50 - (loadTime - 1000) / 80));
-  score += Math.round(loadTimeScore);
-  return score;
-}
-
-function calculateGrade(score: number): string {
-  if (score >= 90) return 'A';
-  if (score >= 80) return 'B+';
-  if (score >= 70) return 'C';
-  if (score >= 60) return 'D';
-  return 'F';
-}
-
-function identifyRevenueLeaks($homepage: cheerio.CheerioAPI, $contact: cheerio.CheerioAPI, scores: any): RevenueLeak[] {
-  const leaks: RevenueLeak[] = [];
-  
-  if ($homepage('form').length === 0 && $contact('form').length === 0) {
-    leaks.push({
-      id: 'leak-1',
-      severity: 'critical',
-      category: 'leadCapture',
-      title: 'Missing contact form',
-      description: 'Your website has no way for potential customers to contact you directly via a form.',
-      estimatedImpact: 2400,
-      fix: 'Add a prominent contact form on your homepage and contact page.'
+  if (!hasForm && !hasPhone) {
+    findings.push({
+      id: 'leak_lead_capture',
+      type: 'lead_capture',
+      severity: 10,
+      title: 'Visitors ready to call hit a dead end',
+      description: 'Your website has no visible contact form or phone number for customers to reach you.',
+      impactTranslation: 'Visitors ready to call or fill out a form hit a dead end — that\'s lost business every day.',
+      whatThisMeans: 'People are looking for you, finding you, and then leaving because they can\'t figure out how to hire you.'
     });
-  }
-  
-  const bodyHtml = ($homepage('body').html() || '') + ($contact('body').html() || '');
-  const phoneRegex = /(\+?\d{1,4}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/;
-  if (!phoneRegex.test(bodyHtml)) {
-    leaks.push({
-      id: 'leak-2',
-      severity: 'critical',
-      category: 'leadCapture',
-      title: 'No phone number visible',
-      description: 'Customers cannot find a phone number to call you, which kills trust and leads.',
-      estimatedImpact: 1800,
-      fix: 'Place your phone number clearly in the header and footer of every page.'
+  } else if (!hasForm) {
+    findings.push({
+      id: 'leak_form',
+      type: 'lead_capture',
+      severity: 8,
+      title: 'Missing Digital Lead Capture',
+      description: 'You\'re relying solely on phone calls, missing customers who prefer to message you.',
+      impactTranslation: 'Modern customers expect to be able to request a quote or info without picking up the phone.',
+      whatThisMeans: 'You\'re only capturing a fraction of your traffic by forcing everyone to call.'
     });
-  }
-  
-  if ($homepage('meta[name="description"]').length === 0) {
-    leaks.push({
-      id: 'leak-3',
-      severity: 'medium',
-      category: 'seo',
-      title: 'Missing meta description',
-      description: 'Search engines do not have a summary of your page, leading to lower click-through rates.',
-      estimatedImpact: 600,
-      fix: 'Add a unique meta description for each page between 150-160 characters.'
-    });
-  }
-  
-  if (!bodyHtml.includes('google.com/maps')) {
-    leaks.push({
-      id: 'leak-4',
-      severity: 'high',
-      category: 'localSeo',
-      title: 'Missing Google Maps integration',
-      description: 'Local customers might have trouble finding your physical location or service area.',
-      estimatedImpact: 1200,
-      fix: 'Embed a Google Map on your contact or about page.'
+  } else if (!hasPhone) {
+    findings.push({
+      id: 'leak_phone',
+      type: 'lead_capture',
+      severity: 7,
+      title: 'No Visible Phone Number',
+      description: 'Customers on mobile can\'t tap-to-call you easily, killing your conversion rate.',
+      impactTranslation: 'Mobile visitors want to reach you in one click. Without a visible number, they move to the next competitor.',
+      whatThisMeans: 'In local service, the fastest way to a lead is a phone call — you\'re making it hard for them.'
     });
   }
 
-  if (scores.mobile < 40) {
-    leaks.push({
-      id: 'leak-5',
-      severity: 'high',
-      category: 'mobile',
-      title: 'Slow page load speed',
-      description: 'Your site takes too long to load, causing 50%+ of mobile users to bounce before seeing your offer.',
-      estimatedImpact: 3200,
-      fix: 'Optimize image sizes and remove unused scripts to improve loading speed.'
+  // 2. Outdated (Priority 1.5)
+  const hasViewport = $homepage('meta[name="viewport"]').length > 0;
+  if (!hasViewport) {
+    findings.push({
+      id: 'leak_outdated',
+      type: 'outdated',
+      severity: 9,
+      title: 'Fundamentally Outdated Site',
+      description: 'Your site isn\'t built for modern mobile devices.',
+      impactTranslation: 'Google penalizes sites that aren\'t mobile-friendly, and customers lose trust the moment they see an old design.',
+      whatThisMeans: 'An outdated site tells customers that your business might be outdated too — first impressions happen in less than a second.'
     });
   }
-  
-  return leaks;
+
+  // 3. Mobile Speed (Priority 2)
+  if (loadTime > 3000) {
+    findings.push({
+      id: 'leak_slow_mobile',
+      type: 'slow_mobile',
+      severity: 8.5,
+      title: 'Slow Mobile Loading',
+      description: `Your site took ${Math.round(loadTime/100)/10}s to load.`,
+      impactTranslation: `${Math.min(90, Math.round((loadTime/1000) * 15))}% of mobile visitors leave before this finishes loading — that's lost calls.`,
+      whatThisMeans: 'In a world where 70% of local searches happen on a phone, a slow site is a brick wall between you and your next customer.'
+    });
+  }
+
+  // 4. SEO (Priority 3)
+  const title = $homepage('title').text();
+  const description = $homepage('meta[name="description"]').attr('content');
+  if (!title || title.length < 10 || !description) {
+    findings.push({
+      id: 'leak_seo',
+      type: 'seo',
+      severity: 6,
+      title: 'Site functional but not showing in search',
+      description: 'Critical search signals like meta titles and descriptions are missing or incomplete.',
+      impactTranslation: 'This page likely isn\'t showing up for the specific local searches that would bring you the right customers.',
+      whatThisMeans: 'Your competitors are taking the \'easy wins\' on Google because your site isn\'t speaking the language search engines expect.'
+    });
+  }
+
+  // 5. Wrong Searchers (Priority 4)
+  const hasMaps = bodyHtml.includes('google.com/maps') || bodyHtml.includes('maps.google.com');
+  if (!hasMaps) {
+    findings.push({
+      id: 'leak_wrong_searchers',
+      type: 'wrong_searchers',
+      severity: 5,
+      title: 'Wrong searchers finding competitors',
+      description: 'Your Google Business Profile isn\'t integrated and local citations are missing.',
+      impactTranslation: 'Local searchers are choosing competitors who look more active and established on Google Maps.',
+      whatThisMeans: 'If you aren\'t in the top 3 on the map, you effectively don\'t exist for most local customers.'
+    });
+  }
+
+  return findings;
 }
 
-function generateChecklist(leaks: RevenueLeak[]): ChecklistItem[] {
-  return leaks.map((leak, index) => ({
-    id: `check-${index + 1}`,
-    title: leak.title,
-    category: leak.category,
-    priority: index + 1,
-    estimatedValue: leak.estimatedImpact,
-    action: leak.fix,
-    timeEstimate: leak.severity === 'critical' ? '30 minutes' : '15 minutes'
-  })).sort((a, b) => b.estimatedValue - a.estimatedValue);
+function selectPrimaryFinding(findings: Finding[]): Finding {
+  // Ranking order (directness to lost leads)
+  const priorityMap: Record<string, number> = {
+    'lead_capture': 1,
+    'outdated': 2,
+    'slow_mobile': 3,
+    'seo': 4,
+    'wrong_searchers': 5
+  };
+
+  return findings.sort((a, b) => {
+    const pA = priorityMap[a.type] || 99;
+    const pB = priorityMap[b.type] || 99;
+    if (pA !== pB) return pA - pB;
+    return b.severity - a.severity;
+  })[0] || {
+    id: 'no_leak',
+    type: 'seo',
+    severity: 1,
+    title: 'Low Visibility',
+    description: 'Your site is technically sound but could be reaching more customers.',
+    impactTranslation: 'You\'re leaving money on the table by not being #1 for all your services.',
+    whatThisMeans: 'Optimization is the difference between surviving and dominating.'
+  };
 }
 
-function generateActionPlan(checklist: ChecklistItem[]): ActionPlan {
+function translateToAuditResult(url: string, businessName: string, primary: Finding, allFindings: Finding[]): AuditData {
+  let recommendation = "";
+  let recommendationType: 'website_fix' | 'seo' | 'signalforge' | 'rebuild' = 'website_fix';
+  let softCTA = "Want me to walk you through this?";
+
+  switch(primary.type) {
+    case 'lead_capture':
+      recommendation = "You need a website fix focused entirely on lead capture. We'll replace your dead ends with high-converting forms and click-to-call buttons that turn passive visitors into paying clients.";
+      recommendationType = 'website_fix';
+      break;
+    case 'seo':
+      recommendation = "You need a localized SEO strategy to start showing up where your customers are actually looking. We'll overhaul your metadata and content to climb the rankings for your top services.";
+      recommendationType = 'seo';
+      break;
+    case 'wrong_searchers':
+      recommendation = "We recommend deploying SignalForge to dominate your local market. You're losing people before they even search for you — we'll get your business appearing in front of the right searchers at the right time.";
+      recommendationType = 'signalforge';
+      break;
+    case 'outdated':
+    case 'slow_mobile':
+      recommendation = "This site needs a complete rebuild, not a patch. We'll build you a modern, mobile-first revenue engine that loads instantly and positions you as the clear leader in your area.";
+      recommendationType = 'rebuild';
+      break;
+    default:
+      recommendation = "We recommend a comprehensive SEO and conversion audit to identify hidden opportunities for growth.";
+      recommendationType = 'seo';
+      break;
+  }
+
+  const secondaryNotes = allFindings
+    .filter(f => f.id !== primary.id)
+    .slice(0, 3)
+    .map(f => f.title);
+
   return {
-    daily: checklist.filter(c => c.timeEstimate === '15 minutes').slice(0, 2).map(c => ({
-      task: c.title,
-      time: c.timeEstimate,
-      difficulty: 1
-    })),
-    weekly: checklist.filter(c => c.timeEstimate === '30 minutes').slice(0, 3).map(c => ({
-      task: c.title,
-      time: c.timeEstimate,
-      difficulty: 2
-    })),
-    monthly: [
-      { task: 'Comprehensive SEO Overhaul', time: '4 hours', difficulty: 3 },
-      { task: 'Lead Magnet Creation', time: '2 hours', difficulty: 2 }
-    ]
+    url,
+    businessName,
+    primaryLeak: primary.title,
+    primaryLeakTitle: primary.title,
+    leadImpact: primary.impactTranslation,
+    whatThisMeans: primary.whatThisMeans,
+    secondaryNotes,
+    recommendation,
+    recommendationType,
+    softCTA
   };
 }

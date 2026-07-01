@@ -4,39 +4,46 @@ import { GHLClient } from '@/lib/ghl';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email, phone, businessName, url, grade, leakEstimate } = body;
+    const { email, phone, businessName, url, primaryLeak, leadImpact } = body;
 
     if (!email || !url) {
       return NextResponse.json({ error: 'Email and URL are required' }, { status: 400 });
     }
 
-    // Use existing GHL integration settings
-    const apiKey = process.env.GHL_API_KEY || 'pit-60eefe1e-4c23-4c63-a3a8-82d77dac050c';
+    // Use GHL integration — key must have Contacts + Workflows scope
+    const apiKey = process.env.GHL_API_KEY || 'pit-255f3042-dfdb-4411-bb2e-748895ac6060';
     const locationId = process.env.GHL_LOCATION_ID || 'PvyvSAbJ5bJWe7LadYX4';
 
     const client = new GHLClient(apiKey, locationId);
 
-    // Sync lead to GHL pipeline
+    // Parse business name into first/last
+    const parts = (businessName || '').split(' ');
+    const firstName = parts[0] || '';
+    const lastName = parts.slice(1).join(' ') || '';
+
+    // Sync lead to GHL pipeline and enroll in AI Outbound workflow
     const result = await client.syncLeadToPipeline({
       email,
-      phone,
+      phone: phone || '',
       name: businessName,
+      firstName,
+      lastName,
       url_audited: url,
-      audit_grade: grade,
-      revenue_leak_estimate: leakEstimate,
-      source: 'Audit Lead Capture',
+      primary_leak: primaryLeak,
+      lead_impact: leadImpact,
+      source: 'Website Auditor — Lead Capture Form',
     });
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       leadId: result.contact.id,
-      opportunityId: result.opportunity.id 
+      opportunityId: result.opportunity?.id || null,
     });
   } catch (error: any) {
     console.error('Lead Capture Error:', error);
-    return NextResponse.json({ 
-      success: false, 
-      error: error.message || 'Failed to capture lead' 
+    return NextResponse.json({
+      success: false,
+      error: error.message || 'Failed to capture lead',
     }, { status: 500 });
   }
 }
