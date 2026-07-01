@@ -28,15 +28,15 @@ export default function ServiceCard({
     <motion.div
       whileHover={{ y: -8 }}
       className={`bg-surface p-8 rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-xl flex flex-col h-full relative ${
-        isPopular ? 'border-secondary/40 ring-1 ring-secondary/20 shadow-secondary/5' : 'hover:border-secondary/20'
+        isPopular ? 'border-primary/30 ring-1 ring-primary/20 shadow-primary/5' : 'hover:border-primary/20'
       }`}
     >
       {isPopular && (
-        <div className="absolute top-0 right-10 -translate-y-1/2 px-4 py-1 bg-secondary text-white text-[10px] font-black uppercase tracking-widest rounded-full">
+        <div className="absolute top-0 right-10 -translate-y-1/2 px-4 py-1 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-full">
           Best Value
         </div>
       )}
-      <div className="w-14 h-14 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center mb-6">
+      <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6">
         <Icon size={28} />
       </div>
       <h3 className="text-xl font-bold text-text-primary mb-3">{title}</h3>

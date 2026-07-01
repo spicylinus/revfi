@@ -140,14 +140,14 @@ export default function Home() {
                 <motion.section 
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-slate-900 rounded-[40px] p-12 md:p-20 relative overflow-hidden"
+                  className="bg-surface rounded-[40px] p-12 md:p-20 relative overflow-hidden border border-slate-100"
                 >
-                  <div className="absolute top-0 right-0 w-1/3 h-full bg-secondary/10 blur-[120px] rounded-full" />
+                  <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full" />
                   <div className="absolute bottom-0 left-0 w-1/4 h-full bg-accent/5 blur-[100px] rounded-full" />
                   
                   <div className="relative z-10 text-center mb-16">
-                    <h3 className="text-white text-3xl md:text-5xl font-bold mb-6 tracking-tight">Ready to dominate your market?</h3>
-                    <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">We build high-performance revenue engines for local businesses. Here is how we can help.</p>
+                    <h3 className="text-primary text-3xl md:text-5xl font-bold mb-6 tracking-tight">Ready to dominate your market?</h3>
+                    <p className="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto">We build high-performance revenue engines for local businesses. Here is how we can help.</p>
                   </div>
 
                   <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -197,7 +197,7 @@ export default function Home() {
               <p className="text-text-secondary">I look at your site like a customer does. No scary dashboards, just plain English.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <TrendingUp size={32} />
               </div>
               <h4 className="font-bold text-xl mb-3">Lead Gaps</h4>
