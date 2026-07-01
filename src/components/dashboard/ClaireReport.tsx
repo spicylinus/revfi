@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { AuditData } from '@/types/audit';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, X, Calendar } from 'lucide-react';
@@ -11,35 +11,6 @@ const CALENDLY_URL = 'https://calendly.com/social-linus/siteaudit-15-minute-disc
 
 export default function ClaireReport({ data }: ClaireReportProps) {
   const [showCalendar, setShowCalendar] = useState(false);
-  const calendarRef = useRef<HTMLDivElement>(null);
-
-  // Load Calendly widget script when calendar is shown
-  useEffect(() => {
-    if (!showCalendar) return;
-
-    const initWidget = () => {
-      if (typeof window !== 'undefined' && (window as any).Calendly && calendarRef.current) {
-        (window as any).Calendly.initInlineWidget({
-          url: CALENDLY_URL,
-          parentElement: calendarRef.current,
-          prefill: {},
-          utm: {},
-        });
-      }
-    };
-
-    const scriptId = 'calendly-script';
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.src = 'https://assets.calendly.com/assets/external/widget.js';
-      script.async = true;
-      script.onload = initWidget;
-      document.head.appendChild(script);
-    } else {
-      initWidget();
-    }
-  }, [showCalendar]);
 
   return (
     <div className="bg-surface rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm max-w-4xl mx-auto my-12">
@@ -119,28 +90,31 @@ export default function ClaireReport({ data }: ClaireReportProps) {
           {data.softCTA || "Want me to walk you through this?"}
         </button>
 
-        {/* Inline Calendly widget */}
+        {/* Inline Calendly iframe */}
         <AnimatePresence>
           {showCalendar && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mt-6 overflow-hidden"
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="mt-6 overflow-hidden rounded-2xl"
             >
-              <div className="relative">
+              <div className="relative bg-white rounded-2xl overflow-hidden" style={{ height: 730 }}>
                 <button
                   onClick={() => setShowCalendar(false)}
-                  className="absolute top-3 right-3 z-10 p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-text-secondary transition-colors"
+                  className="absolute top-3 right-3 z-10 p-2 bg-white hover:bg-slate-100 rounded-full text-void shadow-md transition-colors"
                   aria-label="Close calendar"
                 >
                   <X size={16} />
                 </button>
-                <div
-                  ref={calendarRef}
-                  className="w-full min-h-[700px] rounded-2xl overflow-hidden"
-                  style={{ background: '#FFFFFF' }}
+                <iframe
+                  src={`${CALENDLY_URL}?embed_type=Inline&embed_domain=${typeof window !== 'undefined' ? window.location.hostname : ''}`}
+                  title="Book a discovery call"
+                  className="w-full border-0"
+                  style={{ height: '100%' }}
+                  scrolling="no"
+                  allow="payment"
                 />
               </div>
             </motion.div>
