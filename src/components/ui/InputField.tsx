@@ -50,8 +50,8 @@ export default function InputField({ onAudit, isLoading }: InputFieldProps) {
             type="submit"
             disabled={isLoading || !url.trim()}
             className={cn(
-              "px-8 py-4 bg-secondary text-white font-bold rounded-xl transition-all shadow-lg",
-              "hover:bg-secondary/90 active:scale-95 disabled:bg-slate-300 disabled:scale-100 disabled:cursor-not-allowed",
+              "px-8 py-4 bg-ember text-white font-bold rounded-xl transition-all shadow-lg",
+              "hover:bg-ember/90 active:scale-95 disabled:bg-slate-300 disabled:scale-100 disabled:cursor-not-allowed",
               "flex items-center justify-center gap-2 sm:min-w-[200px]"
             )}
           >
