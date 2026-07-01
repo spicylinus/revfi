@@ -11,29 +11,34 @@ interface LeadCaptureFormProps {
   primaryLeakTitle?: string;
   leadImpact?: string;
   onSuccess?: () => void;
-  // Deprecated props kept for compatibility during transition
   auditGrade?: string;
   leakEstimate?: number;
 }
 
-export default function LeadCaptureForm({ 
-  businessName, 
-  auditUrl, 
+export default function LeadCaptureForm({
+  businessName,
+  auditUrl,
   primaryLeak,
   primaryLeakTitle,
   leadImpact,
   onSuccess,
   auditGrade,
-  leakEstimate 
+  leakEstimate
 }: LeadCaptureFormProps) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [emailConsent, setEmailConsent] = useState(false);
+  const [smsConsent, setSmsConsent] = useState(false);
   const [isSubmitting, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!emailConsent) {
+      setError('Please agree to receive your report via email before continuing.');
+      return;
+    }
     setIsLoading(true);
     setError(null);
 
@@ -41,13 +46,15 @@ export default function LeadCaptureForm({
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email, 
-          phone, 
-          businessName, 
-          url: auditUrl, 
+        body: JSON.stringify({
+          email,
+          phone,
+          businessName,
+          url: auditUrl,
           primaryLeak: primaryLeak || auditGrade || 'Audit',
-          leadImpact: leadImpact || (leakEstimate ? `$${leakEstimate.toLocaleString()}/mo` : 'Significant leakage')
+          leadImpact: leadImpact || (leakEstimate ? `$${leakEstimate.toLocaleString()}/mo` : 'Significant leakage'),
+          emailConsent: true,
+          smsConsent: smsConsent && phone ? true : false,
         }),
       });
 
@@ -113,8 +120,8 @@ export default function LeadCaptureForm({
                     <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Email Address</label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -127,14 +134,60 @@ export default function LeadCaptureForm({
                     <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Phone Number (Optional)</label>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                      <input 
-                        type="tel" 
+                      <input
+                        type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="(512) 555-0123"
                         className="w-full pl-12 pr-4 py-4 bg-background border-2 border-slate-100 rounded-xl outline-none focus:border-primary transition-all"
                       />
                     </div>
+                  </div>
+
+                  {/* Consent checkboxes */}
+                  <div className="space-y-3 pt-2">
+                    {/* Email consent — required */}
+                    <label className="flex items-start gap-3 cursor-pointer group">
+                      <div className="relative mt-0.5 shrink-0">
+                        <input
+                          type="checkbox"
+                          required
+                          checked={emailConsent}
+                          onChange={(e) => setEmailConsent(e.target.checked)}
+                          className="peer w-5 h-5 rounded border-2 border-slate-200 appearance-none cursor-pointer transition-all checked:bg-primary checked:border-primary"
+                        />
+                        <CheckCircle2
+                          size={14}
+                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity"
+                        />
+                      </div>
+                      <div className="text-xs text-text-secondary leading-relaxed">
+                        <span className="font-semibold text-text-primary">I agree to receive my free website audit report </span>
+                        and occasional marketing messages from Social Linus Web Services at <span className="font-semibold">{email || 'this address'}</span>. I can unsubscribe at any time. Message & data rates may apply for SMS.
+                      </div>
+                    </label>
+
+                    {/* SMS consent — only shown if phone is entered */}
+                    {phone.length >= 10 && (
+                      <label className="flex items-start gap-3 cursor-pointer group">
+                        <div className="relative mt-0.5 shrink-0">
+                          <input
+                            type="checkbox"
+                            checked={smsConsent}
+                            onChange={(e) => setSmsConsent(e.target.checked)}
+                            className="peer w-5 h-5 rounded border-2 border-slate-200 appearance-none cursor-pointer transition-all checked:bg-ember checked:border-ember"
+                          />
+                          <CheckCircle2
+                            size={14}
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity"
+                          />
+                        </div>
+                        <div className="text-xs text-text-secondary leading-relaxed">
+                          <span className="font-semibold text-text-primary">I also agree to receive SMS messages</span>
+                          {' '}from Social Linus Web Services at <span className="font-semibold">{phone}</span> with marketing offers. Reply STOP to opt out at any time. Message & data rates apply.
+                        </div>
+                      </label>
+                    )}
                   </div>
 
                   {error && (
@@ -144,7 +197,7 @@ export default function LeadCaptureForm({
                     </div>
                   )}
 
-                  <button 
+                  <button
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full py-4 bg-primary text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 shadow-lg shadow-primary/20"
@@ -178,7 +231,7 @@ export default function LeadCaptureForm({
                 </div>
                 <h4 className="text-2xl font-bold text-text-primary mb-2">Report Sent!</h4>
                 <p className="text-text-secondary mb-8">I've sent the full audit breakdown to <span className="font-bold text-primary">{email}</span>. Check your inbox in the next minute.</p>
-                <div className="p-4 bg-accent/5 border border-accent/10 rounded-xl text-accent-foreground text-sm font-medium">
+                <div className="p-4 bg-accent/5 border border-accent/10 rounded-xl text-text-primary text-sm font-medium">
                   🚀 Let's plug those leaks.
                 </div>
               </motion.div>
