@@ -100,7 +100,7 @@ export default function LeadCaptureForm({
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle2 size={18} className="text-accent" />
-              <span className="text-sm font-medium">Direct line to Claire for questions</span>
+              <span className="text-sm font-medium">Personal walkthrough with Shannendoah</span>
             </div>
           </div>
         </div>
