@@ -7,15 +7,15 @@ interface ClaireReportProps {
   data: AuditData;
 }
 
-const CALENDLY_URL = 'https://calendly.com/social-linus/siteaudit-15-minute-discovery-call';
+const CALENDLY_URL = 'https://calendly.com/sociallinus/siteaudit-15-minute-discovery-call';
 
 export default function ClaireReport({ data }: ClaireReportProps) {
   const [showCalendar, setShowCalendar] = useState(false);
 
   return (
-    <div className="bg-surface rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm max-w-4xl mx-auto my-12">
+    <div className="bg-surface rounded-3xl p-8 md:p-12 border border-slate/10 shadow-sm max-w-4xl mx-auto my-12">
       {/* Branding */}
-      <div className="flex items-center gap-4 mb-8 pb-8 border-b border-slate-100">
+      <div className="flex items-center gap-4 mb-8 pb-8 border-b border-slate/10">
         <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary border-2 border-white shadow-inner">
           <User size={32} />
         </div>
@@ -64,7 +64,7 @@ export default function ClaireReport({ data }: ClaireReportProps) {
           <ul className="space-y-3">
             {data.secondaryNotes.map((note, i) => (
               <li key={i} className="flex gap-3 text-text-secondary text-sm">
-                <span className="text-slate-300">•</span>
+                <span className="text-slate/30">•</span>
                 {note}
               </li>
             ))}
@@ -103,7 +103,7 @@ export default function ClaireReport({ data }: ClaireReportProps) {
               <div className="relative bg-white rounded-2xl overflow-y-auto" style={{ height: 730 }}>
                 <button
                   onClick={() => setShowCalendar(false)}
-                  className="absolute top-3 right-3 z-10 p-2 bg-white hover:bg-slate-100 rounded-full text-void shadow-md transition-colors"
+                  className="absolute top-3 right-3 z-10 p-2 bg-white hover:bg-slate/10 rounded-full text-void shadow-md transition-colors"
                   aria-label="Close calendar"
                 >
                   <X size={16} />

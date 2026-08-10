@@ -57,19 +57,19 @@ export default function Home() {
   return (
     <main className="flex-1 pb-24">
       {/* Header */}
-      <header className="py-8 px-6 border-b border-slate-200 bg-surface">
+      <header className="py-8 px-6 border-b border-slate/20 bg-surface">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <img src="/sociallinus-logo.svg" alt="Social Linus" className="h-10 w-auto" />
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-text-secondary uppercase tracking-widest">
-            <a href="mailto:support@sociallinus.com" className="px-4 py-2 bg-slate-100 text-primary rounded-lg hover:bg-slate-200 transition-all">Support</a>
+            <a href="mailto:support@sociallinus.com" className="px-4 py-2 bg-slate/10 text-primary rounded-lg hover:bg-slate/20 transition-all">Support</a>
           </div>
         </div>
       </header>
 
       {/* Hero / Input Section */}
-      <section className="py-16 px-6 bg-gradient-to-b from-surface to-background border-b border-slate-100">
+      <section className="py-16 px-6 bg-gradient-to-b from-surface to-background border-b border-slate/10">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -140,7 +140,7 @@ export default function Home() {
                 <motion.section 
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-surface rounded-[40px] p-12 md:p-20 relative overflow-hidden border border-slate-100"
+                  className="bg-surface rounded-[40px] p-12 md:p-20 relative overflow-hidden border border-slate/10"
                 >
                   <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full" />
                   <div className="absolute bottom-0 left-0 w-1/4 h-full bg-accent/5 blur-[100px] rounded-full" />
@@ -216,7 +216,7 @@ export default function Home() {
 
       {isLoading && (
         <div className="max-w-4xl mx-auto px-6 py-24 text-center">
-          <div className="w-24 h-24 border-8 border-secondary/20 border-t-secondary rounded-full animate-spin mx-auto mb-8"></div>
+          <div className="w-24 h-24 border-8 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-8"></div>
           <h3 className="text-2xl font-bold mb-4">Reviewing your website...</h3>
           <p className="text-text-secondary mb-8">Claire is taking a look at your site now. This usually takes about 20 seconds.</p>
           <div className="max-w-md mx-auto space-y-3 text-left">
@@ -226,20 +226,20 @@ export default function Home() {
             </div>
             <div className="flex justify-between text-sm font-bold text-text-secondary uppercase">
               <span>Analyzing lead capture</span>
-              <span className="text-slate-300">Pending</span>
+              <span className="text-slate/30">Pending</span>
             </div>
             <div className="flex justify-between text-sm font-bold text-text-secondary uppercase">
               <span>Evaluating search presence</span>
-              <span className="text-slate-300">Pending</span>
+              <span className="text-slate/30">Pending</span>
             </div>
           </div>
         </div>
       )}
 
       {/* Footer Disclaimer */}
-      <footer className="py-12 border-t border-slate-100 mt-12 bg-surface/50">
+      <footer className="py-12 border-t border-slate/10 mt-12 bg-surface/50">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-slate-400 text-sm font-medium">
+          <p className="text-slate/40 text-sm font-medium">
             Social Linus is owned by Social Linus Web Services, LLC.
           </p>
         </div>

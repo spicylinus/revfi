@@ -29,7 +29,7 @@ export default function InputField({ onAudit, isLoading }: InputFieldProps) {
       <form onSubmit={handleSubmit} className="relative group">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1 group">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-secondary transition-colors">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-primary transition-colors">
               <Search size={20} />
             </div>
             <input
@@ -39,9 +39,9 @@ export default function InputField({ onAudit, isLoading }: InputFieldProps) {
               onChange={(e) => setUrl(e.target.value)}
               disabled={isLoading}
               className={cn(
-                "w-full pl-12 pr-4 py-4 bg-surface border-2 border-slate-200 rounded-xl text-lg outline-none transition-all",
-                "focus:border-secondary focus:ring-4 focus:ring-secondary/10",
-                "disabled:bg-slate-50 disabled:cursor-not-allowed",
+                "w-full pl-12 pr-4 py-4 bg-surface border-2 border-slate/20 rounded-xl text-lg outline-none transition-all",
+                "focus:border-primary focus:ring-4 focus:ring-primary/10",
+                "disabled:bg-slate/5 disabled:cursor-not-allowed",
                 isLoading ? "opacity-75" : "opacity-100"
               )}
             />
@@ -51,7 +51,7 @@ export default function InputField({ onAudit, isLoading }: InputFieldProps) {
             disabled={isLoading || !url.trim()}
             className={cn(
               "px-8 py-4 bg-ember text-white font-bold rounded-xl transition-all shadow-lg",
-              "hover:bg-ember/90 active:scale-95 disabled:bg-slate-300 disabled:scale-100 disabled:cursor-not-allowed",
+              "hover:bg-ember/90 active:scale-95 disabled:bg-slate/30 disabled:scale-100 disabled:cursor-not-allowed",
               "flex items-center justify-center gap-2 sm:min-w-[200px]"
             )}
           >

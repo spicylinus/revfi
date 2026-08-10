@@ -100,7 +100,7 @@ export default function LeadCaptureForm({
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle2 size={18} className="text-accent" />
-              <span className="text-sm font-medium">Personal walkthrough with Shannendoah</span>
+              <span className="text-sm font-medium">Personal walkthrough with Claire</span>
             </div>
           </div>
         </div>
@@ -119,27 +119,27 @@ export default function LeadCaptureForm({
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Email Address</label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate/40" size={18} />
                       <input
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="owner@business.com"
-                        className="w-full pl-12 pr-4 py-4 bg-background border-2 border-slate-100 rounded-xl outline-none focus:border-primary transition-all"
+                        className="w-full pl-12 pr-4 py-4 bg-background border-2 border-slate/10 rounded-xl outline-none focus:border-primary transition-all"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Phone Number (Optional)</label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate/40" size={18} />
                       <input
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="(512) 555-0123"
-                        className="w-full pl-12 pr-4 py-4 bg-background border-2 border-slate-100 rounded-xl outline-none focus:border-primary transition-all"
+                        className="w-full pl-12 pr-4 py-4 bg-background border-2 border-slate/10 rounded-xl outline-none focus:border-primary transition-all"
                       />
                     </div>
                   </div>
@@ -154,7 +154,7 @@ export default function LeadCaptureForm({
                           required
                           checked={emailConsent}
                           onChange={(e) => setEmailConsent(e.target.checked)}
-                          className="peer w-5 h-5 rounded border-2 border-slate-200 appearance-none cursor-pointer transition-all checked:bg-primary checked:border-primary"
+                          className="peer w-5 h-5 rounded border-2 border-slate/20 appearance-none cursor-pointer transition-all checked:bg-primary checked:border-primary"
                         />
                         <CheckCircle2
                           size={14}
@@ -175,7 +175,7 @@ export default function LeadCaptureForm({
                             type="checkbox"
                             checked={smsConsent}
                             onChange={(e) => setSmsConsent(e.target.checked)}
-                            className="peer w-5 h-5 rounded border-2 border-slate-200 appearance-none cursor-pointer transition-all checked:bg-ember checked:border-ember"
+                            className="peer w-5 h-5 rounded border-2 border-slate/20 appearance-none cursor-pointer transition-all checked:bg-ember checked:border-ember"
                           />
                           <CheckCircle2
                             size={14}
@@ -214,7 +214,7 @@ export default function LeadCaptureForm({
                       </>
                     )}
                   </button>
-                  <p className="text-center text-[10px] text-slate-400 font-medium">
+                  <p className="text-center text-[10px] text-slate/40 font-medium">
                     I'll send your report immediately. No spam, just the facts.
                   </p>
                 </form>

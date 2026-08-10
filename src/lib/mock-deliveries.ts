@@ -7,7 +7,7 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
     tier: 'SEO',
     startDate: 'May 1, 2026',
     nextReportDate: 'June 1, 2026',
-    calendlyUrl: 'https://calendly.com/social-linus/siteauditor-follow-up-meeting',
+    calendlyUrl: 'https://calendly.com/sociallinus/siteauditor-follow-up-meeting',
     activeWorkstreams: [
       'Technical SEO Implementation',
       'Google Business Profile Posting',
@@ -133,7 +133,7 @@ export const CLIENT_DELIVERIES: Record<string, DeliveryData> = {
     tier: 'LeadGen',
     startDate: 'May 10, 2026',
     nextReportDate: 'June 10, 2026',
-    calendlyUrl: 'https://calendly.com/social-linus/siteauditor-follow-up-meeting',
+    calendlyUrl: 'https://calendly.com/sociallinus/siteauditor-follow-up-meeting',
     activeWorkstreams: [
       'Ski Slope Content Strategy',
       'Visual Brand Integration',

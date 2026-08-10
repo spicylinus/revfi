@@ -275,7 +275,7 @@ export default function ClientDeliveryDashboard() {
                   <h4 className="text-xl font-bold mb-2">Need to discuss?</h4>
                   <p className="text-white/70 text-sm mb-6">Your dedicated account manager is available for a strategy sync at any time.</p>
                   <a
-                    href={data.calendlyUrl || 'https://calendly.com/social-linus/siteauditor-follow-up-meeting'}
+                    href={data.calendlyUrl || 'https://calendly.com/sociallinus/siteauditor-follow-up-meeting'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-4 bg-white text-primary font-bold rounded-xl hover:bg-white/90 transition-all flex items-center justify-center gap-2"

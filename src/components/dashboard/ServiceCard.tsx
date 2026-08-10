@@ -27,7 +27,7 @@ export default function ServiceCard({
   const CardContent = (
     <motion.div
       whileHover={{ y: -8 }}
-      className={`bg-surface p-8 rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-xl flex flex-col h-full relative ${
+      className={`bg-surface p-8 rounded-3xl border border-slate/10 shadow-sm transition-all hover:shadow-xl flex flex-col h-full relative ${
         isPopular ? 'border-primary/30 ring-1 ring-primary/20 shadow-primary/5' : 'hover:border-primary/20'
       }`}
     >
@@ -44,11 +44,11 @@ export default function ServiceCard({
       
       <div className="space-y-3 mb-8">
         <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-          <span className="text-slate-400">Typical Impact</span>
+          <span className="text-slate/40">Typical Impact</span>
           <span className="text-accent">{impact}</span>
         </div>
         <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-          <span className="text-slate-400">Starting At</span>
+          <span className="text-slate/40">Starting At</span>
           <span className="text-text-primary">{priceRange}</span>
         </div>
       </div>
