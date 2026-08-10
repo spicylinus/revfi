@@ -221,7 +221,7 @@ function performAnalysis($homepage: cheerio.CheerioAPI, $contact: cheerio.Cheeri
       id: 'leak_wrong_searchers',
       type: 'wrong_searchers',
       severity: 5,
-      title: 'Wrong searchers finding competitors',
+      title: 'Local customers are finding your competitors instead of you',
       description: 'Your Google Business Profile isn\'t integrated and local citations are missing.',
       impactTranslation: 'Local searchers are choosing competitors who look more active and established on Google Maps.',
       whatThisMeans: 'If you aren\'t in the top 3 on the map, you effectively don\'t exist for most local customers.'
