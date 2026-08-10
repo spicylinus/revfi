@@ -58,12 +58,9 @@ export default function Home() {
     <main className="flex-1 pb-24">
       {/* Header */}
       <header className="py-8 px-6 border-b border-slate/20 bg-surface">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="max-w-7xl mx-auto flex items-center">
           <div className="flex items-center gap-3">
             <img src="/sociallinus-logo.svg" alt="Social Linus" className="h-10 w-auto" />
-          </div>
-          <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-text-secondary uppercase tracking-widest">
-            <a href="mailto:support@sociallinus.com" className="px-4 py-2 bg-slate/10 text-primary rounded-lg hover:bg-slate/20 transition-all">Support</a>
           </div>
         </div>
       </header>
