@@ -260,28 +260,28 @@ function selectPrimaryFinding(findings: Finding[]): Finding {
 function translateToAuditResult(url: string, businessName: string, primary: Finding, allFindings: Finding[]): AuditData {
   let recommendation = "";
   let recommendationType: 'website_fix' | 'seo' | 'signalforge' | 'rebuild' = 'website_fix';
-  let softCTA = "Want us to walk you through this?";
+  let softCTA = "Want us to walk through it together on a free 15-minute video call?";
 
   switch(primary.type) {
     case 'lead_capture':
-      recommendation = "You need a website fix focused entirely on lead capture. We'll replace your dead ends with high-converting forms and click-to-call buttons that turn passive visitors into paying clients.";
+      recommendation = "Put a phone number and a short contact form above the fold on every page, ideally right in the header, so visitors can reach you the instant they decide to buy. Right now, people who are ready to hire you are landing on your site and leaving because there's no obvious way to take the next step.";
       recommendationType = 'website_fix';
       break;
     case 'seo':
-      recommendation = "You need a localized SEO strategy to start showing up where your customers are actually looking. We'll overhaul your metadata and content to climb the rankings for your top services.";
+      recommendation = "Rewrite your page titles, meta descriptions, and headline copy to match the specific services and city or neighborhood names people actually search for. Search engines can only send you customers for language that's on the page, and right now yours isn't speaking that language.";
       recommendationType = 'seo';
       break;
     case 'wrong_searchers':
-      recommendation = "We recommend deploying SignalForge to dominate your local market. You're losing people before they even search for you — we'll get your business appearing in front of the right searchers at the right time.";
+      recommendation = "Claim and fully build out your Google Business Profile, hours, photos, service categories, and a steady stream of reviews, and link it from your site. Most local searches end on the map, not the search results page, and right now you're not showing up there.";
       recommendationType = 'signalforge';
       break;
     case 'outdated':
     case 'slow_mobile':
-      recommendation = "This site needs a complete rebuild, not a patch. We'll build you a modern, mobile-first revenue engine that loads instantly and positions you as the clear leader in your area.";
+      recommendation = "Rebuild the site as a fast, mobile-first layout: pages that load in under two seconds and a clean structure designed for a phone screen first. Most local searches happen on mobile, and a slow or outdated site loses people before they ever see what you offer.";
       recommendationType = 'rebuild';
       break;
     default:
-      recommendation = "We recommend a comprehensive SEO and conversion audit to identify hidden opportunities for growth.";
+      recommendation = "Take a closer look at both your search visibility and how easily visitors can act once they land on your site. There are hidden opportunities to convert more of the traffic you're already getting.";
       recommendationType = 'seo';
       break;
   }

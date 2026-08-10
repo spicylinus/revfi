@@ -87,7 +87,7 @@ export default function AuditReport({ data }: AuditReportProps) {
           className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-95 text-lg shadow-xl shadow-primary/20 flex items-center justify-center gap-3 mx-auto"
         >
           <Calendar size={20} />
-          {data.softCTA || "Want us to walk you through this?"}
+          {data.softCTA || "Want us to walk through it together on a free 15-minute video call?"}
         </button>
 
         {/* Inline Calendly iframe */}
