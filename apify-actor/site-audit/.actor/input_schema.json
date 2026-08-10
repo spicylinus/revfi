@@ -1,0 +1,24 @@
+{
+    "$schema": "https://apify.com/schemas/v1/input.ide.json",
+    "title": "Site Audit Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "url": {
+            "title": "Website URL",
+            "type": "string",
+            "description": "The business website to audit, e.g. https://example.com",
+            "editor": "textfield",
+            "prefill": "https://example.com"
+        },
+        "maxPages": {
+            "title": "Max Pages to Crawl",
+            "type": "integer",
+            "description": "Maximum number of same-domain pages to crawl for the audit (homepage counts as one).",
+            "default": 15,
+            "minimum": 1,
+            "maximum": 50
+        }
+    },
+    "required": ["url"]
+}

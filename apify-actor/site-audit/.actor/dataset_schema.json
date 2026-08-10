@@ -1,0 +1,45 @@
+{
+    "$schema": "https://apify.com/schemas/v1/dataset.ide.json",
+    "actorSpecification": 1,
+    "fields": {},
+    "views": {
+        "overview": {
+            "title": "Pages Audited",
+            "transformation": {
+                "fields": [
+                    "url",
+                    "statusCode",
+                    "loadTimeMs",
+                    "title",
+                    "hasMetaDescription",
+                    "hasViewportMeta",
+                    "h1Count",
+                    "wordCount",
+                    "hasContactForm",
+                    "hasPhoneNumber",
+                    "hasGoogleMapsEmbed",
+                    "imagesMissingAlt",
+                    "isHttps"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "url": { "label": "URL", "format": "link" },
+                    "statusCode": { "label": "Status", "format": "number" },
+                    "loadTimeMs": { "label": "Load Time (ms)", "format": "number" },
+                    "title": { "label": "Title", "format": "text" },
+                    "hasMetaDescription": { "label": "Meta Description", "format": "boolean" },
+                    "hasViewportMeta": { "label": "Mobile Viewport", "format": "boolean" },
+                    "h1Count": { "label": "H1 Count", "format": "number" },
+                    "wordCount": { "label": "Word Count", "format": "number" },
+                    "hasContactForm": { "label": "Contact Form", "format": "boolean" },
+                    "hasPhoneNumber": { "label": "Phone Number", "format": "boolean" },
+                    "hasGoogleMapsEmbed": { "label": "Google Maps Embed", "format": "boolean" },
+                    "imagesMissingAlt": { "label": "Images Missing Alt Text", "format": "number" },
+                    "isHttps": { "label": "HTTPS", "format": "boolean" }
+                }
+            }
+        }
+    }
+}

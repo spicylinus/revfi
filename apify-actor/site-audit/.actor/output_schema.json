@@ -1,0 +1,17 @@
+{
+    "$schema": "https://apify.com/schemas/v1/output.ide.json",
+    "actorOutputSchemaVersion": 1,
+    "title": "Output schema",
+    "properties": {
+        "pages": {
+            "type": "string",
+            "title": "Pages Audited",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        },
+        "report": {
+            "type": "string",
+            "title": "Full Audit Report",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+        }
+    }
+}

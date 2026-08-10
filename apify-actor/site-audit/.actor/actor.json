@@ -1,0 +1,19 @@
+{
+    "$schema": "https://apify.com/schemas/v1/actor.ide.json",
+    "actorSpecification": 1,
+    "name": "site-audit",
+    "title": "Social Linus Site Audit",
+    "description": "Crawls a small business website (homepage + internal pages) and produces a comprehensive lead-generation audit: contact/lead-capture coverage, SEO signals, mobile-friendliness, load time, broken links, and Google Business Profile presence.",
+    "version": "0.0",
+    "buildTag": "latest",
+    "meta": {
+        "templateId": "ts-crawlee-cheerio",
+        "generatedBy": "Claude Code with Claude Sonnet 5"
+    },
+    "inputSchema": "./input_schema.json",
+    "outputSchema": "./output_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "dockerfile": "../Dockerfile"
+}
