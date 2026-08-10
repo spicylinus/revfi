@@ -44,11 +44,11 @@ export default function ServiceCard({
       
       <div className="space-y-3 mb-8">
         <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-          <span className="text-slate/40">Typical Impact</span>
+          <span className="text-slate">Typical Impact</span>
           <span className="text-accent">{impact}</span>
         </div>
         <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-          <span className="text-slate/40">Starting At</span>
+          <span className="text-slate">Starting At</span>
           <span className="text-text-primary">{priceRange}</span>
         </div>
       </div>

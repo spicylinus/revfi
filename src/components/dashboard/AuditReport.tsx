@@ -64,7 +64,7 @@ export default function AuditReport({ data }: AuditReportProps) {
           <ul className="space-y-3">
             {data.secondaryNotes.map((note, i) => (
               <li key={i} className="flex gap-3 text-text-secondary text-sm">
-                <span className="text-slate/30">•</span>
+                <span className="text-slate">•</span>
                 {note}
               </li>
             ))}

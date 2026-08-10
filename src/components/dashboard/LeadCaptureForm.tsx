@@ -87,19 +87,19 @@ export default function LeadCaptureForm({
             We've identified a <span className="text-white font-bold">{displayLeak}</span> for <span className="text-white font-bold">{businessName}</span>.
           </p>
           <p className="text-white/80 text-lg mt-2">
-            Estimated impact: <span className="text-ember font-bold">{displayImpact}</span>
+            Estimated impact: <span className="text-white font-bold">{displayImpact}</span>
           </p>
           <div className="mt-8 space-y-4">
             <div className="flex items-center gap-3">
-              <CheckCircle2 size={18} className="text-accent" />
+              <CheckCircle2 size={18} className="text-white" />
               <span className="text-sm font-medium">Complete breakdown of all technical findings</span>
             </div>
             <div className="flex items-center gap-3">
-              <CheckCircle2 size={18} className="text-accent" />
+              <CheckCircle2 size={18} className="text-white" />
               <span className="text-sm font-medium">Step-by-step fix guide for your team</span>
             </div>
             <div className="flex items-center gap-3">
-              <CheckCircle2 size={18} className="text-accent" />
+              <CheckCircle2 size={18} className="text-white" />
               <span className="text-sm font-medium">Personal walkthrough with our team</span>
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function LeadCaptureForm({
                       </>
                     )}
                   </button>
-                  <p className="text-center text-[10px] text-slate/40 font-medium">
+                  <p className="text-center text-[10px] text-slate font-medium">
                     We'll send your report immediately. No spam, just the facts.
                   </p>
                 </form>

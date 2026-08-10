@@ -226,11 +226,11 @@ export default function Home() {
             </div>
             <div className="flex justify-between text-sm font-bold text-text-secondary uppercase">
               <span>Analyzing lead capture</span>
-              <span className="text-slate/30">Pending</span>
+              <span className="text-slate">Pending</span>
             </div>
             <div className="flex justify-between text-sm font-bold text-text-secondary uppercase">
               <span>Evaluating search presence</span>
-              <span className="text-slate/30">Pending</span>
+              <span className="text-slate">Pending</span>
             </div>
           </div>
         </div>
@@ -239,7 +239,7 @@ export default function Home() {
       {/* Footer Disclaimer */}
       <footer className="py-12 border-t border-slate/10 mt-12 bg-surface/50">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-slate/40 text-sm font-medium">
+          <p className="text-slate text-sm font-medium">
             Social Linus is owned by Social Linus Web Services, LLC.
           </p>
         </div>

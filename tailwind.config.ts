@@ -9,20 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand palette
-        void:    '#0D0F12',
-        cobalt:  '#1547E8',
-        ember:   '#FF4D1C',
-        white:   '#FFFFFF',
-        frost:   '#EBF2FF',
-        slate:   '#4A5568',
+        // Brand palette (v4.0 — Frost Primary Background, Ember Re-Tuned)
+        void:        '#0D0F12',
+        cobalt:      '#1547E8',
+        'cobalt-dark': '#5B88F7', // cobalt on Void backgrounds only
+        ember:       '#A62D0A',   // ember on White/Frost backgrounds
+        'ember-dark':  '#FF4D1C', // ember on Void backgrounds only
+        white:       '#FFFFFF',
+        frost:       '#EBF2FF',
+        slate:       '#4A5568',
         // Semantic aliases
         primary:   '#1547E8',
         secondary: '#0D0F12',
-        accent:    '#FF4D1C',
-        warning:   '#FF4D1C',
+        accent:    '#A62D0A',
+        warning:   '#A62D0A',
         danger:    '#E05252',
-        background:'#FFFFFF',
+        background:'#EBF2FF',
         surface:   '#FFFFFF',
         'surface-muted': '#EBF2FF',
         'text-primary':  '#0D0F12',

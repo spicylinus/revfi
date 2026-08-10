@@ -3,13 +3,15 @@
 
 /* ── SOCIAL LINUS BRAND TOKENS ── */
 @theme {
-  /* Brand palette */
-  --color-void:     #0D0F12;
-  --color-cobalt:   #1547E8;
-  --color-ember:    #FF4D1C;
-  --color-white:    #FFFFFF;
-  --color-frost:    #EBF2FF;
-  --color-slate:    #4A5568;
+  /* Brand palette (v4.0 — Frost Primary Background, Ember Re-Tuned) */
+  --color-void:        #0D0F12;
+  --color-cobalt:      #1547E8;
+  --color-cobalt-dark: #5B88F7;  /* cobalt on Void backgrounds only */
+  --color-ember:       #A62D0A;  /* ember on White/Frost backgrounds */
+  --color-ember-dark:  #FF4D1C;  /* ember on Void backgrounds only */
+  --color-white:       #FFFFFF;
+  --color-frost:       #EBF2FF;
+  --color-slate:       #4A5568;
 
   /* Semantic tokens — map to brand palette */
   --color-primary:   var(--color-cobalt);   /* bright blue */
@@ -18,8 +20,8 @@
   --color-warning:   var(--color-ember);
   --color-danger:    #E05252;
 
-  /* Surfaces */
-  --color-background: var(--color-white);
+  /* Surfaces — Frost is the primary canvas; White is for cards on top of it */
+  --color-background: var(--color-frost);
   --color-surface:     var(--color-white);
   --color-surface-muted: var(--color-frost);
 
@@ -47,7 +49,7 @@
 }
 
 :root {
-  --background: var(--color-white);
+  --background: var(--color-background);
   --foreground: var(--color-void);
 }
 
