@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import InputField from '@/components/ui/InputField';
 import LeadCaptureForm from '@/components/dashboard/LeadCaptureForm';
-import ClaireReport from '@/components/dashboard/ClaireReport';
+import AuditReport from '@/components/dashboard/AuditReport';
 import ServiceCard from '@/components/dashboard/ServiceCard';
 import { AuditData, AuditResponse } from '@/types/audit';
 
@@ -116,8 +116,8 @@ export default function Home() {
             animate={{ opacity: 1 }}
             className="max-w-7xl mx-auto px-6 mt-12"
           >
-            {/* The Claire Report Component */}
-            <ClaireReport data={auditData} />
+            {/* The Audit Report */}
+            <AuditReport data={auditData} />
 
             {/* Lead Capture Form */}
             <div className="max-w-4xl mx-auto mt-16 mb-24">
@@ -194,14 +194,14 @@ export default function Home() {
                 <Search size={32} />
               </div>
               <h4 className="font-bold text-xl mb-3">Honest Review</h4>
-              <p className="text-text-secondary">I look at your site like a customer does. No scary dashboards, just plain English.</p>
+              <p className="text-text-secondary">We look at your site like a customer does. No scary dashboards, just plain English.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <TrendingUp size={32} />
               </div>
               <h4 className="font-bold text-xl mb-3">Lead Gaps</h4>
-              <p className="text-text-secondary">I'll show you exactly where you're losing customers before they even call you.</p>
+              <p className="text-text-secondary">We'll show you exactly where you're losing customers before they even call you.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -218,7 +218,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-6 py-24 text-center">
           <div className="w-24 h-24 border-8 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-8"></div>
           <h3 className="text-2xl font-bold mb-4">Reviewing your website...</h3>
-          <p className="text-text-secondary mb-8">Claire is taking a look at your site now. This usually takes about 20 seconds.</p>
+          <p className="text-text-secondary mb-8">We're taking a look at your site now. This usually takes about 20 seconds.</p>
           <div className="max-w-md mx-auto space-y-3 text-left">
             <div className="flex justify-between text-sm font-bold text-text-secondary uppercase">
               <span>Checking site accessibility</span>

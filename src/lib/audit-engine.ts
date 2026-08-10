@@ -260,7 +260,7 @@ function selectPrimaryFinding(findings: Finding[]): Finding {
 function translateToAuditResult(url: string, businessName: string, primary: Finding, allFindings: Finding[]): AuditData {
   let recommendation = "";
   let recommendationType: 'website_fix' | 'seo' | 'signalforge' | 'rebuild' = 'website_fix';
-  let softCTA = "Want me to walk you through this?";
+  let softCTA = "Want us to walk you through this?";
 
   switch(primary.type) {
     case 'lead_capture':

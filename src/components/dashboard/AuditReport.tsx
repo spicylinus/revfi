@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { AuditData } from '@/types/audit';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, X, Calendar } from 'lucide-react';
+import { Search, X, Calendar } from 'lucide-react';
 
-interface ClaireReportProps {
+interface AuditReportProps {
   data: AuditData;
 }
 
 const CALENDLY_URL = 'https://calendly.com/sociallinus/siteaudit-15-minute-discovery-call';
 
-export default function ClaireReport({ data }: ClaireReportProps) {
+export default function AuditReport({ data }: AuditReportProps) {
   const [showCalendar, setShowCalendar] = useState(false);
 
   return (
@@ -17,15 +17,15 @@ export default function ClaireReport({ data }: ClaireReportProps) {
       {/* Branding */}
       <div className="flex items-center gap-4 mb-8 pb-8 border-b border-slate/10">
         <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary border-2 border-white shadow-inner">
-          <User size={32} />
+          <Search size={32} />
         </div>
         <div>
-          <h3 className="font-bold text-lg text-primary">Claire Danforth</h3>
-          <p className="text-sm text-text-secondary">Website Audit Specialist at <span className="font-bold">Social Linus Web Services, LLC</span></p>
+          <h3 className="font-bold text-lg text-primary">Your Site Audit</h3>
+          <p className="text-sm text-text-secondary">Prepared by <span className="font-bold">Social Linus Web Services, LLC</span></p>
         </div>
         <div className="ml-auto hidden sm:block">
           <div className="px-3 py-1 bg-accent/10 text-accent text-[10px] font-black uppercase tracking-widest rounded-full border border-accent/20">
-            Verified Specialist
+            Automated Analysis
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default function ClaireReport({ data }: ClaireReportProps) {
           className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-95 text-lg shadow-xl shadow-primary/20 flex items-center justify-center gap-3 mx-auto"
         >
           <Calendar size={20} />
-          {data.softCTA || "Want me to walk you through this?"}
+          {data.softCTA || "Want us to walk you through this?"}
         </button>
 
         {/* Inline Calendly iframe */}

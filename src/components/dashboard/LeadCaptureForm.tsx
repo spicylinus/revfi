@@ -84,7 +84,7 @@ export default function LeadCaptureForm({
           </div>
           <h3 className="text-2xl md:text-3xl font-bold mb-4">Get the full report</h3>
           <p className="text-white/80 text-lg mb-0 leading-relaxed">
-            I've identified a <span className="text-white font-bold">{displayLeak}</span> for <span className="text-white font-bold">{businessName}</span>.
+            We've identified a <span className="text-white font-bold">{displayLeak}</span> for <span className="text-white font-bold">{businessName}</span>.
           </p>
           <p className="text-white/80 text-lg mt-2">
             Estimated impact: <span className="text-ember font-bold">{displayImpact}</span>
@@ -100,7 +100,7 @@ export default function LeadCaptureForm({
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle2 size={18} className="text-accent" />
-              <span className="text-sm font-medium">Personal walkthrough with Claire</span>
+              <span className="text-sm font-medium">Personal walkthrough with our team</span>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@ export default function LeadCaptureForm({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
               >
-                <h4 className="text-xl font-bold text-text-primary mb-6">Where should I send your diagnosis?</h4>
+                <h4 className="text-xl font-bold text-text-primary mb-6">Where should we send your diagnosis?</h4>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Email Address</label>
@@ -215,7 +215,7 @@ export default function LeadCaptureForm({
                     )}
                   </button>
                   <p className="text-center text-[10px] text-slate/40 font-medium">
-                    I'll send your report immediately. No spam, just the facts.
+                    We'll send your report immediately. No spam, just the facts.
                   </p>
                 </form>
               </motion.div>
@@ -230,7 +230,7 @@ export default function LeadCaptureForm({
                   <CheckCircle2 size={40} />
                 </div>
                 <h4 className="text-2xl font-bold text-text-primary mb-2">Report Sent!</h4>
-                <p className="text-text-secondary mb-8">I've sent the full audit breakdown to <span className="font-bold text-primary">{email}</span>. Check your inbox in the next minute.</p>
+                <p className="text-text-secondary mb-8">We've sent the full audit breakdown to <span className="font-bold text-primary">{email}</span>. Check your inbox in the next minute.</p>
                 <div className="p-4 bg-accent/5 border border-accent/10 rounded-xl text-text-primary text-sm font-medium">
                   🚀 Let's plug those leaks.
                 </div>
