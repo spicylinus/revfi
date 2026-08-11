@@ -1,5 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { GHLClient } from '@/lib/ghl';
+import { runFullSiteAudit } from '@/lib/apify-audit-client';
+
+// Gives the after() background audit room to finish without delaying the response
+// (Hobby-plan-safe ceiling; raise if your Vercel plan allows longer function duration).
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,6 +37,16 @@ export async function POST(req: NextRequest) {
       primary_leak: primaryLeak,
       lead_impact: leadImpact,
       source: 'Website Auditor — Lead Capture Form',
+    });
+
+    // Generate the full multi-page report via the site-audit Apify Actor after the
+    // response has been sent, so a slow crawl never delays lead capture. Best-effort:
+    // silently does nothing if unconfigured, slow, or erroring.
+    after(async () => {
+      const fullReport = await runFullSiteAudit(url);
+      if (fullReport?.summaryText) {
+        await client.updateContactCustomField(result.contact.id, 'full_audit_report', fullReport.summaryText);
+      }
     });
 
     return NextResponse.json({

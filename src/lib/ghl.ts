@@ -149,6 +149,27 @@ export class GHLClient {
     return contactId;
   }
 
+  /**
+   * Patches a single custom field on an existing contact. Silently does nothing if
+   * the field isn't configured in this GHL account — safe to call speculatively.
+   */
+  async updateContactCustomField(contactId: string, fieldKeyOrName: string, value: string): Promise<void> {
+    try {
+      const customFieldsData = await this.getCustomFields();
+      const field = customFieldsData.customFields.find(
+        (f: any) => f.fieldKey === fieldKeyOrName || f.name === fieldKeyOrName
+      );
+      if (!field) return;
+
+      await this.request(`/contacts/${contactId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ customFields: [{ id: field.id, value }] }),
+      });
+    } catch (err) {
+      console.warn(`Failed to update custom field "${fieldKeyOrName}" on contact ${contactId}:`, err);
+    }
+  }
+
   async addTags(contactId: string, tags: string[]): Promise<void> {
     try {
       await this.request(`/contacts/${contactId}/tags`, {
