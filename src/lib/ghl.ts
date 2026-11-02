@@ -133,9 +133,13 @@ export class GHLClient {
 
     if (existingContact) {
       contactId = existingContact.id;
+      // GHL's PUT /contacts/:id rejects locationId in the body ("property locationId
+      // should not exist") — it's only valid/required on POST (create).
+      const updatePayload = { ...contactPayload };
+      delete updatePayload.locationId;
       await this.request(`/contacts/${contactId}`, {
         method: 'PUT',
-        body: JSON.stringify(contactPayload),
+        body: JSON.stringify(updatePayload),
       });
     } else {
       const created = await this.request(`/contacts/`, {
