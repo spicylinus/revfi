@@ -241,20 +241,7 @@ export class GHLClient {
     // 2. Add tags — GHL AI agent watches for 'ai-outbound-call' tag
     await this.addTags(contactId, ['ai-outbound-call', 'social-linus-audit', 'fresh-lead']);
 
-    // 3. Try to enroll in AI Outbound workflow if we can find it
-    try {
-      const workflows = await this.getWorkflows();
-      const aiWorkflow = workflows?.workflows?.find(
-        (w: any) => w.name?.toLowerCase().includes('outbound') || w.name?.toLowerCase().includes('ai call')
-      );
-      if (aiWorkflow?.id) {
-        await this.enrollInWorkflow(contactId, aiWorkflow.id);
-      }
-    } catch {
-      // Workflows may not be accessible — AI agent tag is the fallback trigger
-    }
-
-    // 4. Create opportunity
+    // 3. Create opportunity
     let opportunityId: string | undefined = undefined;
     if (pipelineId && stageId) {
       const opp = await this.createOpportunity(

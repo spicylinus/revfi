@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const firstName = parts[0] || '';
     const lastName = parts.slice(1).join(' ') || '';
 
-    // Sync lead to GHL pipeline and enroll in AI Outbound workflow
+    // Sync lead to GHL pipeline (contact, tags, opportunity)
     const result = await client.syncLeadToPipeline({
       email,
       phone: phone || '',
