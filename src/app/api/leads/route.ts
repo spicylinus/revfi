@@ -60,9 +60,21 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     console.error('Lead Capture Error:', error);
+
+    let userMessage = "We couldn't submit your diagnosis request. Please try again.";
+    if (error.message?.includes('timeout') || error.name === 'AbortError') {
+      userMessage = 'That took too long to process. Please try again.';
+    } else if (
+      error.message?.includes('ENOTFOUND') ||
+      error.message?.includes('EAI_AGAIN') ||
+      error.message?.includes('fetch failed')
+    ) {
+      userMessage = "We're having trouble reaching our systems right now. Please try again in a few minutes.";
+    }
+
     return NextResponse.json({
       success: false,
-      error: error.message || 'Failed to capture lead',
+      error: userMessage,
     }, { status: 500 });
   }
 }
