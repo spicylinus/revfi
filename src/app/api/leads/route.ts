@@ -9,7 +9,7 @@ export const maxDuration = 60;
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email, phone, businessName, url, primaryLeak, leadImpact } = body;
+    const { email, phone, businessName, url, primaryLeak, leadImpact, smsConsent } = body;
 
     if (!email || !url) {
       return NextResponse.json({ error: 'Email and URL are required' }, { status: 400 });
@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
       primary_leak: primaryLeak,
       lead_impact: leadImpact,
       source: 'Website Auditor — Lead Capture Form',
+      sms_consent: smsConsent === true,
     });
 
     // Crawl the full site and generate the comprehensive report after the response has

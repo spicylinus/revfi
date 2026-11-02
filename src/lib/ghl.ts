@@ -15,6 +15,7 @@ export interface GHLLeadData {
   business_niche?: string;
   source?: string;
   value?: number;
+  sms_consent?: boolean;
 }
 
 export class GHLClient {
@@ -238,8 +239,13 @@ export class GHLClient {
     // 1. Create/update contact (includes phone normalization + custom fields)
     const contactId = await this.createOrUpdateContact(data);
 
-    // 2. Add tags (email/SMS workflow trigger — outbound AI call tag removed for now)
-    await this.addTags(contactId, ['social-linus-audit', 'fresh-lead']);
+    // 2. Add tags (email/SMS workflow trigger — outbound AI call tag removed for now).
+    // sms-consent-given is only added when the lead actually checked the SMS consent
+    // box — gate any "Send SMS" workflow action on this tag, not just on having a phone
+    // number, or it'll text people who only consented to email.
+    const tags = ['social-linus-audit', 'fresh-lead'];
+    if (data.sms_consent) tags.push('sms-consent-given');
+    await this.addTags(contactId, tags);
 
     // 3. Create opportunity
     let opportunityId: string | undefined = undefined;
