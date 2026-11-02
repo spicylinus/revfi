@@ -163,7 +163,10 @@ export class GHLClient {
       const field = customFieldsData.customFields.find(
         (f: any) => f.fieldKey === fieldKeyOrName || f.name === fieldKeyOrName
       );
-      if (!field) return;
+      if (!field) {
+        console.warn(`Custom field "${fieldKeyOrName}" not found in GHL location — skipping update for contact ${contactId}`);
+        return;
+      }
 
       await this.request(`/contacts/${contactId}`, {
         method: 'PUT',

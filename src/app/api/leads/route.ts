@@ -44,13 +44,18 @@ export async function POST(req: NextRequest) {
     // never throws past this point, so a crawl failure can't break lead capture.
     after(async () => {
       try {
+        console.log(`Full site audit starting for ${url} (contact ${result.contact.id})`);
         const fullReport = await runFullSiteAudit(url);
+        console.log(`Full site audit finished for ${url}: ${fullReport.pagesCrawled} page(s) crawled, ${fullReport.brokenLinks.length} broken link(s)`);
         if (fullReport.summaryText) {
           await client.updateContactCustomField(result.contact.id, 'full_audit_report', fullReport.summaryText);
           // Tag added only once the report is actually on the contact — this is the
           // trigger a GHL workflow should use to send the report email, so it never
           // fires before full_audit_report has real content.
           await client.addTags(result.contact.id, ['audit-report-ready']);
+          console.log(`Full report written to contact ${result.contact.id} and tagged audit-report-ready`);
+        } else {
+          console.warn(`Full site audit produced no summaryText for ${url}, skipping contact update`);
         }
       } catch (err) {
         console.warn('Full site audit failed:', err);
