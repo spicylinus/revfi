@@ -47,6 +47,10 @@ export async function POST(req: NextRequest) {
         const fullReport = await runFullSiteAudit(url);
         if (fullReport.summaryText) {
           await client.updateContactCustomField(result.contact.id, 'full_audit_report', fullReport.summaryText);
+          // Tag added only once the report is actually on the contact — this is the
+          // trigger a GHL workflow should use to send the report email, so it never
+          // fires before full_audit_report has real content.
+          await client.addTags(result.contact.id, ['audit-report-ready']);
         }
       } catch (err) {
         console.warn('Full site audit failed:', err);
