@@ -238,8 +238,8 @@ export class GHLClient {
     // 1. Create/update contact (includes phone normalization + custom fields)
     const contactId = await this.createOrUpdateContact(data);
 
-    // 2. Add tags — GHL AI agent watches for 'ai-outbound-call' tag
-    await this.addTags(contactId, ['ai-outbound-call', 'social-linus-audit', 'fresh-lead']);
+    // 2. Add tags (email/SMS workflow trigger — outbound AI call tag removed for now)
+    await this.addTags(contactId, ['social-linus-audit', 'fresh-lead']);
 
     // 3. Create opportunity
     let opportunityId: string | undefined = undefined;
