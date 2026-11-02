@@ -44,7 +44,10 @@ export class GHLClient {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(`GHL API Error: ${response.status} ${JSON.stringify(data)}`);
+      throw Object.assign(new Error(`GHL API Error: ${response.status} ${JSON.stringify(data)}`), {
+        status: response.status,
+        body: data,
+      });
     }
     return data;
   }
@@ -247,17 +250,31 @@ export class GHLClient {
     if (data.sms_consent) tags.push('sms-consent-given');
     await this.addTags(contactId, tags);
 
-    // 3. Create opportunity
+    // 3. Create opportunity — non-fatal. A returning lead (same contact resubmitting
+    // the form) already has an open opportunity in this stage, and GHL's duplicate
+    // check rejects a second one with a 400. Reuse that existing opportunity instead
+    // of letting it kill the whole lead capture (which previously meant the contact
+    // was created but the full report never got generated).
     let opportunityId: string | undefined = undefined;
     if (pipelineId && stageId) {
-      const opp = await this.createOpportunity(
-        contactId,
-        pipelineId,
-        stageId,
-        `${data.business_niche || 'Business'} Audit - ${data.url_audited}`,
-        data.value
-      );
-      opportunityId = opp.opportunity?.id;
+      try {
+        const opp = await this.createOpportunity(
+          contactId,
+          pipelineId,
+          stageId,
+          `${data.business_niche || 'Business'} Audit - ${data.url_audited}`,
+          data.value
+        );
+        opportunityId = opp.opportunity?.id;
+      } catch (err: any) {
+        const existingId = err?.body?.meta?.existingId;
+        if (existingId) {
+          opportunityId = existingId;
+          console.warn(`Contact ${contactId} already has an open opportunity (${existingId}), reusing it.`);
+        } else {
+          console.warn(`Failed to create opportunity for contact ${contactId}:`, err);
+        }
+      }
     }
 
     return { contact: { id: contactId }, opportunity: { id: opportunityId } };
